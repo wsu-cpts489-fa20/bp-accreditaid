@@ -1,10 +1,15 @@
+
+const express = require('express');
+const router = express.Router();
+const User = require("./../../schemas/User.js")
+
 ////////////////////////
 //USER ACCOUNT MANAGEMENT ROUTES
 ////////////////////////////////
 
 
 //READ user route: Retrieves the user with the specified userId from users collection (GET)
-router.get('/users/:userId', async(req, res, next) => {
+router.get('/:userId', async(req, res, next) => {
     console.log("in /users route (GET) with userId = " + 
       JSON.stringify(req.params.userId));
     try {
@@ -23,18 +28,18 @@ router.get('/users/:userId', async(req, res, next) => {
   });
   
   //CREATE user route: Adds a new user account to the users collection (POST)
-  router.post('/users/:userId',  async (req, res, next) => {
+  router.post('/:userId',  async (req, res, next) => {
     console.log("in /users route (POST) with params = " + JSON.stringify(req.params) +
       " and body = " + JSON.stringify(req.body));  
     if (req.body === undefined ||
         !req.body.hasOwnProperty("password") || 
         !req.body.hasOwnProperty("displayName") ||
-        !req.body.hasOwnProperty("profilePicURL") ||
         !req.body.hasOwnProperty("securityQuestion") ||
-        !req.body.hasOwnProperty("securityAnswer")) {
+        !req.body.hasOwnProperty("securityAnswer") ||
+        !req.body.hasOwnProperty("accountType") ){
       //Body does not contain correct properties
       return res.status(400).send("/users POST request formulated incorrectly. " + 
-        "It must contain 'password','displayName','profilePicURL','securityQuestion' and 'securityAnswer fields in message body.")
+        "It must contain 'password','displayName','securityQuestion' and 'securityAnswer fields in message body.")
     }
     try {
       let thisUser = await User.findOne({id: req.params.userId});
@@ -47,10 +52,9 @@ router.get('/users/:userId', async(req, res, next) => {
           password: req.body.password,
           displayName: req.body.displayName,
           authStrategy: 'local',
-          profilePicURL: req.body.profilePicURL,
+          accountType: req.body.accountType,
           securityQuestion: req.body.securityQuestion,
-          securityAnswer: req.body.securityAnswer,
-          rounds: []
+          securityAnswer: req.body.securityAnswer
         }).save();
         return res.status(201).send("New account for '" + 
           req.params.userId + "' successfully created.");
@@ -61,7 +65,7 @@ router.get('/users/:userId', async(req, res, next) => {
   });
   
   //UPDATE user route: Updates a new user account in the users collection (POST)
-  router.put('/users/:userId',  async (req, res, next) => {
+  router.put('/:userId',  async (req, res, next) => {
     console.log("in /users update route (PUT) with userId = " + JSON.stringify(req.params) + 
       " and body = " + JSON.stringify(req.body));
     if (!req.params.hasOwnProperty("userId"))  {
@@ -91,7 +95,7 @@ router.get('/users/:userId', async(req, res, next) => {
   });
   
   //DELETE user route: Deletes the document with the specified userId from users collection (DELETE)
-  router.delete('/users/:userId', async(req, res, next) => {
+  router.delete('/:userId', async(req, res, next) => {
     console.log("in /users route (DELETE) with userId = " + 
       JSON.stringify(req.params.userId));
     try {
@@ -109,3 +113,5 @@ router.get('/users/:userId', async(req, res, next) => {
         req.params.userId + ": " + err);
     }
   });
+
+  module.exports = router;

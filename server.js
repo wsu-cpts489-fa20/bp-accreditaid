@@ -8,7 +8,7 @@ import session from 'express-session';
 import regeneratorRuntime from "regenerator-runtime";
 import path from 'path';
 import express from 'express';
-import passport from 'passport';
+const passport = require("passport");
 require('dotenv').config();
 
 const LOCAL_PORT = 8081;
@@ -18,8 +18,6 @@ const app = express();
 const api = require("./server/routes/api");
 const auth = require("./server/routes/auth");
 
-app.use('/api', api);
-app.use('/auth', auth );
 
 //////////////////////////////////////////////////////////////////////////
 //MONGOOSE SET-UP
@@ -27,6 +25,7 @@ app.use('/auth', auth );
 //using the mongoose library.
 //////////////////////////////////////////////////////////////////////////
 import mongoose from 'mongoose';
+
 
 const connectStr = process.env.MONGO_STR;
 const DEPLOY_URL = process.env.DEPLOY_URL;
@@ -51,4 +50,9 @@ app
   .use(passport.initialize())
   .use(passport.session())
   .use(express.json({limit: '20mb'}))
+  .use(express.urlencoded())
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+//Routers need to be added after middleware has been assigned  
+app.use('/api', api);
+app.use('/auth', auth );

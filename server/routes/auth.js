@@ -6,6 +6,7 @@ const passportGithub =require('passport-github');
 const passportLocal = require('passport-local');
 const GithubStrategy = passportGithub.Strategy;
 const LocalStrategy = passportLocal.Strategy;
+const User = require("../schemas/User")
 
 const DEPLOY_URL = process.env.DEPLOY_URL;
 
@@ -134,6 +135,7 @@ router.post('/login',
     res.status(200).send("Login successful");
   },
   (err, req, res, next) => {
+    console.log(err);
     console.log("/login route reached: unsuccessful authentication");
     if (req.authError) {
       console.log("req.authError: " + req.authError);

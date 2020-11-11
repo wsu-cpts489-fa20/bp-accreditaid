@@ -8,8 +8,6 @@ var _path = _interopRequireDefault(require("path"));
 
 var _express = _interopRequireDefault(require("express"));
 
-var _passport = _interopRequireDefault(require("passport"));
-
 var _mongoose = _interopRequireDefault(require("mongoose"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -19,6 +17,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 //The following code imports necessary dependencies and initializes
 //variables used in the server middleware.
 //////////////////////////////////////////////////////////////////////////
+var passport = require("passport");
+
 require('dotenv').config();
 
 var LOCAL_PORT = 8081;
@@ -27,14 +27,12 @@ var app = (0, _express["default"])();
 
 var api = require("./server/routes/api");
 
-var auth = require("./server/routes/auth");
-
-app.use('/api', api);
-app.use('/auth', auth); //////////////////////////////////////////////////////////////////////////
+var auth = require("./server/routes/auth"); //////////////////////////////////////////////////////////////////////////
 //MONGOOSE SET-UP
 //The following code sets up the app to connect to a MongoDB database
 //using the mongoose library.
 //////////////////////////////////////////////////////////////////////////
+
 
 var connectStr = process.env.MONGO_STR;
 var DEPLOY_URL = process.env.DEPLOY_URL;
@@ -61,8 +59,11 @@ app.use((0, _expressSession["default"])({
   cookie: {
     maxAge: 1000 * 60
   }
-})).use(_express["default"]["static"](_path["default"].join(__dirname, "client/build"))).use(_passport["default"].initialize()).use(_passport["default"].session()).use(_express["default"].json({
+})).use(_express["default"]["static"](_path["default"].join(__dirname, "client/build"))).use(passport.initialize()).use(passport.session()).use(_express["default"].json({
   limit: '20mb'
-})).listen(PORT, function () {
+})).use(_express["default"].urlencoded()).listen(PORT, function () {
   return console.log("Listening on ".concat(PORT));
-});
+}); //Routers need to be added after middleware has been assigned  
+
+app.use('/api', api);
+app.use('/auth', auth);
