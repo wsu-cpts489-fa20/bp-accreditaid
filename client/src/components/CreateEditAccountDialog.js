@@ -13,8 +13,8 @@ class CreateEditAccountDialog extends React.Component {
         this.profilePicRef = React.createRef();
         this.state = {accountName: "",
                       displayName: "",
-                      profilePicURL: "https://icon-library.net//images/default-profile-icon/default-profile-icon-24.jpg",
                       password: "",
+                      accountType: "Instructor",
                       passwordRepeat: "",
                       securityQuestion: "",
                       securityAnswer: "",
@@ -22,12 +22,12 @@ class CreateEditAccountDialog extends React.Component {
                       confirmDelete: false};
     } 
 
-    //componentDidMount -- If we are editing an existing user acccount, we need to grab the data from
+    //componentDidMount -- If we are editing an existing user account, we need to grab the data from
     //the database and push them into the state.
     async componentDidMount() {
         if (!this.props.create) {
             //obtain current user data from database and push into state
-            const url = "/users/" + this.props.userId;
+            const url = "/api/users/" + this.props.userId;
             const res = await fetch(url);
             const json = await res.json();
             const userData = JSON.parse(json);
@@ -134,12 +134,13 @@ class CreateEditAccountDialog extends React.Component {
         let userData = {
             displayName: this.state.displayName,
             password: this.state.password,
-            profilePicURL: this.state.profilePicURL,
+            accountType: this.state.accountType,
             securityQuestion: this.state.securityQuestion,
             securityAnswer: this.state.securityAnswer
         };
-        const url = '/users/' + this.state.accountName;
+        const url = '/api/users/' + this.state.accountName;
         let res;
+        console.log("User data", JSON.stringify(userData));
         if (this.props.create) { //use POST route to create new user account
             res = await fetch(url, {
                 headers: {
@@ -176,9 +177,9 @@ class CreateEditAccountDialog extends React.Component {
     //deleteAccount -- Called after confirms account deletion. 
     //Uses DELETE server route to perform server deletion. 
     //Calls on done with status message and
-    //true if delete was succesful, false otherwise.
+    //true if delete was successful, false otherwise.
     deleteAccount = async() => {
-       const url = '/users/' + this.state.accountName;
+       const url = '/api/users/' + this.state.accountName;
        const res = await fetch(url, 
                     {method: 'DELETE'}); 
         if (res.status == 200) { //successful account deletion!
@@ -276,6 +277,11 @@ class CreateEditAccountDialog extends React.Component {
                 onChange={this.handleChange}
                 />
             </label>
+            <select name="type" value={this.state.type} className="form-control form-center" onChange={this.handleChange}>
+                <option value="Instructor">Instructor</option>
+                <option value="ABET Evaluator">ABET Evaluator</option>
+                <option value="College Admin">College Admin</option>
+            </select> 
             <br/>
             <label>
                 Profile Picture:<br/>
