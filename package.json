@@ -4,9 +4,12 @@
   "description": "Testing instructions for deployment to EB",
   "main": "server.compiled.js",
   "scripts": {
+    "install-client": "cd client/ && npm install",
     "start": "node server.compiled.js",
-    "build": "babel server.js --out-file server.compiled.js",
-    "dev": "nodemon --exec node server.compiled.js",
+    "build": "npm run build-server && npm run build-client",
+    "build-server": "babel server.js --out-file server.compiled.js",
+    "build-client": "cd client/ && npm run build",
+    "start:dev": "nodemon --config nodemon.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "C Hundhausen",
@@ -28,6 +31,6 @@
     "@babel/core": "^7.12.1",
     "@babel/node": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
-    "nodemon": "^2.0.5"
+    "nodemon": "^2.0.6"
   }
 }
