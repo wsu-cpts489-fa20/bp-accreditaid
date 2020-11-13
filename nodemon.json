@@ -1,5 +1,6 @@
 {
-    "exec": "npm run start",
+    "exec": "npm build && npm run start",
+    "ext": "js, css, html, json",
     "watch": [
       "client/public/",
       "client/src/",

@@ -8,42 +8,24 @@ render() {
         <div className="modal-dialog modal-lg">
             <div className="modal-content">
             <div className="modal-header">
-                <h3>About SpeedScore</h3>
+                <h3>About AcreditAid app</h3>
                 <button className="modal-close" onClick={this.props.close}>
                     &times;
                 </button>
             </div>
             <div className="modal-body">
                 <img
-                src="https://dl.dropboxusercontent.com/s/awuwr1vpuw1lkyl/SpeedScore4SplashLogo.png"
+                src="https://brand.wsu.edu/wp-content/themes/brand/images/pages/logos/wsu-signature-vertical.svg"
                 height="200" width="200"/>
-                <h3>The World's First and Only Suite of Apps for
-                Speedgolf</h3>
-                <p>Version CptS 489 Fa20 Complete (MERN)<br/>
-                &copy; 2017-20 The Professor of Speedgolf. All rights
-                reserved.
-                </p>
+                <p>Version CptS 489 Fa20 Complete (MERN)</p>
                 <div style={{textAlign: "left"}}>
-                <p>SpeedScore apps support</p>
-                <ul>
-                <li>live touranment scoring (<i>SpeedScore Live&reg;</i>)</li>
-                <li>tracking personal speedgolf rounds and sharing results
-                (<i>SpeedScore Track&reg;</i>)</li>
-                <li>finding speedgolf-friendly courses, booking tee times, and
-                paying to play speedgolf by the minute (<i>SpeedScore
-                Play&reg;</i>)</li>
-                </ul>
-                <p>SpeedScore was first developed by Dr. Chris Hundhausen,
-                associate professor of computer science at Washington State
-                University and the <i>Professor of Speedgolf</i>, with support
-                from Scott Dawley, CEO of Speedgolf USA, LLC.</p>
-                <p>For more information on SpeedScore, visit <a
-                href="http://speedscore.live" target="_blank">SpeedScore's web
-                site</a>. For more information on speedgolf, visit <a
-                href="http://playspeedgolf.com"
-                target="_blank">playspeedgolf.com</a> and <a
-                href="http://usaspeedgolf.com" target="_blank">Speedgolf
-                USA</a>.</p>
+                    <p> University degree programs typically seek accreditation from a recognized accreditation board. By ensuring that the degree program meets a set of established standards, such accreditation gives a degree program credibility in the eyes of the potential employers of its graduates. </p>
+                    <p> The AccreditAid application is intended to help university degree programs manage the process of acquiring ABET accreditation. There are at least three processes that can be facilitated through AccreditAid: </p>
+                    <ul>
+                        <li> Collecting and presenting display materials for each required course in a degree program. </li>
+                        <li> Identifying student work samples for assessment in targeted courses and facilitating the collaborative process of assessing those work samples against targeted SOs; </li>
+                        <li> Collecting, managing and analyzing additional sources of assessment data. </li>
+                    </ul>
                 </div>
             </div>
             <div className="modal-footer">

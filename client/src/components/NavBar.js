@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../wsu-logo-white.png'
 import AppMode from '../AppMode';
 
 class NavBar extends React.Component {
@@ -30,8 +31,8 @@ class NavBar extends React.Component {
         <span id="menuBtnIcon" className={"sidemenu-btn-icon " + this.getMenuBtnIcon()}>
         </span>
       </button>
-      <img src="http://tiny.cc/sslogo" alt="Speed Score Logo" height="38px"
-      width="38px" />
+      <img className="wsu-logo" src={logo} alt="WSU Logo" height="38px"
+      width="38px"/>
       <span className="navbar-title">
         &nbsp;{this.props.title}
       </span>
