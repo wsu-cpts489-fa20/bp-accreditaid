@@ -1,14 +1,14 @@
 import React from 'react';
-import NavBar from './NavBar.js';
-import SideMenu from './SideMenu.js';
-import ModeBar from './ModeBar.js';
-import CreateEditAccountDialog from './CreateEditAccountDialog.js'
-import LoginPage from './LoginPage.js';
+import NavBar from './common/NavBar.js';
+import SideMenu from './common/SideMenu.js';
+import ModeBar from './common/ModeBar.js';
+import CreateEditAccountDialog from './LoginPage/CreateEditAccountDialog.js'
+import LoginPage from './LoginPage/LoginPage.js';
 import AppMode from "./../AppMode.js"
-import FeedPage from './FeedPage.js';
-import Rounds from './Rounds.js';
-import CoursesPage from './CoursesPage.js';
-import AboutBox from './AboutBox.js';
+import FeedPage from './FeedPage/FeedPage.js';
+import Rounds from './RoundsPage/Rounds.js';
+import CoursesPage from './CoursesPage/CoursesPage.js';
+import AboutBox from './common/AboutBox.js';
 
 const modeTitle = {};
 modeTitle[AppMode.LOGIN] = "Welcome to AcreditAid";

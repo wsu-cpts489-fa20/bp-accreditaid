@@ -1,5 +1,5 @@
 import React from 'react';
-import Placeholder from './Placeholder.js';
+import Placeholder from '../common/Placeholder.js';
 
 class CoursesPage extends React.Component {
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import logo from '../wsu-logo-white.png'
-import AppMode from '../AppMode';
+import logo from '../../images/wsu-logo-white.png'
+import AppMode from '../../AppMode';
 
 class NavBar extends React.Component {
 
