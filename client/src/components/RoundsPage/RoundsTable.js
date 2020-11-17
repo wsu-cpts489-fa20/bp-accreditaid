@@ -1,6 +1,6 @@
 import React from 'react';
 import ConfirmDeleteRound from './ConfirmDeleteRound.js';
-import AppMode from './../AppMode.js';
+import AppMode from '../../AppMode.js';
 
 class RoundsTable extends React.Component {
 

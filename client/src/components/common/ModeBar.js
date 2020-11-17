@@ -1,5 +1,5 @@
 import React from 'react';
-import AppMode from '../AppMode.js';
+import AppMode from '../../AppMode.js';
 
 
 class ModeBar extends React.Component {

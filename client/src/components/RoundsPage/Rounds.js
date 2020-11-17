@@ -3,10 +3,10 @@
 //appropriate rounds mode page based on App's mode, which is passed in as a prop.
 
 import React from 'react';
-import AppMode from './../AppMode.js';
+import AppMode from '../../AppMode.js';
 import RoundsTable from './RoundsTable.js';
 import RoundForm from './RoundForm.js';
-import FloatingButton from './FloatingButton.js';
+import FloatingButton from '../common/FloatingButton.js';
 
 class Rounds extends React.Component {
 
