@@ -11,12 +11,16 @@ const express = require("express");
 const passport = require("passport");
 require('dotenv').config();
 
-const LOCAL_PORT = 8080;
+const LOCAL_PORT = 8081;
 const PORT = process.env.PORT || LOCAL_PORT;
 const app = express();
 
 const api = require("./server/routes/api");
 const auth = require("./server/routes/auth");
+
+const testFolder = './build/';
+const fs = require('fs');
+
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -56,7 +60,23 @@ app
   
 const router = express.Router();
 router.get('/test', async(req, res, next) => {
-  return res.status(200).json({"Response": "This works!"});
+
+  var str = "";
+
+  fs.readdir("./client", (err, files) => {
+    if(err){
+      str += err
+    }
+    else{
+      files.forEach(file => {
+        str += "|" + file
+      });
+    }
+    return res.status(200).json({"build": str});
+  });
+  
+  
+  
 });
 
 //Routers need to be added after middleware has been assigned  
