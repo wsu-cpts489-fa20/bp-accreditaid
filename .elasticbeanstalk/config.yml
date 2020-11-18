@@ -1,19 +1,19 @@
 branch-defaults:
-  master:
-    environment: SpeedgolfMern-env
+  eb-deploy:
+    environment: Accreditaid-env
 environment-defaults:
-  SpeedgolfMern-env:
+  Accreditaid-env:
     branch: null
     repository: null
 global:
-  application_name: speedgolf-MERN
+  application_name: accreditaid
   default_ec2_keyname: null
-  default_platform: Node.js 12 running on 64bit Amazon Linux 2
+  default_platform: Node.js running on 64bit Amazon Linux
   default_region: us-west-2
   include_git_submodules: true
   instance_profile: null
   platform_name: null
   platform_version: null
-  profile: eb-cli
+  profile: null
   sc: git
   workspace_type: Application
