@@ -11,7 +11,7 @@ const express = require("express");
 const passport = require("passport");
 require('dotenv').config();
 
-const LOCAL_PORT = 8081;
+const LOCAL_PORT = 8080;
 const PORT = process.env.HTTP_PORT || LOCAL_PORT;
 const app = express();
 
@@ -28,7 +28,6 @@ const mongoose = require( 'mongoose');
 
 
 const connectStr = process.env.MONGO_STR;
-const DEPLOY_URL = process.env.DEPLOY_URL;
 mongoose.connect(connectStr, {useNewUrlParser: true, useUnifiedTopology: true})
   .then(
     () =>  {console.log(`Connected to ${connectStr}.`)},
