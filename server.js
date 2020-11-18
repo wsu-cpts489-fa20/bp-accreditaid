@@ -11,8 +11,8 @@ const express = require("express");
 const passport = require("passport");
 require('dotenv').config();
 
-const LOCAL_PORT = 8080;
-const PORT = process.env.HTTP_PORT || LOCAL_PORT;
+const LOCAL_PORT = 8081;
+const PORT = process.env.PORT || LOCAL_PORT;
 const app = express();
 
 const api = require("./server/routes/api");
