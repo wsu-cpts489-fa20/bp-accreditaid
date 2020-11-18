@@ -4,7 +4,7 @@
   "description": "Testing instructions for deployment to EB",
   "main": "server.compiled.js",
   "scripts": {
-    "start": "(cd client && npm install && npm run build && cd .. && node server.js);",
+    "start": "node server.js",
     "install:client": "cd client && npm install",
     "postinstall": "npm run install:client && cd client && npm run build"
   },
