@@ -8,7 +8,6 @@ const programSchema = new mongoose.Schema({
     department: String, 
     college: String, //strategy used to authenticate, e.g., github, local
     creditsRequired: Number,
-    courses: [String],
 });
 const Program = mongoose.model("Program",programSchema); 
 

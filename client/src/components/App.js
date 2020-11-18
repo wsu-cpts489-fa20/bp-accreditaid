@@ -7,6 +7,7 @@ import LoginPage from './LoginPage/LoginPage.js';
 import AppMode from "./../AppMode.js"
 import FeedPage from './FeedPage/FeedPage.js';
 import Rounds from './RoundsPage/Rounds.js';
+import Programs from './ProgramsPage/Programs.js'
 import CoursesPage from './CoursesPage/CoursesPage.js';
 import AboutBox from './common/AboutBox.js';
 
@@ -16,6 +17,9 @@ modeTitle[AppMode.FEED] = "Activity Feed";
 modeTitle[AppMode.ROUNDS] = "My Rounds";
 modeTitle[AppMode.ROUNDS_LOGROUND] = "Log New Round";
 modeTitle[AppMode.ROUNDS_EDITROUND] = "Edit Round";
+modeTitle[AppMode.PROGRAMS] = "Programs";
+modeTitle[AppMode.PROGRAMS_LOGPROGRAM] = "Create New Program";
+modeTitle[AppMode.PROGRAMS_EDITPROGRAM] = "Edit Program";
 modeTitle[AppMode.COURSES] = "Courses";
 
 const modeToPage = {};
@@ -24,6 +28,9 @@ modeToPage[AppMode.FEED] = FeedPage;
 modeToPage[AppMode.ROUNDS] = Rounds;
 modeToPage[AppMode.ROUNDS_LOGROUND] = Rounds;
 modeToPage[AppMode.ROUNDS_EDITROUND] = Rounds;
+modeTitle[AppMode.PROGRAMS] = Programs
+modeTitle[AppMode.PROGRAMS_LOGPROGRAM] = Programs
+modeTitle[AppMode.PROGRAMS_EDITPROGRAM] = Programs
 modeToPage[AppMode.COURSES] = CoursesPage;
 
 
@@ -53,7 +60,7 @@ class App extends React.Component {
             this.setState({
               userObj: obj.user,
               authenticated: true,
-              mode: AppMode.FEED //We're authenticated so can get into the app.
+              mode: AppMode.PROGRAMS //We're authenticated so can get into the app.
             });
           }
         }
