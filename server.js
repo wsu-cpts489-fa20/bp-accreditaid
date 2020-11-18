@@ -53,6 +53,15 @@ app
   .use(express.urlencoded())
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
+
+  
+const router = express.Router();
+router.get('/test', async(req, res, next) => {
+  return res.status(200).json({"Response": "This works!"});
+});
+
 //Routers need to be added after middleware has been assigned  
 app.use('/api', api);
 app.use('/auth', auth );
+app.use("/test", router );
+
