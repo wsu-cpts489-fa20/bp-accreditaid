@@ -7,7 +7,7 @@ import LoginPage from './LoginPage/LoginPage.js';
 import AppMode from "./../AppMode.js"
 import FeedPage from './FeedPage/FeedPage.js';
 import Rounds from './RoundsPage/Rounds.js';
-import CoursesPage from './CoursesPage/CoursesPage.js';
+import Courses from './CoursesPage/Courses.js';
 import AboutBox from './common/AboutBox.js';
 
 const modeTitle = {};
@@ -17,6 +17,8 @@ modeTitle[AppMode.ROUNDS] = "My Rounds";
 modeTitle[AppMode.ROUNDS_LOGROUND] = "Log New Round";
 modeTitle[AppMode.ROUNDS_EDITROUND] = "Edit Round";
 modeTitle[AppMode.COURSES] = "Courses";
+modeTitle[AppMode.COURSES_LOGCOURSE] = "Log New Course";
+modeTitle[AppMode.COURSES_EDITCOURSE] = "Edit Course";
 
 const modeToPage = {};
 modeToPage[AppMode.LOGIN] = LoginPage;
@@ -24,7 +26,9 @@ modeToPage[AppMode.FEED] = FeedPage;
 modeToPage[AppMode.ROUNDS] = Rounds;
 modeToPage[AppMode.ROUNDS_LOGROUND] = Rounds;
 modeToPage[AppMode.ROUNDS_EDITROUND] = Rounds;
-modeToPage[AppMode.COURSES] = CoursesPage;
+modeToPage[AppMode.COURSES] = Courses;
+modeToPage[AppMode.COURSES_LOGCOURSE] = Courses;
+modeToPage[AppMode.COURSES_EDITCOURSE] = Courses;
 
 
 class App extends React.Component {
