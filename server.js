@@ -4,10 +4,9 @@
 //variables used in the server middleware.
 //////////////////////////////////////////////////////////////////////////
 
-import session from 'express-session';
-import regeneratorRuntime from "regenerator-runtime";
-import path from 'path';
-import express from 'express';
+const session = require('express-session');
+const path = require('path');
+const express = require('express');
 const passport = require("passport");
 require('dotenv').config();
 
@@ -24,7 +23,7 @@ const auth = require("./server/routes/auth");
 //The following code sets up the app to connect to a MongoDB database
 //using the mongoose library.
 //////////////////////////////////////////////////////////////////////////
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
 
 const connectStr = process.env.MONGO_STR;
