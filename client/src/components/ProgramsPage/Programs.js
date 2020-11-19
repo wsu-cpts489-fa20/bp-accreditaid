@@ -153,6 +153,7 @@ class Programs extends React.Component {
                         changeMode={this.props.changeMode}
                         menuOpen={this.props.menuOpen} /> 
                     <FloatingButton
+                        id={"create-program-floating-button"}
                         handleClick={() => 
                         this.props.changeMode(AppMode.PROGRAMS_LOGPROGRAM)}
                         menuOpen={this.props.menuOpen}

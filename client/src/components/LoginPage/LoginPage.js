@@ -153,78 +153,80 @@ cancelCreateAccount = () => {
   render() {
     return(
         <div>
-        <center>
-        {this.state.statusMsg != "" ? <div className="status-msg"><span>{this.state.statusMsg}</span>
-                       <button className="modal-close" onClick={this.closeStatusMsg}>
-                          <span className="fa fa-times"></span>
-                        </button></div>: null}
-            {this.state.showLookUpAccountDialog ? 
-              <LookUpAccountDialog cancelResetPassword={this.cancelResetPassword}
-                                   getSecurityAnswer={this.getSecurityAnswer}/> : null}
-            {this.state.showSecurityQuestionDialog ? 
-               <SecurityQuestionDialog cancelResetPassword={this.cancelResetPassword}
-                                       question={this.resetQ}
-                                       answer={this.resetA}
-                                       getNewPassword={this.getNewPassword}/> : null}
-            {this.state.showResetPaswordDialog ? 
-              <ResetPasswordDialog cancelResetPassword={this.cancelResetPassword}
-                                   resetPassword={this.resetPassword} /> : null}
-            <form id="loginInterface" onSubmit={this.handleLoginSubmit}>
-            <label htmlFor="emailInput" style={{ padding: 0, fontSize: 24 }}>
-                Email:
-                <input
-                ref={this.emailInputRef}
-                className="form-control login-text"
-                type="email"
-                placeholder="Enter Email Address"
-                id="emailInput"
-                pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
-                required={true}
-                />
-            </label>
-            <p />
-            <label htmlFor="passwordInput" style={{ padding: 0, fontSize: 24 }}>
-                Password:
-                <input
-                ref={this.passwordInputRef}
-                className="form-control login-text"
-                type="password"
-                placeholder="Enter Password"
-                pattern="[A-Za-z0-9!@#$%^&*()_+\-]+"
-                required={true}
-                />
-            </label>
-            <p className="bg-danger" id="feedback" style={{ fontSize: 16 }} />
-            <button
-                type="submit"
-                className="btn-color-theme btn btn-primary btn-block login-btn">
-                <span id="login-btn-icon" className={this.state.loginBtnIcon}/>
-                &nbsp;{this.state.loginBtnLabel}
-            </button>
-            <p>
-            <button type="button" className="btn btn-link login-link" 
-                    onClick={() => {this.setState({showCreateAccountDialog: true});}}>
-                Create an account</button> | 
-                <button type="button" className="btn btn-link login-link"
-                        onClick={() => {this.setState({showLookUpAccountDialog: true});}}>
-                Reset your password</button>
-            </p>  
-            <button type="button" className="btn btn-github"
-               onClick={() => this.handleOAuthLoginClick("github")}>
-              <span className={this.state.githubIcon}></span>&nbsp;
-                {this.state.githubLabel}
-            </button>
-            <p>
-                <i>Version CptS 489</i>
-            </p>
-            </form>
-            {this.state.showCreateAccountDialog ? 
-              <CreateEditAccountDialog
-                create={true} 
-                done={this.accountCreateDone}
-                cancel={this.cancelCreateAccount} /> : null}
-            {this.state.showResetPasswordDialog ? <ResetPasswordDialog /> : null}
-        </center>
+            <center>
+                {this.state.statusMsg != "" ? <div className="status-msg"><span>{this.state.statusMsg}</span>
+                            <button className="modal-close" onClick={this.closeStatusMsg}>
+                                <span className="fa fa-times"></span>
+                                </button></div>: null}
+                    {this.state.showLookUpAccountDialog ? 
+                    <LookUpAccountDialog cancelResetPassword={this.cancelResetPassword}
+                                        getSecurityAnswer={this.getSecurityAnswer}/> : null}
+                    {this.state.showSecurityQuestionDialog ? 
+                    <SecurityQuestionDialog cancelResetPassword={this.cancelResetPassword}
+                                            question={this.resetQ}
+                                            answer={this.resetA}
+                                            getNewPassword={this.getNewPassword}/> : null}
+                    {this.state.showResetPaswordDialog ? 
+                    <ResetPasswordDialog cancelResetPassword={this.cancelResetPassword}
+                                        resetPassword={this.resetPassword} /> : null}
+                    <form id="loginInterface" onSubmit={this.handleLoginSubmit}>
+                        <label htmlFor="emailInput" style={{ padding: 0, fontSize: 24 }}>
+                            Email:
+                            <input
+                            ref={this.emailInputRef}
+                            className="form-control login-text"
+                            type="email"
+                            placeholder="Enter Email Address"
+                            id="emailInput"
+                            pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
+                            required={true}
+                            />
+                        </label>
+                        <p />
+                        <label htmlFor="passwordInput" style={{ padding: 0, fontSize: 24 }}>
+                            Password:
+                            <input
+                            id="password"
+                            ref={this.passwordInputRef}
+                            className="form-control login-text"
+                            type="password"
+                            placeholder="Enter Password"
+                            pattern="[A-Za-z0-9!@#$%^&*()_+\-]+"
+                            required={true}
+                            />
+                        </label>
+                        <p className="bg-danger" id="feedback" style={{ fontSize: 16 }} />
+                        <button
+                            id="login"
+                            type="submit"
+                            className="btn-color-theme btn btn-primary btn-block login-btn">
+                            <span id="login-btn-icon" className={this.state.loginBtnIcon}/>
+                            &nbsp;{this.state.loginBtnLabel}
+                        </button>
+                        <p>
+                        <button type="button" className="btn btn-link login-link" 
+                                onClick={() => {this.setState({showCreateAccountDialog: true});}}>
+                            Create an account</button> | 
+                            <button type="button" className="btn btn-link login-link"
+                                    onClick={() => {this.setState({showLookUpAccountDialog: true});}}>
+                            Reset your password</button>
+                        </p>  
+                        <button type="button" className="btn btn-github"
+                        onClick={() => this.handleOAuthLoginClick("github")}>
+                        <span className={this.state.githubIcon}></span>&nbsp;
+                            {this.state.githubLabel}
+                        </button>
+                        <p>
+                            <i>Version CptS 489</i>
+                        </p>
+                    </form>
+                    {this.state.showCreateAccountDialog ? 
+                    <CreateEditAccountDialog
+                        create={true} 
+                        done={this.accountCreateDone}
+                        cancel={this.cancelCreateAccount} /> : null}
+                    {this.state.showResetPasswordDialog ? <ResetPasswordDialog /> : null}
+            </center>
         </div>
         )
     }

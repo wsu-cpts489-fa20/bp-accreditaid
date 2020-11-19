@@ -45,7 +45,7 @@ class ProgramTable extends React.Component {
   //Programs Logged" message in case the table is empty.
   render() {
     return(
-    <div className="padded-page">
+    <div id="programs-table" className="padded-page">
       <h1></h1>
       <table className="table table-hover">
         <thead className="thead-light">

@@ -17,9 +17,9 @@ class ConfirmDeleteProgram extends React.Component {
               <p>Do you really want to delete this program?</p>
             </div>
             <div className="modal-footer">
-                  <button className="btn btn-danger" onClick={this.props.deleteProgram}>
+                  <button id="confirm-delete" className="btn btn-danger" onClick={this.props.deleteProgram}>
                   Yes, Delete</button>
-                  <button className="btn btn-secondary" onClick={this.props.close}>
+                  <button id="deny-delete" className="btn btn-secondary" onClick={this.props.close}>
                   No, Cancel</button>
             </div>
         </div>

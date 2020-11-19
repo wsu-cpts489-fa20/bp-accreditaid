@@ -74,12 +74,12 @@ class ProgramForm extends React.Component {
   
   render() {
     return (
-      <div className="padded-page">
+      <div id="program-div" className="padded-page">
         <form onSubmit={this.handleSubmit}>
           <center>
             <label>
               Name:
-              <input name="name" className="form-control form-center" type="text"
+              <input id="program-name" name="name" className="form-control form-center" type="text"
                 value={this.state.name} onChange={this.handleChange} required={true}
                 placeholder="Program name" size="50" maxLength="50" />
             </label>
@@ -87,7 +87,7 @@ class ProgramForm extends React.Component {
 
             <label>
               Department:
-              <input name="department" className="form-control form-center" type="text"
+              <input id="program-department" name="department" className="form-control form-center" type="text"
                 value={this.state.department} onChange={this.handleChange} required={true}
                 placeholder="Program department" size="50" maxLength="50" />
             </label>
@@ -95,7 +95,7 @@ class ProgramForm extends React.Component {
 
             <label>
               College:
-              <input name="college" className="form-control form-center" type="text"
+              <input id="program-college" name="college" className="form-control form-center" type="text"
                 value={this.state.college} onChange={this.handleChange} required={true}
                 placeholder="Program college" size="50" maxLength="50" />
             </label>
@@ -103,18 +103,18 @@ class ProgramForm extends React.Component {
 
             <label>
               # Credits:
-              <input name="credits" className="form-control form-center" type="number"
+              <input id="program-credits" name="credits" className="form-control form-center" type="number"
                 value={this.state.credits} onChange={this.handleChange} required={true}
                 placeholder="0" min="0" max="999" />
             </label>
             <p></p>
 
             <p></p>
-            <button type="submit" style={{width: "40%",fontSize: "36px"}} 
+            <button id="submit-changes" type="submit" style={{width: "40%",fontSize: "36px"}} 
               className="btn btn-primary btn-color-theme">
                 <span className={this.state.faIcon}/>&nbsp;{this.state.btnLabel}
             </button>
-            <button type="button" style={{width: "40%",fontSize: "36px"}} 
+            <button id="delete-program" type="button" style={{width: "40%",fontSize: "36px"}} 
               className="btn btn-primary btn-color-theme"
               onClick={this.props.menuOpen ? null : () => 
               this.confirmDelete(this.state.name)}>
