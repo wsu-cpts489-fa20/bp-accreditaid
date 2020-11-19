@@ -1,31 +1,63 @@
-//Rounds -- A parent component for the app's "rounds" mode.
-//Manages the rounds data for the current user and conditionally renders the
-//appropriate rounds mode page based on App's mode, which is passed in as a prop.
+//Programs -- A parent component for the app's "programs" mode.
+//Manages the programs data for the current user and conditionally renders the
+//appropriate program mode page based on App's mode, which is passed in as a prop.
 
 import React from 'react';
 import AppMode from '../../AppMode.js';
-import RoundsTable from './RoundsTable.js';
-import RoundForm from './RoundForm.js';
+import ProgramTable from './ProgramTable.js';
+import ProgramForm from './ProgramForm.js';
 import FloatingButton from '../common/FloatingButton.js';
 
-class Rounds extends React.Component {
+class Programs extends React.Component {
 
-    //Initialize a Rounds object based on local storage
+    //Initialize a Programs object based on local storage
     constructor() {
         super();
         this.deleteId = "";
         this.editId = "";
-        this.state = {errorMsg: ""};           
+        this.state = {errorMsg: "", programs: []};           
     }
 
-    //addRound -- Given an object newData containing a new round, use the 
-    //server POST route to add the new round to the database. If the add is
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    async fetchData() {
+        const url = '/api/programs/';
+        const res = await fetch(url, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            method: 'GET'}); 
+        if (res.status != 200) {
+            const msg = await res.text();
+            this.setState({errorMsg: msg});
+        } else {
+            const msg = await res.json();
+            let programs = JSON.parse(msg);
+            this.setState({errorMsg: ""});
+            // console.log(programs)
+            for(var i = 0; i < programs.length; i++)
+            {
+                programs[i].courses = 0;
+                programs[i].instructors = 0;
+                programs[i].completion = 0;
+            }
+            // console.log(programs)
+            this.setState({programs: programs})
+            //console.log(res.json())
+        }
+    }
+
+    //addProgram -- Given an object newData containing a new program, use the 
+    //server POST route to add the new program to the database. If the add is
     //successful, call on the refreshOnUpdate() method to force the parent
     //App component to refresh its state from the database and re-render itself,
-    //allowing the change to be propagated to the Rounds table. Then switch
-    //the mode back to AppMode.ROUNDS since the user is done adding a round.
-    addRound = async (newData) => {
-        const url = '/rounds/' + this.props.userObj.id;
+    //allowing the change to be propagated to the Programs table. Then switch
+    //the mode back to AppMode.PROGRAMS since the user is done adding a program.
+    addProgram = async (name, newData) => {
+        const url = '/api/programs/' + name;
         const res = await fetch(url, {
             headers: {
                 'Accept': 'application/json',
@@ -34,22 +66,22 @@ class Rounds extends React.Component {
             method: 'POST',
             body: JSON.stringify(newData)}); 
         const msg = await res.text();
-        if (res.status != 200) {
+        if (res.status != 201) {
             this.setState({errorMsg: msg});
-            this.props.changeMode(AppMode.ROUNDS);
+            this.props.changeMode(AppMode.PROGRAMS);
         } else {
-            this.setState({errorMsg: ""});
-            this.props.refreshOnUpdate(AppMode.ROUNDS);
+            this.setState({errorMsg: msg});
+            await this.fetchData();
+            this.props.changeMode(AppMode.PROGRAMS);
         }
     }
 
-    //editRound -- Given an object newData containing updated data on an
-    //existing round, update the current user's round in the database. 
-    //toggle the mode back to AppMode.ROUNDS since the user is done editing the
-    //round. 
-    editRound = async (newData) => {
-        const url = '/rounds/' + this.props.userObj.id + '/' + 
-            this.props.userObj.rounds[this.editId]._id;
+    //editProgram -- Given an object newData containing updated data on an
+    //existing program, update the current user's program in the database. 
+    //toggle the mode back to AppMode.PROGRAMS since the user is done editing the
+    //program. 
+    editProgram = async (name, newData) => {
+        const url = '/api/programs/' + name;
         const res = await fetch(url, {
             headers: {
                 'Accept': 'application/json',
@@ -60,26 +92,28 @@ class Rounds extends React.Component {
         const msg = await res.text();
         if (res.status != 200) {
             this.setState({errorMsg: msg});
-            this.props.changeMode(AppMode.ROUNDS);
+            this.props.changeMode(AppMode.PROGRAMS);
         } else {
-            this.props.refreshOnUpdate(AppMode.ROUNDS);
+            this.setState({errorMsg: msg});
+            await this.fetchData();
+            this.props.changeMode(AppMode.PROGRAMS);
         }
     }
 
 
-    //deleteRound -- Delete the current user's round uniquely identified by
+    //deleteProgram -- Delete the current user's program uniquely identified by
     //this.state.deleteId, delete from the database, and reset deleteId to empty.
-    deleteRound = async () => {
-        const url = '/rounds/' + this.props.userObj.id + '/' + 
-            this.props.userObj.rounds[this.deleteId]._id;
+    deleteProgram = async () => {
+        const url = '/api/programs/' + this.deleteId;
         const res = await fetch(url, {method: 'DELETE'}); 
         const msg = await res.text();
         if (res.status != 200) {
-            this.setState({errorMsg: "An error occurred when attempting to delete round from database: " 
+            this.setState({errorMsg: "An error occurred when attempting to delete program from database: " 
             + msg});
-            this.props.changeMode(AppMode.ROUNDS);
+            this.props.changeMode(AppMode.PROGRAMS);
         } else {
-            this.props.refreshOnUpdate(AppMode.ROUNDS);
+            await this.fetchData();
+            this.props.changeMode(AppMode.PROGRAMS);
         }  
     }
  
@@ -101,55 +135,52 @@ class Rounds extends React.Component {
         this.setState({errorMsg: ""});
     }
     
-    //render -- Conditionally render the Rounds mode page as either the rounds
-    //table, the rounds form set to obtain a new round, or the rounds form set
-    //to edit an existing round.
+    //render -- Conditionally render the Programs mode page as either the programs
+    //table, the programs form set to obtain a new program, or the program form set
+    //to edit an existing program.
     render() {
         switch(this.props.mode) {
-            case AppMode.ROUNDS:
+            case AppMode.PROGRAMS:
                 return (
                     <>
                     {this.state.errorMsg != "" ? <div className="status-msg"><span>{this.state.errorMsg}</span>
                        <button className="modal-close" onClick={this.closeErrorMsg}>
                           <span className="fa fa-times"></span>
                         </button></div>: null}
-                    <RoundsTable 
-                        rounds={this.props.userObj.rounds}
+                    <ProgramTable 
+                        programs={this.state.programs}
                         setEditId={this.setEditId}
-                        setDeleteId={this.setDeleteId}
-                        deleteRound={this.deleteRound}
                         changeMode={this.props.changeMode}
                         menuOpen={this.props.menuOpen} /> 
                     <FloatingButton
                         handleClick={() => 
-                        this.props.changeMode(AppMode.ROUNDS_LOGROUND)}
+                        this.props.changeMode(AppMode.PROGRAMS_LOGPROGRAM)}
                         menuOpen={this.props.menuOpen}
                         icon={"fa fa-plus"} />
                     </>
                 );
-            case AppMode.ROUNDS_LOGROUND:
+            case AppMode.PROGRAMS_LOGPROGRAM:
                 return (
-                    <RoundForm
+                    <ProgramForm
                         mode={this.props.mode}
                         startData={""} 
-                        saveRound={this.addRound} />
+                        saveProgram={this.addProgram} 
+                        setDeleteId={this.setDeleteId}
+                        deleteProgram={this.deleteProgram}/>
                 );
-            case AppMode.ROUNDS_EDITROUND:
-                let thisRound = {...this.props.userObj.rounds[this.editId]};
-                thisRound.date = thisRound.date.substr(0,10);
-                if (thisRound.seconds < 10) {
-                    thisRound.seconds = "0" + thisRound.seconds;
-                } 
-                delete thisRound.SGS;
+            case AppMode.PROGRAMS_EDITPROGRAM:
+                let thisProgram = {...this.state.programs[this.editId]};
                 return (
-                    <RoundForm
+                    <ProgramForm
                         mode={this.props.mode}
-                        startData={thisRound} 
-                        saveRound={this.editRound} />
+                        startData={thisProgram} 
+                        saveProgram={this.editProgram} 
+                        setDeleteId={this.setDeleteId}
+                        deleteProgram={this.deleteProgram}/>
                 );
         }
     }
 
 }   
 
-export default Rounds;
+export default Programs;

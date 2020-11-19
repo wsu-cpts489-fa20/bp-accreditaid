@@ -1,154 +1,133 @@
 import React from 'react';
+import ConfirmDeleteProgram from './ConfirmDeleteProgram.js';
 import AppMode from '../../AppMode.js';
 
-class RoundForm extends React.Component {
+class ProgramForm extends React.Component {
   constructor(props) {
-  super(props);
-  //Create date object for today, taking time zone into consideration
-  let today = new Date(Date.now()-(new Date()).getTimezoneOffset()*60000);
-  //store date as ISO string
-  if (this.props.mode === AppMode.ROUNDS_LOGROUND) {
-    //If logging a new round, the starting state is a default round with
-    //today's date.
-    this.state = {date:  today.toISOString().substr(0,10), 
-                  course: "",
-                  type: "practice",
-                  holes: "18",
-                  strokes: 80,
-                  minutes: 50,
-                  seconds: "00",
-                  notes: "",
-                  faIcon: "fa fa-save",
-                  btnLabel: "Save Round Data"}
-  } else {
-    //if editing an existing round, the starting state is the round's
-    //current data
-    let thisRound = {...this.props.startData};
-    delete thisRound.id;
-    thisRound.faIcon = "fa fa-edit";
-    thisRound.btnLabel = "Update Round Data";
-    this.state = thisRound;
+    super(props);
+    if (this.props.mode === AppMode.PROGRAMS_LOGPROGRAM) {
+      //If logging a new program, the starting state is a default program with
+      this.state = {name:  "", 
+                    department: "",
+                    college: "",
+                    credits: "",
+                    faIcon: "fa fa-save",
+                    btnLabel: "Save Program Data"}
+    } else {
+      //if editing an existing program, the starting state is the program's
+      //current data
+      let thisProgram = {...this.props.startData};
+      // delete thisProgram.id;
+      thisProgram.faIcon = "fa fa-edit";
+      thisProgram.btnLabel = "Update Program Data";
+      this.state = thisProgram;
+    }
   }
-}
   
   
-    handleChange = (event) => {
-        const name = event.target.name;
-        if (name === "seconds") {
-          let newSec = (event.target.value.length < 2 ? "0" + 
-            event.target.value : event.target.value);
-          let newSGS = this.computeSGS(this.state.strokes, this.state.minutes, 
-                                       newSec);
-          this.setState({seconds: newSec, SGS: newSGS});
-        } else if (name === "strokes") {
-          let newStrokes = event.target.value;
-          let newSGS = this.computeSGS(newStrokes, this.state.minutes, 
-            this.state.seconds);
-          this.setState({strokes: newStrokes, SGS: newSGS});
-        } else if (name === "minutes") {
-            let newMin = event.target.value;
-            let newSGS = this.computeSGS(this.state.strokes, newMin, 
-              this.state.seconds);
-            this.setState({minutes: newMin, SGS: newSGS});
-        } else {
-          this.setState({[name]: event.target.value});
-        }
-    }
-  
-  
-    //handleSubmit -- When the user clicks on the button to save/update the
-    //round, start the spinner and invoke the parent component's saveRound
-    //method to do the actual work. Note that saveRound is set to the correct
-    //parent method based on whether the user is logging a new round or editing
-    //an existing round.
-    handleSubmit = (event) => {
-        //start spinner
-        this.setState({faIcon: "fa fa-spin fa-spinner",
-                        btnLabel: (this.props.mode === AppMode.ROUNDS_LOGROUND ? 
-                                    "Saving..." : "Updating...")});
-        //Prepare current round data to be saved
-        let roundData = this.state;
-        delete roundData.faIcon;
-        delete roundData.btnLabel;
-        //call saveRound on 1 second delay to show spinning icon
-        setTimeout(this.props.saveRound,1000,roundData); 
-        event.preventDefault(); 
-        }
-  
+  handleChange = (event) => {
+      const name = event.target.name;
+      this.setState({[name]: event.target.value});
+  }
 
-    computeSGS = (strokes, min, sec) => {
-      return (Number(strokes) + Number(min)) 
-                  + ":" + sec;
-    }
+
+  //handleSubmit -- When the user clicks on the button to save/update the
+  //program, start the spinner and invoke the parent component's saveProgram
+  //method to do the actual work. Note that saveProgram is set to the correct
+  //parent method based on whether the user is logging a new program or editing
+  //an existing program.
+  handleSubmit = (event) => {
+      //start spinner
+      this.setState({faIcon: "fa fa-spin fa-spinner",
+                      btnLabel: (this.props.mode === AppMode.PROGRAMS_LOGPROGRAM ? 
+                                  "Saving..." : "Updating...")});
+      //Prepare current program data to be saved
+      let programData = {};
+      programData.department = this.state.department;
+      programData.college = this.state.college;
+      programData.credits = this.state.credits;
+      delete programData.faIcon;
+      delete programData.btnLabel;
+      //call saveProgram on 1 second delay to show spinning icon
+      setTimeout(this.props.saveProgram,1000,this.state.name, programData); 
+      event.preventDefault(); 
+      }
+
+  //deleteProgram -- Triggered when the user clicks on the "Yes, Delete"
+  //button in the Confirm Delete dialog box. It executes the deletion and
+  //closes the dialog box.
+  deleteProgram = () => {
+    this.props.deleteProgram();
+    this.setState({showConfirmDelete: false});
+  }
+
+
+  //confirmDelete -- Triggered when the user clicks the delete button
+  //for a given program. The id paam is the unique property that 
+  //identifies the program. Set the state variable representing the id
+  //of the program to be deleted and then present a dialog box asking
+  //the user to confirm the deletion.
+  confirmDelete = (id) => {
+    this.props.setDeleteId(id);
+    this.setState({showConfirmDelete: true});
+  }        
   
-    render() {
-      return (
-        <form className="padded-page" onSubmit={this.handleSubmit}>
+  render() {
+    return (
+      <div className="padded-page">
+        <form onSubmit={this.handleSubmit}>
           <center>
             <label>
-              Date:
-              <input name="date" className="form-control form-center" 
-                type="date" value={this.state.date} onChange={this.handleChange} />
+              Name:
+              <input name="name" className="form-control form-center" type="text"
+                value={this.state.name} onChange={this.handleChange} required={true}
+                placeholder="Program name" size="50" maxLength="50" />
             </label>
             <p></p>
+
             <label>
-              Course:
-              <input name="course" className="form-control form-center" type="text"
-                value={this.state.course} onChange={this.handleChange}
-                placeholder="Course played" size="50" maxLength="50" />
+              Department:
+              <input name="department" className="form-control form-center" type="text"
+                value={this.state.department} onChange={this.handleChange} required={true}
+                placeholder="Program department" size="50" maxLength="50" />
             </label>
-          <p></p>
-          <label>Type:
-          <select name="type" value={this.state.type} 
-            className="form-control form-center" onChange={this.handleChange}>
-            <option value="practice">Practice</option>
-            <option value="tournament">Tournament</option>
-          </select> 
-          </label>
-          <p></p>
-          <label># Holes:
-          <select name="holes" value={this.state.holes} 
-            className="form-control form-center" onChange={this.handleChange}>
-            <option value="9">9</option>
-            <option value="18">18</option>
-          </select> 
-          </label>
-          <p></p>
-          <label># Strokes:
-          <input name="strokes" className="form-control form-center" type="number" 
-            min="9" max="200" value={this.state.strokes} 
-            onChange={this.handleChange} />
-          </label>
-          <p></p>
-          <label>Time: <br></br>
-          <input name="minutes" type="number" size="3"
-            min="10" max="400" value={this.state.minutes}
-            onChange={this.handleChange} />:  
-          <input name="seconds" type="number" size="2"
-            min="0" max="60" value={this.state.seconds} 
-            onChange={this.handleChange} />
-          </label>
-          <p></p>
-          <label>Speedgolf Score: <br></br>
-              <input name="SGS" className="form-center" type="text" size="6" 
-                disabled={true} value={this.computeSGS(this.state.strokes,this.state.minutes,this.state.seconds)} />
-          </label>
-          <p></p>
-          <label>Notes:
-              <textarea name="notes" className="form-control" rows="6" cols="75" 
-                placeholder="Enter round notes" value={this.state.notes} 
-                onChange={this.handleChange} />
-          </label>
-          <p></p>
-          <p></p>
-          <button type="submit" style={{width: "70%",fontSize: "36px"}} 
-            className="btn btn-primary btn-color-theme">
-              <span className={this.state.faIcon}/>&nbsp;{this.state.btnLabel}
-          </button>
+            <p></p>
+
+            <label>
+              College:
+              <input name="college" className="form-control form-center" type="text"
+                value={this.state.college} onChange={this.handleChange} required={true}
+                placeholder="Program college" size="50" maxLength="50" />
+            </label>
+            <p></p>
+
+            <label>
+              # Credits:
+              <input name="credits" className="form-control form-center" type="number"
+                value={this.state.credits} onChange={this.handleChange} required={true}
+                placeholder="0" min="0" max="999" />
+            </label>
+            <p></p>
+
+            <p></p>
+            <button type="submit" style={{width: "40%",fontSize: "36px"}} 
+              className="btn btn-primary btn-color-theme">
+                <span className={this.state.faIcon}/>&nbsp;{this.state.btnLabel}
+            </button>
+            <button type="button" style={{width: "40%",fontSize: "36px"}} 
+              className="btn btn-primary btn-color-theme"
+              onClick={this.props.menuOpen ? null : () => 
+              this.confirmDelete(this.state.name)}>
+                <span className="fa fa-times">Delete Program</span></button>
           </center>
         </form>
-      );
-    }
+        {this.state.showConfirmDelete ?
+          <ConfirmDeleteProgram 
+            close={() => this.setState({showConfirmDelete: false})} 
+            deleteProgram={this.deleteProgram} /> : null}
+      </div>
+    );
+  }
 }
 
-export default RoundForm;
+export default ProgramForm;

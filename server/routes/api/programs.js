@@ -29,7 +29,7 @@ router.get('/:name', async(req, res, next) => {
   console.log("in /api/programs route (GET) with name = " + 
     JSON.stringify(req.params.name));
   try {
-    let thisProgram = await Program.findOne({id: req.params.name});
+    let thisProgram = await Program.findOne({name: req.params.name});
     if (!thisProgram) {
       return res.status(404).send("No Program with name " +
         req.params.name + " was found in database.");
@@ -38,7 +38,7 @@ router.get('/:name', async(req, res, next) => {
     }
   } catch (err) {
     console.log()
-    return res.status(400).send("Unexpected error occurred when looking up Program with id " +
+    return res.status(400).send("Unexpected error occurred when looking up Program with name " +
       req.params.name + " in database: " + err);
   }
 });
@@ -55,7 +55,7 @@ router.post('/:name',  async (req, res, next) => {
     return res.status(400).send("/api/programs POST request formulated incorrectly. ")
   }
   try {
-    let thisProgram = await Program.findOne({id: req.params.name});
+    let thisProgram = await Program.findOne({name: req.params.name});
     if (thisProgram) { //program already exists
       res.status(400).send("There is already a program under that name'" + req.params.name);
     } else { // add to database
@@ -63,7 +63,7 @@ router.post('/:name',  async (req, res, next) => {
         name: req.params.name,
         department: req.body.department,
         college: req.body.college,
-        creditsRequired: req.body.creditsRequired,
+        credits: req.body.credits,
       }).save();
       return res.status(201).send("New program of the name '" + 
         req.params.name + "' successfully created.");
@@ -90,7 +90,7 @@ router.put('/:name',  async (req, res, next) => {
     } 
   }
   try {
-        let status = await Program.updateOne({id: req.params.name}, 
+        let status = await Program.updateOne({name: req.params.name}, 
           {$set: req.body});
         if (status.nModified != 1) { //program could not be found
           res.status(404).send("No Program with the name " + req.params.name + " exists. Program could not be updated.");
@@ -107,7 +107,7 @@ router.delete('/:name', async(req, res, next) => {
   console.log("in /api/programs route (DELETE) with name = " + 
     JSON.stringify(req.params.name));
   try {
-    let status = await Program.deleteOne({id: req.params.name});
+    let status = await Program.deleteOne({name: req.params.name});
     if (status.deletedCount != 1) {
       return res.status(404).send("No Program " +
         req.params.name + " was found. Program could not be deleted.");
