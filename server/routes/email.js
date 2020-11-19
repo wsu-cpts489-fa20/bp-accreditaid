@@ -1,4 +1,4 @@
-require('dotenv').config();
+
 const nodemailer = require('nodemailer');
 const express = require('express');
 const router = express.Router();
@@ -9,7 +9,7 @@ var transporter = nodemailer.createTransport({
   port: 465,
   auth: {
     user: process.env.EMAILADDRESS,
-    pass: process.env.EMAILLPASSWORD,
+    pass: process.env.EMAILPASSWORD,
   },
   secure:true,
 });
@@ -18,6 +18,7 @@ var transporter = nodemailer.createTransport({
 
 
 router.post("/", async (req, res, next) =>{
+    console.log("/email/ route reached");
     var mailOptions = {
         from: 'acreditaid@gmail.com',
         to: req.body.toList,
@@ -25,12 +26,13 @@ router.post("/", async (req, res, next) =>{
         text: req.body.emailBody,
       };
     transporter.sendMail(mailOptions, function(error, info){
+        
         if (error) {
           console.log(error);
-          return res.sendStatus(500);
+          return res.status(500);
         } else {
           console.log('Email sent: ' + info.response);
-          return res.sendStatus(200);
+          return res.status(200);
         }
       });
 });
