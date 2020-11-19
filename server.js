@@ -12,11 +12,10 @@ const passport = require("passport");
 require('dotenv').config();
 
 const LOCAL_PORT = 8081;
-const PORT = process.env.HTTP_PORT || LOCAL_PORT;
+const PORT = process.env.PORT || LOCAL_PORT;
 const app = express();
 
-const api = require("./server/routes/api");
-const auth = require("./server/routes/auth");
+
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -35,6 +34,9 @@ mongoose.connect(connectStr, {useNewUrlParser: true, useUnifiedTopology: true})
     err => {console.error(`Error connecting to ${connectStr}: ${err}`)}
 );
 
+
+
+
 //////////////////////////////////////////////////////////////////////////
 //INITIALIZE EXPRESS APP
 // The following code uses express.static to serve the React app defined 
@@ -50,9 +52,16 @@ app
   .use(passport.initialize())
   .use(passport.session())
   .use(express.json({limit: '20mb'}))
-  .use(express.urlencoded())
+  .use(express.urlencoded({extended: true}))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+
+//Import routers
+const api = require("./server/routes/api");
+const auth = require("./server/routes/auth");
+const email = require("./server/routes/email");
 
 //Routers need to be added after middleware has been assigned  
 app.use('/api', api);
 app.use('/auth', auth );
+app.use("/email", email);
