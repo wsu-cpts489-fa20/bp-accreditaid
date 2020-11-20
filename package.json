@@ -1,12 +1,12 @@
 {
-  "name": "code-ch18-eb",
+  "name": "acreditaid-server",
   "version": "1.0.0",
   "description": "Testing instructions for deployment to EB",
-  "main": "server.compiled.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "build": "cd client && npm run build",
-    "dev": "nodemon server.js",
+    "start:dev": "nodemon --config nodemon.json",
     "install:client": "cd client && npm install",
     "postinstall": "npm run install:client && cd client && npm run build"
   },
