@@ -90,6 +90,7 @@ class Programs extends React.Component {
             method: 'PUT',
             body: JSON.stringify(newData)}); 
         const msg = await res.text();
+        console.log(msg);
         if (res.status != 200) {
             this.setState({errorMsg: msg});
             this.props.changeMode(AppMode.PROGRAMS);
