@@ -7,61 +7,68 @@ const getLocalStorageItem = ClientFunction(prop => {
     return localStorage.getItem(prop);
 });
 
-export async function Login() {
+export async function LoginAndGoToCourses() {
     await t
         .typeText('#emailInput', 'mykhailo.bykhovtsev@wsu.edu')
         .typeText('#password', 'Qwerty512_32')
-        .click('#login');
+        .click('#login')
+        .click("#program-edit-0")
+        .click("#edit-courses")
 }
 
-// Tests if program table is visible.
-test('ProgramTableTest', async t => {
+// Tests if courses table is visible.
+test("CoursesTableTest", async t => {
     await t
         .setNativeDialogHandler(() => true);
-    await Login();
+    await LoginAndGoToCourses();
     await t
-        .wait(500)
-        .expect(Selector('#programs-table').visible).eql(true)
-        .wait(1000);
+        .expect(Selector('#courses-table').visible).eql(true)
+        
 });
 
-
-// Test creating new Program.
-test('TestCreateNewProgram', async t => {
+// Test creating new course.
+test('TestCreateNewCourse', async t => {
     await t
         .setNativeDialogHandler(() => true);
-    await Login();
+    await LoginAndGoToCourses();
     await t
-        .expect(Selector('#programs-table').find('td').withText('Test program 1').visible).eql(false)
-        .click("#create-program-floating-button")
+        .wait(300)
+        .click("#create-course-floating-button")
         .wait(500)
-        .expect(Selector('#program-div').visible).eql(true)
-        .typeText('#program-name', 'Test program 1')
-        .typeText('#program-department', 'Dep 1')
-        .typeText('#program-college', 'College 1')
-        .typeText('#program-credits', '30')
-        .click("#submit-changes")
+        .expect(Selector("#course-form").visible).eql(true)
+        .typeText('#course-name', 'Web Development')
+        .typeText('#course-number', "489")
+        .typeText('#course-prefix', 'CPTS')
+        .typeText('#course-credits', '5')
+        .typeText("#course-prereqs", "None")
+        .typeText("#course-instructorname", "Micah Priddis")
+        .typeText("#course-instructoremail", "micah.priddis@wsu.edu")
+        .click("#course-submit")
         .wait(1000)
-        .expect(Selector('#programs-table').visible).eql(true)
-        .expect(Selector('#programs-table').find('td').withText('Test program 1').visible).eql(true)
+        .expect(Selector('#courses-table').visible).eql(true)
+        .expect(Selector('#courses-table').find('td').withText('Web Development').visible).eql(true)
         .wait(500);
 });
 
 // Test deletion of the Program.
-test('TestDeletingProgram', async t => {
+test('TestDeletingCourse', async t => {
+
+
     await t
         .setNativeDialogHandler(() => true);
-    await Login();
+    await LoginAndGoToCourses();
     await t
-        .click(Selector('#programs-table').find('td').withText('Test program 1').sibling('td').find('button').nth(0))
+        .click(Selector('#courses-table').find('td').withText('Web Development').sibling('td').find('button').nth(0))
         .wait(500)
-        .expect(Selector('#program-div').visible).eql(true)
-        .expect(Selector('#program-name').value).eql("Test program 1")
-        .click("#delete-program")
+        .expect(Selector('#course-form').visible).eql(true)
+        .click("#delete-course")
         .click("#confirm-delete")
         .wait(500)
 
-        .expect(Selector('#programs-table').visible).eql(true)
-        .expect(Selector('#programs-table').find('td').withText('Test program 1').visible).eql(false)
+        .expect(Selector('#courses-table').visible).eql(true)
+        .expect(Selector('#courses-table').find('td').withText('Web Development').visible).eql(false)
         .wait(500);
+
+
+    
 });

@@ -66,12 +66,13 @@ class CoursesForm extends React.Component {
     render() {
         console.log(this.props.currentProgram)
         return (
-            <div>
+            <div id="course-form">
                 <form onSubmit={this.handleSubmit}>
                     <center>
                         <label>
                             Course Name:
                             <input
+                                id="course-name"
                                 className="form-control form-text form-center"
                                 name="courseName"
                                 value={this.state.courseName}
@@ -87,6 +88,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Number:
                             <input
+                                id="course-number"
                                 className="form-control form-text form-center"
                                 name="courseNumber"
                                 value={this.state.courseNumber}
@@ -102,6 +104,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Prefix:
                             <input
+                                id="course-prefix"
                                 className="form-control form-text form-center"
                                 name="coursePrefix"
                                 value={this.state.coursePrefix}
@@ -117,6 +120,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Number of Credits:
                             <input
+                                id="course-credits"
                                 className="form-control form-text form-center"
                                 name="courseCredits"
                                 value={this.state.courseCredits}
@@ -132,6 +136,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Prerequisites:
                             <input
+                                id="course-prereqs"
                                 className="form-control form-text form-center"
                                 name="coursePrerequisites"
                                 value={this.state.coursePrerequisites}
@@ -147,6 +152,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Instructor Name:
                             <input
+                                id="course-instructorname"
                                 className="form-control form-text form-center"
                                 name="courseInstructor"
                                 value={this.state.courseInstructor}
@@ -162,6 +168,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Instructor Email:
                             <input
+                                id="course-instructoremail"
                                 className="form-control form-text form-center"
                                 name="courseEmail"
                                 value={this.state.courseEmail}
@@ -175,6 +182,7 @@ class CoursesForm extends React.Component {
                         </label>
                         <br />
                         <button role="submit"
+                            id="course-submit"
                             className="btn btn-primary btn-color-theme modal-submit-btn"
                             style={{ marginTop: "15px", marginBottom: "70px" }}>
                             <span className="fa fa-user-plus"></span>&nbsp;{this.state.btnLabel}

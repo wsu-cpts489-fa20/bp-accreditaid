@@ -32,7 +32,7 @@ class ProgramTable extends React.Component {
         <td>{this.props.programs[p].courses}</td>
         <td>{this.props.programs[p].instructors}</td>
         <td>{this.props.programs[p].completion} %</td>
-        <td><button onClick={this.props.menuOpen ? null : () => 
+        <td><button id={"program-edit-" + p} onClick={this.props.menuOpen ? null : () => 
           this.editProgram(p)}>
               <span className="fa fa-eye"></span></button></td>
       </tr> 

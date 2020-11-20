@@ -30,6 +30,7 @@ class CoursesTable extends React.Component {
                     <td>{this.props.courses[p].courseEmail}</td>
                     <td>
                         <button 
+                            id={"course-edit-" + p}
                             onClick={this.props.menuOpen ? null : () => 
                             this.editCourse(p)}>
                             <span className="fa fa-eye"></span>
@@ -44,7 +45,7 @@ class CoursesTable extends React.Component {
     render() {
         return (
         <div>
-            <table className="table table-hover">
+            <table id="courses-table" className="table table-hover">
                 <thead className="thead-light">
                     <tr>
                     <th>Course Name</th>

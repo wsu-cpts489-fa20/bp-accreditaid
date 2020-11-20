@@ -17,7 +17,7 @@ class ConfirmDeleteCourse extends React.Component {
               <p>Do you really want to delete this course?</p>
             </div>
             <div className="modal-footer">
-                  <button className="btn btn-danger" onClick={this.props.deleteCourse}>
+                  <button id="confirm-delete" className="btn btn-danger" onClick={this.props.deleteCourse}>
                   Yes, Delete</button>
                   <button className="btn btn-secondary" onClick={this.props.close}>
                   No, Cancel</button>

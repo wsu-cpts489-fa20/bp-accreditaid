@@ -148,6 +148,7 @@ class Courses extends React.Component {
                             menuOpen={this.props.menuOpen}
                         />
                         <FloatingButton
+                            id="create-course-floating-button"
                             handleClick={() => 
                                 this.props.changeMode(AppMode.COURSES_LOGCOURSE)}
                             menuOpen={this.props.menuOpen}
