@@ -1,11 +1,12 @@
 {
-    "exec": "npm run start",
+    "exec": "npm run build && npm run start",
     "ext": "js, css, html, json, jsx",
     "watch": [
       "client/public/",
       "client/src/",
       "client/package.json",
       "client/package-lock.json",
+      "server/",
       "server.js",
       ".env"
     ]
