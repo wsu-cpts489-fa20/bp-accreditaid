@@ -3,8 +3,8 @@ import AppMode from '../../AppMode.js';
 
 class CoursesTable extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {showConfirm: false};
     }
 
@@ -28,6 +28,7 @@ class CoursesTable extends React.Component {
                     <td>{this.props.courses[p].completion}</td>
                     <td>{this.props.courses[p].courseInstructor}</td>
                     <td>{this.props.courses[p].courseEmail}</td>
+                    <td><input type={"checkbox"} onClick={()=>{console.log("Toggled a checkbox!"); this.props.toggleEmailSelected(p)} } /></td>
                     <td>
                         <button 
                             id={"course-edit-" + p}
@@ -58,6 +59,7 @@ class CoursesTable extends React.Component {
                     <th>Completion</th>
                     <th>Instructor</th>
                     <th>Email</th>
+                    <th>Invite?</th>
                     <th>View/Edit...</th>
                     </tr>
                 </thead>
