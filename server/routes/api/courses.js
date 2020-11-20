@@ -46,7 +46,7 @@ router.post('/:name',  async (req, res, next) => {
 
 //READ course route: Returns all courses associated 
 //with a given program in the courses collection (GET)
-router.get('/all/:courseProgram', async(req, res) => {
+router.get('/program/:courseProgram', async(req, res) => {
   console.log("in /courses route (GET) with courseProgram = " + 
     JSON.stringify(req.params.courseProgram));
   try {

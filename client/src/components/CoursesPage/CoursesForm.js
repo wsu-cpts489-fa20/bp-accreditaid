@@ -15,7 +15,7 @@ class CoursesForm extends React.Component {
                         coursePrerequisites: "",
                         courseInstructor: "",
                         courseEmail: "",
-                        courseProgram: "test",
+                        courseProgram: this.props.currentProgram,
                         faIcon: "fa fa-save",
                         btnLabel: "Save Course"
                         };
@@ -64,6 +64,7 @@ class CoursesForm extends React.Component {
     }  
 
     render() {
+        console.log(this.props.currentProgram)
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
@@ -178,11 +179,13 @@ class CoursesForm extends React.Component {
                             style={{ marginTop: "15px", marginBottom: "70px" }}>
                             <span className="fa fa-user-plus"></span>&nbsp;{this.state.btnLabel}
                         </button>
-                        <button id="delete-program" type="button" style={{width: "40%",fontSize: "36px"}} 
-                            className="btn btn-primary btn-color-theme"
-                            onClick={this.props.menuOpen ? null : () => 
-                            this.confirmDelete(this.state._id)}>
-                                <span className="fa fa-times">Delete Course</span></button>
+                        {this.props.mode === AppMode.COURSES_EDITCOURSE ?
+                            <button id="delete-course" type="button" style={{width: "40%",fontSize: "36px"}} 
+                                className="btn btn-primary btn-color-theme"
+                                onClick={this.props.menuOpen ? null : () => 
+                                this.confirmDelete(this.state._id)}>
+                                    <span className="fa fa-times">Delete Course</span></button>
+                            : null}
                     </center>
                 </form>
                 {this.state.showConfirmDelete ?

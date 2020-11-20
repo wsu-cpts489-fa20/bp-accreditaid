@@ -20,7 +20,7 @@ class Courses extends React.Component {
     }
 
     async fetchData() {
-        const url = '/api/courses/all/' + "test";
+        const url = '/api/courses/program/' + this.props.currentProgram;
         const res = await fetch(url, {
             headers: {
                 'Accept': 'application/json',
@@ -136,6 +136,7 @@ class Courses extends React.Component {
     }
 
     render() {
+        console.log(this.props.currentProgram)
         switch(this.props.mode) {
             case AppMode.COURSES:
                 return (
@@ -163,6 +164,7 @@ class Courses extends React.Component {
                             saveCourse={this.addCourse}
                             setDeleteId={this.setDeleteId}
                             deleteCourse={this.deleteCourse}
+                            currentProgram={this.props.currentProgram}
                         />
                     </>
                 );
@@ -176,6 +178,7 @@ class Courses extends React.Component {
                             saveCourse={this.editCourse}
                             setDeleteId={this.setDeleteId}
                             deleteCourse={this.deleteCourse}
+                            currentProgram={this.props.currentProgram}
                         />
                     </>
                 );

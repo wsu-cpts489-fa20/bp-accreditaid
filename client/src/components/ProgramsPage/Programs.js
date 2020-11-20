@@ -150,7 +150,7 @@ class Programs extends React.Component {
                         </button></div>: null}
                     <ProgramTable 
                         programs={this.state.programs}
-                        setEditId={this.setEditId}
+                        setCurrentProgram={this.props.setCurrentProgram}
                         changeMode={this.props.changeMode}
                         menuOpen={this.props.menuOpen} /> 
                     <FloatingButton
@@ -171,14 +171,15 @@ class Programs extends React.Component {
                         deleteProgram={this.deleteProgram}/>
                 );
             case AppMode.PROGRAMS_EDITPROGRAM:
-                let thisProgram = {...this.state.programs[this.editId]};
+                let thisProgram = {...this.state.programs[this.props.currentProgramId]};
                 return (
                     <ProgramForm
                         mode={this.props.mode}
                         startData={thisProgram} 
                         saveProgram={this.editProgram} 
                         setDeleteId={this.setDeleteId}
-                        deleteProgram={this.deleteProgram}/>
+                        deleteProgram={this.deleteProgram}
+                        changeMode={this.props.changeMode}/>
                 );
         }
     }

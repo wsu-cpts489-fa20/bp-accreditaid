@@ -50,7 +50,9 @@ class App extends React.Component {
                   editAccount: false,
                   showEditAccountDialog: false,
                   statusMsg: "",
-                  showAboutDialog: false
+                  showAboutDialog: false,
+                  currentProgram: "",
+                  currentProgramId: 0
                  };
   }
 
@@ -122,6 +124,10 @@ class App extends React.Component {
     this.setState({statusMsg: ""});
   }
 
+  setCurrentProgram = (newProgram, Id) => {
+    this.setState({currentProgram: newProgram, currentProgramId: Id});
+  }
+
   render() {
     const ModePage = modeToPage[this.state.mode];
     return (
@@ -155,16 +161,15 @@ class App extends React.Component {
             editAccount={this.showEditAccount}
             logOut={() => this.handleChangeMode(AppMode.LOGIN)}
             showAbout={() => {this.setState({showAboutDialog: true})}}/>
-          <ModeBar 
-            mode={this.state.mode} 
-            changeMode={this.handleChangeMode}
-            menuOpen={this.state.menuOpen}/>
           <ModePage 
             menuOpen={this.state.menuOpen}
             mode={this.state.mode}
             changeMode={this.handleChangeMode}
             userObj={this.state.userObj}
-            refreshOnUpdate={this.refreshOnUpdate}/>
+            refreshOnUpdate={this.refreshOnUpdate}
+            setCurrentProgram={this.setCurrentProgram}
+            currentProgram={this.state.currentProgram}
+            currentProgramId={this.state.currentProgramId}/>
       </div>
     );  
   }

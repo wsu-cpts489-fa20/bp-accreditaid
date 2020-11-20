@@ -57,11 +57,11 @@ test('TestEditingProgram', async t => {
         .wait(500)
         .expect(Selector('#program-div').visible).eql(true)
         .expect(Selector('#program-name').value).eql("Test program 1")
-        .typeText('#program-name', 'Test program 2')
+        .typeText('#program-name', 'Test program 2', { replace: true })
         .click("#submit-changes")
         .wait(500)
         .expect(Selector('#programs-table').visible).eql(true)
-        .expect(Selector('#programs-table').find('td').withText('Test program 2').visible).eql(false)
+        .expect(Selector('#programs-table').find('td').withText('Test program 2').visible).eql(true)
         .wait(500);
 });
 
@@ -71,15 +71,15 @@ test('TestDeletingProgram', async t => {
         .setNativeDialogHandler(() => true);
     await Login();
     await t
-        .click(Selector('#programs-table').find('td').withText('Test program 1').sibling('td').find('button').nth(0))
+        .click(Selector('#programs-table').find('td').withText('Test program 2').sibling('td').find('button').nth(0))
         .wait(500)
         .expect(Selector('#program-div').visible).eql(true)
-        .expect(Selector('#program-name').value).eql("Test program 1")
+        .expect(Selector('#program-name').value).eql("Test program 2")
         .click("#delete-program")
         .click("#confirm-delete")
         .wait(500)
 
         .expect(Selector('#programs-table').visible).eql(true)
-        .expect(Selector('#programs-table').find('td').withText('Test program 1').visible).eql(false)
+        .expect(Selector('#programs-table').find('td').withText('Test program 2').visible).eql(false)
         .wait(500);
 });
