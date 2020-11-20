@@ -14,7 +14,7 @@ class CreateEditAccountDialog extends React.Component {
         this.state = {accountName: "",
                       displayName: "",
                       password: "",
-                      accountType: "instructor",
+                      accountType: "Instructor",
                       passwordRepeat: "",
                       securityQuestion: "",
                       securityAnswer: "",
@@ -278,9 +278,9 @@ class CreateEditAccountDialog extends React.Component {
                 />
             </label>
             <select name="type" value={this.state.type} className="form-control form-center" onChange={this.handleChange}>
-                <option value="instructor">Instructor</option>
-                <option value="abetevaluator">ABET Evaluator</option>
-                <option value="collegeadmin">College Admin</option>
+                <option value="Instructor">Instructor</option>
+                <option value="ABET Evaluator">ABET Evaluator</option>
+                <option value="College Admin">College Admin</option>
             </select> 
             <br/>
             <label>
