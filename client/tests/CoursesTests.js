@@ -47,24 +47,6 @@ test('TestCreateNewProgram', async t => {
         .wait(500);
 });
 
-// Test editing of the Program.
-test('TestEditingProgram', async t => {
-    await t
-        .setNativeDialogHandler(() => true);
-    await Login();
-    await t
-        .click(Selector('#programs-table').find('td').withText('Test program 1').sibling('td').find('button').nth(0))
-        .wait(500)
-        .expect(Selector('#program-div').visible).eql(true)
-        .expect(Selector('#program-name').value).eql("Test program 1")
-        .typeText('#program-name', 'Test program 2')
-        .click("#submit-changes")
-        .wait(500)
-        .expect(Selector('#programs-table').visible).eql(true)
-        .expect(Selector('#programs-table').find('td').withText('Test program 2').visible).eql(false)
-        .wait(500);
-});
-
 // Test deletion of the Program.
 test('TestDeletingProgram', async t => {
     await t
