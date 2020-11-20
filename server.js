@@ -4,19 +4,17 @@
 //variables used in the server middleware.
 //////////////////////////////////////////////////////////////////////////
 
-import session from 'express-session';
-import regeneratorRuntime from "regenerator-runtime";
-import path from 'path';
-import express from 'express';
+const session = require('express-session');
+const path = require('path');
+const express = require('express');
 const passport = require("passport");
 require('dotenv').config();
 
 const LOCAL_PORT = 8081;
-const PORT = process.env.HTTP_PORT || LOCAL_PORT;
+const PORT = process.env.PORT || LOCAL_PORT;
 const app = express();
 
-const api = require("./server/routes/api");
-const auth = require("./server/routes/auth");
+
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -24,7 +22,7 @@ const auth = require("./server/routes/auth");
 //The following code sets up the app to connect to a MongoDB database
 //using the mongoose library.
 //////////////////////////////////////////////////////////////////////////
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
 
 const connectStr = process.env.MONGO_STR;
@@ -34,6 +32,9 @@ mongoose.connect(connectStr, {useNewUrlParser: true, useUnifiedTopology: true})
     () =>  {console.log(`Connected to ${connectStr}.`)},
     err => {console.error(`Error connecting to ${connectStr}: ${err}`)}
 );
+
+
+
 
 //////////////////////////////////////////////////////////////////////////
 //INITIALIZE EXPRESS APP
@@ -50,9 +51,16 @@ app
   .use(passport.initialize())
   .use(passport.session())
   .use(express.json({limit: '20mb'}))
-  .use(express.urlencoded())
+  .use(express.urlencoded({extended: true}))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+
+//Import routers
+const api = require("./server/routes/api");
+const auth = require("./server/routes/auth");
+const email = require("./server/routes/email");
 
 //Routers need to be added after middleware has been assigned  
 app.use('/api', api);
 app.use('/auth', auth );
+app.use("/email", email);

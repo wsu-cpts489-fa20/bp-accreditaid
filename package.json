@@ -1,16 +1,14 @@
 {
-  "name": "code-ch18-eb",
+  "name": "acreditaid-server",
   "version": "1.0.0",
   "description": "Testing instructions for deployment to EB",
-  "main": "server.compiled.js",
+  "main": "server.js",
   "scripts": {
-    "install-client": "cd client/ && npm install",
-    "start": "node server.compiled.js",
-    "build": "npm run build-server && npm run build-client",
-    "build-server": "babel server.js --out-file server.compiled.js",
-    "build-client": "cd client/ && npm run build",
-    "start:dev": "npm run build && nodemon --config nodemon.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "build": "cd client && npm run build",
+    "start:dev": "nodemon --config nodemon.json",
+    "install:client": "cd client && npm install",
+    "postinstall": "npm run install:client && cd client && npm run build"
   },
   "author": "C Hundhausen",
   "license": "ISC",
@@ -20,6 +18,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "mongoose": "^5.10.9",
+    "nodemailer": "^6.4.16",
     "passport": "^0.4.1",
     "passport-github": "^1.1.0",
     "passport-local": "^1.0.0",
@@ -27,10 +26,6 @@
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.12.1",
-    "@babel/node": "^7.12.1",
-    "@babel/preset-env": "^7.12.1",
     "nodemon": "^2.0.6"
   }
 }
