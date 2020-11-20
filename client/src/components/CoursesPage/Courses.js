@@ -1,5 +1,6 @@
 import React from 'react';
 import AppMode from '../../AppMode.js';
+import CoursesForm from './CoursesForm.js';
 import CoursesTable from './CoursesTable.js';
 import FloatingButton from '../common/FloatingButton.js';
 
@@ -22,11 +23,13 @@ class Courses extends React.Component {
             case AppMode.COURSES_LOGCOURSE:
                 return (
                     <>
+                        <CoursesForm/>
                     </>
                 );
             case AppMode.COURSES_EDITCOURSE:
                 return (
                     <>
+                        <CoursesForm/>
                     </>
                 );
         }
