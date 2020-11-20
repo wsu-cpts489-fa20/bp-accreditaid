@@ -1,6 +1,6 @@
 import { Selector, ClientFunction, t } from 'testcafe';
 
-fixture `AccreditAid Programs Tests`
+fixture `AccreditAid Courses Tests`
     .page `http://127.0.0.1:8081/index.html`;
 
 const getLocalStorageItem = ClientFunction(prop => {
