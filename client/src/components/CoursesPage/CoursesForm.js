@@ -1,5 +1,6 @@
 import React from 'react';
 import AppMode from '../../AppMode.js';
+import ConfirmDeleteCourse from './ConfirmDeleteCourse.js';
 
 class CoursesForm extends React.Component {
 
@@ -42,6 +43,25 @@ class CoursesForm extends React.Component {
         const name = event.target.name;
         this.setState({[name]: event.target.value}); 
     } 
+
+    //deleteProgram -- Triggered when the user clicks on the "Yes, Delete"
+    //button in the Confirm Delete dialog box. It executes the deletion and
+    //closes the dialog box.
+    deleteCourse = () => {
+        this.props.deleteCourse();
+        this.setState({showConfirmDelete: false});
+    }
+
+
+    //confirmDelete -- Triggered when the user clicks the delete button
+    //for a given program. The id paam is the unique property that 
+    //identifies the program. Set the state variable representing the id
+    //of the program to be deleted and then present a dialog box asking
+    //the user to confirm the deletion.
+    confirmDelete = (id) => {
+        this.props.setDeleteId(id);
+        this.setState({showConfirmDelete: true});
+    }  
 
     render() {
         return (
@@ -158,8 +178,17 @@ class CoursesForm extends React.Component {
                             style={{ marginTop: "15px", marginBottom: "70px" }}>
                             <span className="fa fa-user-plus"></span>&nbsp;{this.state.btnLabel}
                         </button>
+                        <button id="delete-program" type="button" style={{width: "40%",fontSize: "36px"}} 
+                            className="btn btn-primary btn-color-theme"
+                            onClick={this.props.menuOpen ? null : () => 
+                            this.confirmDelete(this.state._id)}>
+                                <span className="fa fa-times">Delete Course</span></button>
                     </center>
                 </form>
+                {this.state.showConfirmDelete ?
+                    <ConfirmDeleteCourse 
+                        close={() => this.setState({showConfirmCourse: false})} 
+                        deleteCourse={this.deleteCourse} /> : null}
             </div>
         );
     }

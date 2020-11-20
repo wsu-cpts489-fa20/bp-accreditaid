@@ -119,24 +119,24 @@ router.put('/:courseId', async (req, res, next) => {
   } 
 });
 
-//DELETE course route: Deletes a specific course 
-//for a given course in the courses collection (DELETE)
-router.delete('/:courseId', async (req, res, next) => {
-  console.log("in /courses (DELETE) route with params = " + 
-              JSON.stringify(req.params)); 
+//DELETE Course route: Deletes the document with the specified name from Courses collection (DELETE)
+router.delete('/:courseId', async(req, res, next) => {
+  console.log("in /api/courses route (DELETE) with courseId = " + 
+    JSON.stringify(req.params.courseId));
   try {
-    let status = await course.updateOne(
-      {id: req.params.courseId},
-      {$pull: {courses: {_id: mongoose.Types.ObjectId(req.params.courseId)}}});
-    if (status.nModified != 1) { //Should never happen!
-      res.status(400).send("Unexpected error occurred when deleting course from database. course was not deleted.");
+    let status = await Course.deleteOne({_id: req.params.courseId});
+    if (status.deletedCount != 1) {
+      return res.status(404).send("No Course " +
+        req.params.courseId + " was found. Course could not be deleted.");
     } else {
-      res.status(200).send("course successfully deleted from database.");
+      return res.status(200).send("Course  " +
+      req.params.courseId + " was successfully deleted.");
     }
   } catch (err) {
-    console.log(err);
-    return res.status(400).send("Unexpected error occurred when deleting course from database: " + err);
-  } 
+    console.log()
+    return res.status(400).send("Unexpected error occurred when attempting to delete Course with courseId " +
+      req.params.courseId + ": " + err);
+  }
 });
 
 module.exports = router;

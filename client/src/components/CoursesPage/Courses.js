@@ -91,11 +91,11 @@ class Courses extends React.Component {
         console.log(msg);
         if (res.status != 200) {
             this.setState({errorMsg: msg});
-            this.props.changeMode(AppMode.PROGRAMS);
+            this.props.changeMode(AppMode.COURSES);
         } else {
             this.setState({errorMsg: msg});
             await this.fetchData();
-            this.props.changeMode(AppMode.PROGRAMS);
+            this.props.changeMode(AppMode.COURSES);
         }
     }
 
@@ -106,13 +106,14 @@ class Courses extends React.Component {
         const url = '/api/courses/' + this.deleteId;
         const res = await fetch(url, {method: 'DELETE'}); 
         const msg = await res.text();
+        console.log(msg);
         if (res.status != 200) {
-            this.setState({errorMsg: "An error occurred when attempting to delete program from database: " 
+            this.setState({errorMsg: "An error occurred when attempting to delete course from database: " 
             + msg});
-            this.props.changeMode(AppMode.PROGRAMS);
+            this.props.changeMode(AppMode.COURSES);
         } else {
             await this.fetchData();
-            this.props.changeMode(AppMode.PROGRAMS);
+            this.props.changeMode(AppMode.COURSES);
         }  
     }
  
@@ -160,6 +161,8 @@ class Courses extends React.Component {
                             mode={this.props.mode}
                             startData={""} 
                             saveCourse={this.addCourse}
+                            setDeleteId={this.setDeleteId}
+                            deleteCourse={this.deleteCourse}
                         />
                     </>
                 );
@@ -171,6 +174,8 @@ class Courses extends React.Component {
                             mode={this.props.mode}
                             startData={thisCourse} 
                             saveCourse={this.editCourse}
+                            setDeleteId={this.setDeleteId}
+                            deleteCourse={this.deleteCourse}
                         />
                     </>
                 );
