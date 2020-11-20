@@ -45,6 +45,15 @@ class ProgramForm extends React.Component {
                                   "Saving..." : "Updating...")});
       //Prepare current program data to be saved
       let programData = {};
+      let localName = ""
+      if(this.props.mode === AppMode.PROGRAMS_LOGPROGRAM)
+      {
+        localName = this.state.name;
+      }
+      else
+      {
+        localName = this.state.oldName;
+      }
       programData.name = this.state.name;
       programData.department = this.state.department;
       programData.college = this.state.college;
@@ -52,7 +61,7 @@ class ProgramForm extends React.Component {
       delete programData.faIcon;
       delete programData.btnLabel;
       //call saveProgram on 1 second delay to show spinning icon
-      setTimeout(this.props.saveProgram,1000, this.state.oldName, programData); 
+      setTimeout(this.props.saveProgram,1000, localName, programData); 
       event.preventDefault(); 
       }
 
