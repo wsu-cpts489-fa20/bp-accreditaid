@@ -31,7 +31,8 @@ renderModeMenuItems = () => {
     case AppMode.COURSES:
       return(
         <div>
-        <a className="sidemenu-item">
+        <a className="sidemenu-item"
+            onClick={() => this.props.changeMode(AppMode.COURSES_LOGCOURSE)}>
             <span className="fa fa-plus"></span>&nbsp;Add a Course</a>
         <a className="sidemenu-item">
             <span className="fa fa-search"></span>&nbsp;Search Courses</a>

@@ -5,8 +5,11 @@ import AppMode from '../../AppMode';
 class NavBar extends React.Component {
 
   getMenuBtnIcon = () => {
-      if (this.props.mode === AppMode.ROUNDS_LOGROUND || 
-          this.props.mode === AppMode.ROUNDS_EDITROUND)
+      if (this.props.mode === AppMode.PROGRAMS_LOGPROGRAM || 
+          this.props.mode === AppMode.PROGRAMS_EDITPROGRAM ||
+          this.props.mode === AppMode.COURSES_LOGCOURSE ||
+          this.props.mode === AppMode.COURSES_EDITCOURSE ||
+          this.props.mode === AppMode.COURSES)
           return "fa fa-arrow-left";
       if (this.props.menuOpen)
         return "fa fa-times";
@@ -14,10 +17,22 @@ class NavBar extends React.Component {
   }
 
   handleMenuBtnClick = () => {
-    if (this.props.mode === AppMode.ROUNDS_LOGROUND ||
-        this.props.mode === AppMode.ROUNDS_EDITROUND) {
-      this.props.changeMode(AppMode.ROUNDS);
-    } else if (this.props.mode != AppMode.LOGIN) {
+    if (this.props.mode === AppMode.PROGRAMS_LOGPROGRAM ||
+        this.props.mode === AppMode.PROGRAMS_EDITPROGRAM) 
+    {
+      this.props.changeMode(AppMode.PROGRAMS);
+    } 
+    else if (this.props.mode === AppMode.COURSES_LOGCOURSE ||
+        this.props.mode === AppMode.COURSES_EDITCOURSE) 
+    {
+      this.props.changeMode(AppMode.COURSES);
+    } 
+    else if (this.props.mode === AppMode.COURSES) 
+    {
+      this.props.changeMode(AppMode.PROGRAMS);
+    } 
+    else if (this.props.mode != AppMode.LOGIN) 
+    {
       this.props.toggleMenuOpen();
     }
   }

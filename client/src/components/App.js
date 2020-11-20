@@ -7,8 +7,8 @@ import LoginPage from './LoginPage/LoginPage.js';
 import AppMode from "./../AppMode.js"
 import FeedPage from './FeedPage/FeedPage.js';
 import Rounds from './RoundsPage/Rounds.js';
+import Courses from './CoursesPage/Courses.js';
 import Programs from './ProgramsPage/Programs.js'
-import CoursesPage from './CoursesPage/CoursesPage.js';
 import AboutBox from './common/AboutBox.js';
 
 const modeTitle = {};
@@ -21,6 +21,8 @@ modeTitle[AppMode.PROGRAMS] = "Programs";
 modeTitle[AppMode.PROGRAMS_LOGPROGRAM] = "Create New Program";
 modeTitle[AppMode.PROGRAMS_EDITPROGRAM] = "Edit Program";
 modeTitle[AppMode.COURSES] = "Courses";
+modeTitle[AppMode.COURSES_LOGCOURSE] = "Log New Course";
+modeTitle[AppMode.COURSES_EDITCOURSE] = "Edit Course";
 
 const modeToPage = {};
 modeToPage[AppMode.LOGIN] = LoginPage;
@@ -28,10 +30,13 @@ modeToPage[AppMode.FEED] = FeedPage;
 modeToPage[AppMode.ROUNDS] = Rounds;
 modeToPage[AppMode.ROUNDS_LOGROUND] = Rounds;
 modeToPage[AppMode.ROUNDS_EDITROUND] = Rounds;
+modeToPage[AppMode.COURSES] = Courses;
+modeToPage[AppMode.COURSES_LOGCOURSE] = Courses;
+modeToPage[AppMode.COURSES_EDITCOURSE] = Courses;
 modeToPage[AppMode.PROGRAMS] = Programs
 modeToPage[AppMode.PROGRAMS_LOGPROGRAM] = Programs
 modeToPage[AppMode.PROGRAMS_EDITPROGRAM] = Programs
-modeToPage[AppMode.COURSES] = CoursesPage;
+
 
 
 class App extends React.Component {
@@ -45,7 +50,9 @@ class App extends React.Component {
                   editAccount: false,
                   showEditAccountDialog: false,
                   statusMsg: "",
-                  showAboutDialog: false
+                  showAboutDialog: false,
+                  currentProgram: "",
+                  currentProgramId: 0
                  };
   }
 
@@ -117,6 +124,10 @@ class App extends React.Component {
     this.setState({statusMsg: ""});
   }
 
+  setCurrentProgram = (newProgram, Id) => {
+    this.setState({currentProgram: newProgram, currentProgramId: Id});
+  }
+
   render() {
     const ModePage = modeToPage[this.state.mode];
     return (
@@ -139,26 +150,26 @@ class App extends React.Component {
           changeMode={this.handleChangeMode}
           menuOpen={this.state.menuOpen}
           toggleMenuOpen={this.toggleMenuOpen}/>
-        <SideMenu 
-          menuOpen = {this.state.menuOpen}
-          mode={this.state.mode}
-          toggleMenuOpen={this.toggleMenuOpen}
-          displayName={this.state.userObj.displayName}
-          profilePicURL={this.state.userObj.profilePicURL}
-          localAccount={this.state.userObj.authStrategy === "local"}
-          editAccount={this.showEditAccount}
-          logOut={() => this.handleChangeMode(AppMode.LOGIN)}
-          showAbout={() => {this.setState({showAboutDialog: true})}}/>
-        <ModeBar 
-          mode={this.state.mode} 
-          changeMode={this.handleChangeMode}
-          menuOpen={this.state.menuOpen}/>
-        <ModePage 
-          menuOpen={this.state.menuOpen}
-          mode={this.state.mode}
-          changeMode={this.handleChangeMode}
-          userObj={this.state.userObj}
-          refreshOnUpdate={this.refreshOnUpdate}/>
+          <SideMenu 
+            menuOpen = {this.state.menuOpen}
+            mode={this.state.mode}
+            toggleMenuOpen={this.toggleMenuOpen}
+            changeMode={this.handleChangeMode}
+            displayName={this.state.userObj.displayName}
+            profilePicURL={this.state.userObj.profilePicURL}
+            localAccount={this.state.userObj.authStrategy === "local"}
+            editAccount={this.showEditAccount}
+            logOut={() => this.handleChangeMode(AppMode.LOGIN)}
+            showAbout={() => {this.setState({showAboutDialog: true})}}/>
+          <ModePage 
+            menuOpen={this.state.menuOpen}
+            mode={this.state.mode}
+            changeMode={this.handleChangeMode}
+            userObj={this.state.userObj}
+            refreshOnUpdate={this.refreshOnUpdate}
+            setCurrentProgram={this.setCurrentProgram}
+            currentProgram={this.state.currentProgram}
+            currentProgramId={this.state.currentProgramId}/>
       </div>
     );  
   }

@@ -21,6 +21,7 @@
     "nodemailer": "^6.4.16",
     "passport": "^0.4.1",
     "passport-github": "^1.1.0",
+    "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "regenerator-runtime": "^0.13.7"

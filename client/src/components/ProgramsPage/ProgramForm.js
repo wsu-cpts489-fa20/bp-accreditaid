@@ -19,7 +19,7 @@ class ProgramForm extends React.Component {
       //current data
       let thisProgram = {...this.props.startData};
       // delete thisProgram.id;
-      thisProgram.oldName = thisProgram.name;
+      thisProgram.oldName = thisProgram.name.slice(0);
       thisProgram.faIcon = "fa fa-edit";
       thisProgram.btnLabel = "Update Program Data";
       this.state = thisProgram;
@@ -82,7 +82,11 @@ class ProgramForm extends React.Component {
   confirmDelete = (id) => {
     this.props.setDeleteId(id);
     this.setState({showConfirmDelete: true});
-  }        
+  }      
+  
+  openCourses = () => {
+    this.props.changeMode(AppMode.COURSES);
+  }
   
   render() {
     return (
@@ -120,17 +124,24 @@ class ProgramForm extends React.Component {
                 placeholder="0" min="0" max="999" />
             </label>
             <p></p>
-
+            {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM ? 
+              <button id="edit-courses" type="button" style={{width: "40%",fontSize: "36px"}} 
+                className="btn btn-primary btn-color-theme"
+                onClick={() => this.openCourses()}>
+                  <span className="fa fa-times">Edit Courses</span></button>
+              : null}
             <p></p>
             <button id="submit-changes" type="submit" style={{width: "40%",fontSize: "36px"}} 
               className="btn btn-primary btn-color-theme">
                 <span className={this.state.faIcon}/>&nbsp;{this.state.btnLabel}
             </button>
-            <button id="delete-program" type="button" style={{width: "40%",fontSize: "36px"}} 
-              className="btn btn-primary btn-color-theme"
-              onClick={this.props.menuOpen ? null : () => 
-              this.confirmDelete(this.state.name)}>
-                <span className="fa fa-times">Delete Program</span></button>
+            {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM ?
+              <button id="delete-program" type="button" style={{width: "40%",fontSize: "36px"}} 
+                className="btn btn-primary btn-color-theme"
+                onClick={this.props.menuOpen ? null : () => 
+                this.confirmDelete(this.state.name)}>
+                  <span className="fa fa-times">Delete Program</span></button>
+              : null}
           </center>
         </form>
         {this.state.showConfirmDelete ?

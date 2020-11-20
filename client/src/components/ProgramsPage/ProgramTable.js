@@ -13,8 +13,8 @@ class ProgramTable extends React.Component {
   //Set the state variable representing the id of the program to be edited and
   //then switch to the PROGRAMS_EDITPROGRAM mode to allow the user to edit the
   //chosen program.
-  editProgram = (id) => {
-    this.props.setEditId(id);
+  editProgram = (index) => {
+    this.props.setCurrentProgram(this.props.programs[index]._id, index)
     this.props.changeMode(AppMode.PROGRAMS_EDITPROGRAM);
   }
 
@@ -32,7 +32,7 @@ class ProgramTable extends React.Component {
         <td>{this.props.programs[p].courses}</td>
         <td>{this.props.programs[p].instructors}</td>
         <td>{this.props.programs[p].completion} %</td>
-        <td><button onClick={this.props.menuOpen ? null : () => 
+        <td><button id={"program-edit-" + p} onClick={this.props.menuOpen ? null : () => 
           this.editProgram(p)}>
               <span className="fa fa-eye"></span></button></td>
       </tr> 
