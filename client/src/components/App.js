@@ -157,6 +157,7 @@ class App extends React.Component {
             menuOpen = {this.state.menuOpen}
             mode={this.state.mode}
             toggleMenuOpen={this.toggleMenuOpen}
+            changeMode={this.handleChangeMode}
             displayName={this.state.userObj.displayName}
             profilePicURL={this.state.userObj.profilePicURL}
             localAccount={this.state.userObj.authStrategy === "local"}

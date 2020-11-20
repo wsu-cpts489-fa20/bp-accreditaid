@@ -1,20 +1,31 @@
 import React from 'react';
+import AppMode from '../../AppMode.js';
 
 class CoursesForm extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-                  courseName: "",
-                  courseNumber: "",
-                  coursePrefix: "",
-                  courseCredits: "",
-                  coursePrerequisites: "",
-                  courseSOs: "",
-                  courseDeliverables: "",
-                  courseInstructor: "",
-                  courseEmail: ""
-                };
-  }
+
+    constructor(props) {
+        super(props);
+        if (this.props.mode === AppMode.COURSES_LOGCOURSE) {
+            this.state = {
+                        courseName: "",
+                        courseNumber: "",
+                        coursePrefix: "",
+                        courseCredits: "",
+                        coursePrerequisites: "",
+                        courseSOs: "",
+                        courseDeliverables: "",
+                        courseInstructor: "",
+                        courseEmail: "",
+                        faIcon: "fa fa-save",
+                        btnLabel: "Save Course"
+                        };
+        } else {
+            let existingCourse = {...this.props.startData};
+            existingCourse.faIcon = "fa fa-edit";
+            existingCourse.btnLabel = "Update Course";
+            this.state = existingCourse;
+        }
+    }
 
     handleNewCourseChange = (event) => {
         this.setState({[event.target.name]: event.target.value});  
