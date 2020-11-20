@@ -7,15 +7,14 @@ class CoursesForm extends React.Component {
         super(props);
         if (this.props.mode === AppMode.COURSES_LOGCOURSE) {
             this.state = {
-                        courseName: "",
+                        name: "",
                         courseNumber: "",
                         coursePrefix: "",
                         courseCredits: "",
                         coursePrerequisites: "",
-                        courseSOs: "",
-                        courseDeliverables: "",
                         courseInstructor: "",
                         courseEmail: "",
+                        program: "test",
                         faIcon: "fa fa-save",
                         btnLabel: "Save Course"
                         };
@@ -27,20 +26,36 @@ class CoursesForm extends React.Component {
         }
     }
 
+    handleSubmit = (event) => {
+        this.setState({faIcon: "fa fa-spin fa-spinner",
+                btnLabel: (this.props.mode === AppMode.COURSES_LOGCOURSE ? 
+                    "Saving..." : "Updating...")});
+        let courseData = this.state;
+        let localName = this.state.name;
+        console.log(localName)
+        delete courseData.name;
+        delete courseData.faIcon;
+        delete courseData.btnLabel;
+        console.log(courseData);
+        setTimeout(this.props.saveCourse, 1000, localName, courseData); 
+        event.preventDefault();
+    }
+
     handleNewCourseChange = (event) => {
-        this.setState({[event.target.name]: event.target.value});  
+        const name = event.target.name;
+        this.setState({[name]: event.target.value}); 
     } 
 
     render() {
         return (
             <div>
-                <form onSubmit={() => alert("course added!")}>
+                <form onSubmit={this.handleSubmit}>
                     <center>
                         <label>
                             Course Name:
                             <input
                             className="form-control form-text form-center"
-                            name="Name"
+                            name="name"
                             type="text"
                             placeholder="Name"
                             required={true}                
@@ -52,7 +67,7 @@ class CoursesForm extends React.Component {
                             Course Number:
                             <input
                             className="form-control form-text form-center"
-                            name="Number"
+                            name="courseNumber"
                             type="text"
                             placeholder="Number"
                             required={true}                
@@ -64,7 +79,7 @@ class CoursesForm extends React.Component {
                             Course Prefix:
                             <input
                             className="form-control form-text form-center"
-                            name="Prefix"
+                            name="coursePrefix"
                             type="text"
                             placeholder="Prefix"
                             required={true}                
@@ -76,7 +91,7 @@ class CoursesForm extends React.Component {
                             Number of Credits:
                             <input
                             className="form-control form-text form-center"
-                            name="Credits"
+                            name="courseCredits"
                             type="text"
                             placeholder="Credits"
                             required={true}                
@@ -88,7 +103,7 @@ class CoursesForm extends React.Component {
                             Course Prerequisites:
                             <input
                             className="form-control form-text form-center"
-                            name="Prerequisites"
+                            name="coursePrerequisites"
                             type="text"
                             placeholder="Prerequisites"
                             required={true}                
@@ -97,36 +112,12 @@ class CoursesForm extends React.Component {
                         </label>
                         <p></p>
                         <label>
-                            Course SOs:
-                            <input
-                            className="form-control form-text form-center"
-                            name="SOs"
-                            type="text"
-                            placeholder="SOs"
-                            required={true}                
-                            onChange={this.handleNewCourseChange}
-                            />
-                        </label>
-                        <p></p>
-                        <label>
-                            Course Deliverables:
-                            <input
-                            className="form-control form-text form-center"
-                            name="Deliverables"
-                            type="text"
-                            placeholder="Deliverables"
-                            required={true}               
-                            onChange={this.handleNewCourseChange}
-                            />
-                        </label>
-                        <p></p>
-                        <label>
                             Instructor Name:
                             <input
                             className="form-control form-text form-center"
-                            name="Deliverables"
+                            name="courseInstructor"
                             type="text"
-                            placeholder="Deliverables"
+                            placeholder="Instructor"
                             required={true}               
                             onChange={this.handleNewCourseChange}
                             />
@@ -136,8 +127,8 @@ class CoursesForm extends React.Component {
                             Instructor Email: 
                             <input
                             className="form-control form-text form-center"
-                            name="accountName"
-                            type="email"
+                            name="courseEmail"
+                            type="text"
                             size="35"
                             placeholder="Enter Email Address"
                             pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
