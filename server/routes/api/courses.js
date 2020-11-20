@@ -1,6 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
+const Mongoose = require('mongoose')
 const Course = require("./../../schemas/Course.js");
 
 //CREATE course route: Adds a new course as a subdocument to 
@@ -26,13 +27,14 @@ router.post('/:name',  async (req, res, next) => {
       res.status(400).send("There is already a course under that name: " + req.params.name);
     } else { // add to database
       thisCourse = await new Course({
-        name: req.params.name,
+        courseName: req.params.name,
         courseNumber: req.body.courseNumber,
         coursePrefix: req.body.coursePrefix,
         courseCredits: req.body.courseCredits,
         coursePrerequisites: req.body.coursePrerequisites,
         courseInstructor: req.body.courseInstructor,
         courseEmail: req.body.courseEmail,
+        courseProgram: req.body.courseProgram,
       }).save();
       return res.status(201).send("New course of the name '" + 
       req.params.name + "' successfully created.");
@@ -43,51 +45,71 @@ router.post('/:name',  async (req, res, next) => {
 });
 
 //READ course route: Returns all courses associated 
-//with a given course in the courses collection (GET)
-router.get('/courses/:courseId', async(req, res) => {
-  console.log("in /courses route (GET) with courseId = " + 
-    JSON.stringify(req.params.courseId));
+//with a given program in the courses collection (GET)
+router.get('/all/:courseProgram', async(req, res) => {
+  console.log("in /courses route (GET) with courseProgram = " + 
+    JSON.stringify(req.params.courseProgram));
   try {
-    let thiscourse = await course.findOne({id: req.params.courseId});
-    if (!thiscourse) {
-      return res.status(400).message("No course account with specified courseId was found in database.");
+    let courses = await Course.find({courseProgram: req.params.courseProgram});
+    if (!courses) {
+      return res.status(400).send("No courses with specified courseProgram was found in database.");
     } else {
-      return res.status(200).json(JSON.stringify(thiscourse.courses));
+      return res.status(200).json(JSON.stringify(courses));
     }
   } catch (err) {
     console.log()
-    return res.status(400).message("Unexpected error occurred when looking up course in database: " + err);
+    return res.status(400).send("Unexpected error occurred when looking up course in database: " + err);
+  }
+});
+
+//READ course route: Returns the data associated 
+//with a given course in the courses collection (GET)
+router.get('/:courseId', async(req, res) => {
+  console.log("in /courses route (GET) with courseId = " + 
+    JSON.stringify(req.params.courseId));
+  try {
+    let thiscourse = await Course.findOne({id: req.params.courseId});
+    if (!thiscourse) {
+      return res.status(400).send("No course with specified courseId was found in database.");
+    } else {
+      return res.status(200).json(JSON.stringify(thiscourse));
+    }
+  } catch (err) {
+    console.log()
+    return res.status(400).send("Unexpected error occurred when looking up course in database: " + err);
   }
 });
 
 //UPDATE course route: Updates a specific course 
 //for a given course in the courses collection (PUT)
-router.put('/courses/:courseId/:courseId', async (req, res, next) => {
+router.put('/:courseId', async (req, res, next) => {
   console.log("in /courses (PUT) route with params = " + 
               JSON.stringify(req.params) + " and body = " + 
               JSON.stringify(req.body));
-  const validProps = ['date', 'course', 'type', 'holes', 'strokes',
-    'minutes', 'seconds', 'notes'];
+  const validProps = ['courseName', 'courseNumber', 'coursePrefix', 'courseCredits', 'coursePrerequisites',
+    'courseInstructor', 'courseEmail', 'courseProgram'];
   let bodyObj = {...req.body};
   delete bodyObj._id; //Not needed for update
-  delete bodyObj.SGS; //We'll compute this below in seconds.
+  delete bodyObj.__v; //Not needed for update
+  delete bodyObj.sos; //Not needed for update
+  delete bodyObj.deliverables; //Not needed for update
+  delete bodyObj.completion; //Not needed for update
   for (const bodyProp in bodyObj) {
     if (!validProps.includes(bodyProp)) {
       return res.status(400).send("courses/ PUT request formulated incorrectly." +
         "It includes " + bodyProp + ". However, only the following props are allowed: " +
-        "'date', 'course', 'type', 'holes', 'strokes', " +
-        "'minutes', 'seconds', 'notes'");
+        "'courseName', 'courseNumber', 'coursePrefix', 'courseCredits', 'coursePrerequisites', 'courseInstructor', 'courseEmail', 'courseProgram'");
     } else {
       bodyObj["courses.$." + bodyProp] = bodyObj[bodyProp];
       delete bodyObj[bodyProp];
     }
   }
   try {
-    let status = await course.updateOne(
-      {"id": req.params.courseId,
-       "courses._id": mongoose.Types.ObjectId(req.params.courseId)}
+    let status = await Course.updateOne(
+      {"_id": Mongoose.Types.ObjectId(req.params.courseId)}
       ,{"$set" : bodyObj}
     );
+    console.log(status);
     if (status.nModified != 1) {
       res.status(400).send("Unexpected error occurred when updating course in database. course was not updated.");
     } else {
@@ -101,7 +123,7 @@ router.put('/courses/:courseId/:courseId', async (req, res, next) => {
 
 //DELETE course route: Deletes a specific course 
 //for a given course in the courses collection (DELETE)
-router.delete('/courses/:courseId/:courseId', async (req, res, next) => {
+router.delete('/:courseId', async (req, res, next) => {
   console.log("in /courses (DELETE) route with params = " + 
               JSON.stringify(req.params)); 
   try {

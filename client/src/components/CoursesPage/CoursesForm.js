@@ -7,14 +7,14 @@ class CoursesForm extends React.Component {
         super(props);
         if (this.props.mode === AppMode.COURSES_LOGCOURSE) {
             this.state = {
-                        name: "",
+                        courseName: "",
                         courseNumber: "",
                         coursePrefix: "",
                         courseCredits: "",
                         coursePrerequisites: "",
                         courseInstructor: "",
                         courseEmail: "",
-                        program: "test",
+                        courseProgram: "test",
                         faIcon: "fa fa-save",
                         btnLabel: "Save Course"
                         };
@@ -31,13 +31,10 @@ class CoursesForm extends React.Component {
                 btnLabel: (this.props.mode === AppMode.COURSES_LOGCOURSE ? 
                     "Saving..." : "Updating...")});
         let courseData = this.state;
-        let localName = this.state.name;
-        console.log(localName)
-        delete courseData.name;
         delete courseData.faIcon;
         delete courseData.btnLabel;
         console.log(courseData);
-        setTimeout(this.props.saveCourse, 1000, localName, courseData); 
+        setTimeout(this.props.saveCourse, 1000, courseData); 
         event.preventDefault();
     }
 
@@ -54,93 +51,112 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Name:
                             <input
-                            className="form-control form-text form-center"
-                            name="name"
-                            type="text"
-                            placeholder="Name"
-                            required={true}                
-                            onChange={this.handleNewCourseChange}
+                                className="form-control form-text form-center"
+                                name="courseName"
+                                value={this.state.courseName}
+                                type="text"
+                                placeholder="Name"
+                                required={true}
+                                size="50" 
+                                maxLength="50"
+                                onChange={this.handleNewCourseChange}
                             />
                         </label>
                         <p></p>
                         <label>
                             Course Number:
                             <input
-                            className="form-control form-text form-center"
-                            name="courseNumber"
-                            type="text"
-                            placeholder="Number"
-                            required={true}                
-                            onChange={this.handleNewCourseChange}
+                                className="form-control form-text form-center"
+                                name="courseNumber"
+                                value={this.state.courseNumber}
+                                type="number"
+                                placeholder="Number"
+                                required={true}
+                                onChange={this.handleNewCourseChange}
+                                min="0" 
+                                max="999"
                             />
                         </label>
                         <p></p>
                         <label>
                             Course Prefix:
                             <input
-                            className="form-control form-text form-center"
-                            name="coursePrefix"
-                            type="text"
-                            placeholder="Prefix"
-                            required={true}                
-                            onChange={this.handleNewCourseChange}
+                                className="form-control form-text form-center"
+                                name="coursePrefix"
+                                value={this.state.coursePrefix}
+                                type="text"
+                                placeholder="Prefix"
+                                required={true}
+                                size="10" 
+                                maxLength="10"
+                                onChange={this.handleNewCourseChange}
                             />
                         </label>
                         <p></p>
                         <label>
                             Number of Credits:
                             <input
-                            className="form-control form-text form-center"
-                            name="courseCredits"
-                            type="text"
-                            placeholder="Credits"
-                            required={true}                
-                            onChange={this.handleNewCourseChange}
+                                className="form-control form-text form-center"
+                                name="courseCredits"
+                                value={this.state.courseCredits}
+                                type="number"
+                                placeholder="Credits"
+                                required={true}
+                                min="1" 
+                                max="9"
+                                onChange={this.handleNewCourseChange}
                             />
                         </label>
                         <p></p>
                         <label>
                             Course Prerequisites:
                             <input
-                            className="form-control form-text form-center"
-                            name="coursePrerequisites"
-                            type="text"
-                            placeholder="Prerequisites"
-                            required={true}                
-                            onChange={this.handleNewCourseChange}
+                                className="form-control form-text form-center"
+                                name="coursePrerequisites"
+                                value={this.state.coursePrerequisites}
+                                type="text"
+                                placeholder="Prerequisites"
+                                required={true}
+                                size="100" 
+                                maxLength="100"
+                                onChange={this.handleNewCourseChange}
                             />
                         </label>
                         <p></p>
                         <label>
                             Instructor Name:
                             <input
-                            className="form-control form-text form-center"
-                            name="courseInstructor"
-                            type="text"
-                            placeholder="Instructor"
-                            required={true}               
-                            onChange={this.handleNewCourseChange}
+                                className="form-control form-text form-center"
+                                name="courseInstructor"
+                                value={this.state.courseInstructor}
+                                type="text"
+                                placeholder="Instructor"
+                                required={true}
+                                size="50" 
+                                maxLength="50"
+                                onChange={this.handleNewCourseChange}
                             />
                         </label>
                         <p></p>
                         <label>
-                            Instructor Email: 
+                            Instructor Email:
                             <input
-                            className="form-control form-text form-center"
-                            name="courseEmail"
-                            type="text"
-                            size="35"
-                            placeholder="Enter Email Address"
-                            pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
-                            required={true}
-                            onChange={this.handleNewCourseChange}
+                                className="form-control form-text form-center"
+                                name="courseEmail"
+                                value={this.state.courseEmail}
+                                type="text"
+                                size="35"
+                                placeholder="Enter Email Address"
+                                pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
+                                required={true}
+                                onChange={this.handleNewCourseChange}
                             />
                         </label>
-                        <br/>
-                        <button role="submit" 
+                        <br />
+                        <button role="submit"
                             className="btn btn-primary btn-color-theme modal-submit-btn"
-                            style={{marginTop: "15px", marginBottom: "70px"}}>
-                            <span className="fa fa-user-plus"></span>&nbsp;Add Course
+                            style={{ marginTop: "15px", marginBottom: "70px" }}>
+                            <span className="fa fa-user-plus"></span>&nbsp;{this.state.btnLabel}
                         </button>
                     </center>
                 </form>

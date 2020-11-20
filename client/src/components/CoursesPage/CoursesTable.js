@@ -13,30 +13,21 @@ class CoursesTable extends React.Component {
         this.props.changeMode(AppMode.COURSES_EDITCOURSE);
     }
 
-    confirmDelete = () => {
-        this.props.deleteCourse();
-        this.setState({showConfirm: false});
-    }
-
-    toggleConfirm = (id) => {
-        this.props.setDeleteId(id);
-        this.setState(prevState => ({showConfirm: !prevState.showConfirm}));
-    }
-
     renderTable = () => {
         let table = [];
         for (let p = 0; p < this.props.courses.length; ++p) {
             table.push(
                 <tr key={p}>
-                    <td>{this.props.courses[p].name}</td>
-                    <td>{this.props.courses[p].number}</td>
-                    <td>{this.props.courses[p].prefix}</td>
-                    <td>{this.props.courses[p].credits}</td>
-                    <td>{this.props.courses[p].prerequisites}</td>
+                    <td>{this.props.courses[p].courseName}</td>
+                    <td>{this.props.courses[p].courseNumber}</td>
+                    <td>{this.props.courses[p].coursePrefix}</td>
+                    <td>{this.props.courses[p].courseCredits}</td>
+                    <td>{this.props.courses[p].coursePrerequisites}</td>
                     <td>{this.props.courses[p].sos}</td>
                     <td>{this.props.courses[p].deliverables}</td>
-                    <td>{this.props.courses[p].instructor}</td>
-                    <td>{this.props.courses[p].email}</td>
+                    <td>{this.props.courses[p].completion}</td>
+                    <td>{this.props.courses[p].courseInstructor}</td>
+                    <td>{this.props.courses[p].courseEmail}</td>
                     <td>
                         <button 
                             onClick={this.props.menuOpen ? null : () => 
@@ -63,17 +54,18 @@ class CoursesTable extends React.Component {
                     <th>Prerequisites</th>
                     <th>SOs</th>
                     <th>Deliverables</th>
+                    <th>Completion</th>
                     <th>Instructor</th>
                     <th>Email</th>
                     <th>View/Edit...</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {Object.keys(this.props.courses).length === 0 ? 
                     <tr>
-                        <td colSpan="10" style={{fontStyle: "italic"}}>
-                            No courses added
-                        </td>
-                    </tr> 
+                    <td colSpan="8" style={{fontStyle: "italic"}}>No courses created</td>
+                    </tr> : this.renderTable()
+                    }
                 </tbody>
             </table>
         </div>

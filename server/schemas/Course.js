@@ -4,14 +4,13 @@ const mongoose = require("mongoose");
 //database.
 const courseSchema = new mongoose.Schema({
     courseName: String,
-    courseNumber: String,
+    courseNumber: Number,
     coursePrefix: String,
-    courseCredits: String,
+    courseCredits: Number,
     coursePrerequisites: String,
-    courseSOs: String,
-    courseDeliverables: String,
     courseInstructor: String,
-    courseEmail: String
+    courseEmail: String,
+    courseProgram: String
 });
 const Course = mongoose.model("Course",courseSchema); 
 
