@@ -9,6 +9,9 @@ const AppMode = {
     COURSES: "CoursesMode",
     COURSES_LOGCOURSE: "CoursesMode-LogCourse",
     COURSES_EDITCOURSE: "CoursesMode-EditCourse",
+    PROGRAMS: "ProgramsMode",
+    PROGRAMS_LOGPROGRAM: "ProgramsMode-LogProgram",
+    PROGRAMS_EDITPROGRAM: "ProgramsMode-EditProgram"
 };
 
 Object.freeze(AppMode); //This ensures that the object is immutable.

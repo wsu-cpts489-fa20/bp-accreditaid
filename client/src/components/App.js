@@ -8,6 +8,7 @@ import AppMode from "./../AppMode.js"
 import FeedPage from './FeedPage/FeedPage.js';
 import Rounds from './RoundsPage/Rounds.js';
 import Courses from './CoursesPage/Courses.js';
+import Programs from './ProgramsPage/Programs.js'
 import AboutBox from './common/AboutBox.js';
 
 const modeTitle = {};
@@ -16,6 +17,9 @@ modeTitle[AppMode.FEED] = "Activity Feed";
 modeTitle[AppMode.ROUNDS] = "My Rounds";
 modeTitle[AppMode.ROUNDS_LOGROUND] = "Log New Round";
 modeTitle[AppMode.ROUNDS_EDITROUND] = "Edit Round";
+modeTitle[AppMode.PROGRAMS] = "Programs";
+modeTitle[AppMode.PROGRAMS_LOGPROGRAM] = "Create New Program";
+modeTitle[AppMode.PROGRAMS_EDITPROGRAM] = "Edit Program";
 modeTitle[AppMode.COURSES] = "Courses";
 modeTitle[AppMode.COURSES_LOGCOURSE] = "Log New Course";
 modeTitle[AppMode.COURSES_EDITCOURSE] = "Edit Course";
@@ -29,6 +33,10 @@ modeToPage[AppMode.ROUNDS_EDITROUND] = Rounds;
 modeToPage[AppMode.COURSES] = Courses;
 modeToPage[AppMode.COURSES_LOGCOURSE] = Courses;
 modeToPage[AppMode.COURSES_EDITCOURSE] = Courses;
+modeToPage[AppMode.PROGRAMS] = Programs
+modeToPage[AppMode.PROGRAMS_LOGPROGRAM] = Programs
+modeToPage[AppMode.PROGRAMS_EDITPROGRAM] = Programs
+
 
 
 class App extends React.Component {
@@ -57,30 +65,13 @@ class App extends React.Component {
             this.setState({
               userObj: obj.user,
               authenticated: true,
-              mode: AppMode.FEED //We're authenticated so can get into the app.
+              mode: AppMode.PROGRAMS //We're authenticated so can get into the app.
             });
           }
         }
       )
     } 
   }
-
-  //refreshOnUpdate(newMode) -- Called by child components when user data changes in 
-  //the database. The function calls the users/:userid (GET) route to update 
-  //the userObj state var based on the latest database changes, and sets the 
-  //mode state var is set to newMode. After this method is called, the
-  //App will re-render itself, forcing the new data to 
-  //propagate to the child components when they are re-rendered.
-  refreshOnUpdate = async(newMode) => {
-    let response = await fetch("/users/" + this.state.userObj.id);
-    response = await response.json();
-    const obj = JSON.parse(response);
-    this.setState({
-      userObj: obj,
-      mode: newMode
-    });
-  }
-
 
   handleChangeMode = (newMode) => {
     this.setState({mode: newMode});
