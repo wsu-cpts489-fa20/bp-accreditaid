@@ -22,12 +22,17 @@ var passport = require("passport");
 require('dotenv').config();
 
 var LOCAL_PORT = 8081;
-var PORT = process.env.PORT || LOCAL_PORT;
-var app = (0, _express["default"])(); //////////////////////////////////////////////////////////////////////////
+var PORT = process.env.HTTP_PORT || LOCAL_PORT;
+var app = (0, _express["default"])();
+
+var api = require("./server/routes/api");
+
+var auth = require("./server/routes/auth"); //////////////////////////////////////////////////////////////////////////
 //MONGOOSE SET-UP
 //The following code sets up the app to connect to a MongoDB database
 //using the mongoose library.
 //////////////////////////////////////////////////////////////////////////
+
 
 var connectStr = process.env.MONGO_STR;
 var DEPLOY_URL = process.env.DEPLOY_URL;
@@ -56,19 +61,9 @@ app.use((0, _expressSession["default"])({
   }
 })).use(_express["default"]["static"](_path["default"].join(__dirname, "client/build"))).use(passport.initialize()).use(passport.session()).use(_express["default"].json({
   limit: '20mb'
-})).use(_express["default"].urlencoded({
-  extended: true
-})).listen(PORT, function () {
+})).use(_express["default"].urlencoded()).listen(PORT, function () {
   return console.log("Listening on ".concat(PORT));
-}); //Import routers
-
-var api = require("./server/routes/api");
-
-var auth = require("./server/routes/auth");
-
-var email = require("./server/routes/email"); //Routers need to be added after middleware has been assigned  
-
+}); //Routers need to be added after middleware has been assigned  
 
 app.use('/api', api);
 app.use('/auth', auth);
-app.use("/email", email);

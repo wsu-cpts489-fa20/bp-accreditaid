@@ -6,6 +6,9 @@ const AppMode = {
     ROUNDS: "RoundsMode",
     ROUNDS_LOGROUND: "RoundsMode-LogRound",
     ROUNDS_EDITROUND: "RoundsMode-EditRound",
+    PROGRAMS: "ProgramsMode",
+    PROGRAMS_LOGPROGRAM: "ProgramsMode-LogProgram",
+    PROGRAMS_EDITPROGRAM: "ProgramsMode-EditProgram",
     COURSES: "CoursesMode"
 };
 
