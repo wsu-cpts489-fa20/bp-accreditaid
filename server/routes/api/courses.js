@@ -88,7 +88,7 @@ router.put('/:courseId', async (req, res, next) => {
               JSON.stringify(req.body));
   const validProps = ['courseName', 'courseNumber', 'coursePrefix', 'courseCredits', 'coursePrerequisites',
     'courseInstructor', 'courseEmail', 'courseProgram'];
-  let bodyObj = {...req.body};
+  let bodyObj = req.body;
   delete bodyObj._id; //Not needed for update
   delete bodyObj.__v; //Not needed for update
   delete bodyObj.sos; //Not needed for update
@@ -99,14 +99,12 @@ router.put('/:courseId', async (req, res, next) => {
       return res.status(400).send("courses/ PUT request formulated incorrectly." +
         "It includes " + bodyProp + ". However, only the following props are allowed: " +
         "'courseName', 'courseNumber', 'coursePrefix', 'courseCredits', 'coursePrerequisites', 'courseInstructor', 'courseEmail', 'courseProgram'");
-    } else {
-      bodyObj["courses.$." + bodyProp] = bodyObj[bodyProp];
-      delete bodyObj[bodyProp];
     }
   }
   try {
+    console.log(JSON.stringify(bodyObj));
     let status = await Course.updateOne(
-      {"_id": Mongoose.Types.ObjectId(req.params.courseId)}
+      {_id: (req.params.courseId)}
       ,{"$set" : bodyObj}
     );
     console.log(status);
