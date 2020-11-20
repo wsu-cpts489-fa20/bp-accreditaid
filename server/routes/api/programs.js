@@ -82,7 +82,7 @@ router.put('/:name',  async (req, res, next) => {
         "It must contain 'name' as parameter.");
   }
   const validProps = ['name', 'department', 'college', 
-    'creditsRequired'];
+    'credits'];
   for (const bodyProp in req.body) {
     if (!validProps.includes(bodyProp)) {
       return res.status(400).send("Programs/ PUT request formulated incorrectly." +

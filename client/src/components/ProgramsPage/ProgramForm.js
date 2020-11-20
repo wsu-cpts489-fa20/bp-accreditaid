@@ -11,6 +11,7 @@ class ProgramForm extends React.Component {
                     department: "",
                     college: "",
                     credits: "",
+                    oldName: "",
                     faIcon: "fa fa-save",
                     btnLabel: "Save Program Data"}
     } else {
@@ -18,6 +19,7 @@ class ProgramForm extends React.Component {
       //current data
       let thisProgram = {...this.props.startData};
       // delete thisProgram.id;
+      thisProgram.oldName = thisProgram.name;
       thisProgram.faIcon = "fa fa-edit";
       thisProgram.btnLabel = "Update Program Data";
       this.state = thisProgram;
@@ -43,13 +45,23 @@ class ProgramForm extends React.Component {
                                   "Saving..." : "Updating...")});
       //Prepare current program data to be saved
       let programData = {};
+      let localName = ""
+      if(this.props.mode === AppMode.PROGRAMS_LOGPROGRAM)
+      {
+        localName = this.state.name;
+      }
+      else
+      {
+        localName = this.state.oldName;
+      }
+      programData.name = this.state.name;
       programData.department = this.state.department;
       programData.college = this.state.college;
       programData.credits = this.state.credits;
       delete programData.faIcon;
       delete programData.btnLabel;
       //call saveProgram on 1 second delay to show spinning icon
-      setTimeout(this.props.saveProgram,1000,this.state.name, programData); 
+      setTimeout(this.props.saveProgram,1000, localName, programData); 
       event.preventDefault(); 
       }
 
