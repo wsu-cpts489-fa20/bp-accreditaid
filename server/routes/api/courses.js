@@ -62,6 +62,23 @@ router.get('/program/:courseProgram', async(req, res) => {
   }
 });
 
+//READ course route: with no query, this will return the entire courses collection.
+router.get('/', async(req, res) => {
+  console.log("in /api/courses route (GET)  ");
+  console.log("query - " + JSON.stringify(req.query))
+  try {
+    let courses = await Course.find(req.query);
+    if (!courses) {
+      return res.status(400).send("Err, courses returned null");
+    } else {
+      return res.status(200).json(JSON.stringify(courses));
+    }
+  } catch (err) {
+    console.log()
+    return res.status(400).send("Unexpected error occurred when looking up course in database: " + err);
+  }
+});
+
 //READ course route: Returns the data associated 
 //with a given course in the courses collection (GET)
 router.get('/:courseId', async(req, res) => {
