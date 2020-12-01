@@ -35,6 +35,7 @@ class InstructorPage extends React.Component {
     render() {
         return(
         <div>
+            <h2>Course Dashboard</h2>
             <CourseTable 
                         courses={this.state.courses}
                         changeMode={this.props.changeMode}
