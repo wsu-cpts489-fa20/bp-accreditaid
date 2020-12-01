@@ -3,6 +3,7 @@ import AppMode from '../../AppMode.js';
 import CoursesForm from './CoursesForm.js';
 import CoursesTable from './CoursesTable.js';
 import FloatingButton from '../common/FloatingButton.js';
+import EmailModal from "../EmailModal/EmailModal.jsx"
 
 class Courses extends React.Component {
 
@@ -11,7 +12,9 @@ class Courses extends React.Component {
         this.state = {
                       deleteId: "",
                       editId: "",
-                      courses: []
+                      courses: [],
+                      displayEmailModal: false,
+                      toList: []
                     };    
     }
 
@@ -42,11 +45,13 @@ class Courses extends React.Component {
                 courses[i].deliverables = 0;
                 courses[i].sos = 0;
                 courses[i].completion = 0;
+                courses[i].selectedForEmail = false;
             }
             console.log(courses)
             // console.log(programs)
             this.setState({courses: courses})
             //console.log(res.json())
+            console.log("End fetch data");
         }
     }
 
@@ -135,13 +140,53 @@ class Courses extends React.Component {
         this.setState({errorMsg: ""});
     }
 
+    toggleEmailSelection = (index) =>{
+        let localcourses = this.state.courses
+        console.log("toggleEmailSelection " + index);
+
+        localcourses[index].selectedForEmail = !localcourses[index].selectedForEmail
+        this.setState({courses:localcourses })
+        console.log("index" + index + "has been  toggled");
+    }   
+
+    getEmails = () => {
+        let emailList = "";
+        console.log("in get emails");
+        console.log(this.state.courses);
+        for(var i = 0 ; i < this.state.courses.length; i++){
+            if(this.state.courses[i].selectedForEmail){
+                emailList += this.state.courses[i].courseEmail + ", "
+            }
+            console.log(emailList)
+        }
+
+        return emailList;
+    }
+
+    toggleEmailModal = () =>{
+        this.setState({displayEmailModal: !this.state.displayEmailModal})
+    }
+
     render() {
-        console.log(this.props.currentProgram)
+        console.log("Start render");
+        console.log(JSON.stringify(this.state.courses));
+        console.log("End render");
+        let toList = this.getEmails(); 
         switch(this.props.mode) {
+            
             case AppMode.COURSES:
+                
                 return (
                     <>
+                        <button onClick={()=>{
+                            if(toList == 0){
+                                alert("You must select a non-zero amount of instructors first!");
+                                return;
+                            }
+                            this.toggleEmailModal();}} className="btn btn-primary">Email Instructors</button>
+                        {this.state.displayEmailModal ? <EmailModal toList={toList} close={this.toggleEmailModal}></EmailModal> : <div></div>}
                         <CoursesTable
+                            toggleEmailSelected={this.toggleEmailSelection}
                             courses={this.state.courses}
                             setEditId={this.setEditId}
                             changeMode={this.props.changeMode}

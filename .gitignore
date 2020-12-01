@@ -4,7 +4,6 @@
 client/node_modules
 client/.pnp
 client/.pnp.js
-client/build
 # testing
 client/coverage
 
@@ -41,3 +40,5 @@ yarn-error.log*
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+client/build

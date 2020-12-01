@@ -24,7 +24,7 @@ class EmailModal extends React.Component {
 
     handleSubmit(event) {
         let data = {
-            toList: "micah.priddis@wsu.edu",
+            toList: this.props.toList,
             emailSubject: this.state.subject,
             emailBody: this.state.emailBody
         }
@@ -61,6 +61,9 @@ class EmailModal extends React.Component {
                         <div className="modal-body">
                             <center>
                                 <form onSubmit={this.handleSubmit}>
+                                    <label>To:</label>
+                                    <input class="form-control" type="text" value={this.props.toList} readonly />
+                                    <p />
                                     <label for="subjectinput">
                                         Subject
                                         <input id="subjectinput" className="form-control" type="text" name="subject" value={this.state.subject} onChange={this.handleChange} required />
