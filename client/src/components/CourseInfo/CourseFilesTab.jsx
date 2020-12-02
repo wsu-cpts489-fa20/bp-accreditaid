@@ -18,7 +18,7 @@ class CourseFiles extends React.Component {
     }
 
     uploadFile = (file, db_update, type) => {
-
+        console.log("TYPE: "+ type);
         // add file to FormData object
         const fd = new FormData();
         fd.append('file', file);
@@ -29,27 +29,32 @@ class CourseFiles extends React.Component {
             body: fd
         })
         .then(res => res.json())
-        .then(json => console.log(json))
+        .then(json => {console.log(json); return json})
+        .then((json) => {db_update(file, json.data.VersionId, type)})
         .catch(err => console.error(err))
-        .then(() => {db_update(file, json.body.VersionId, type)});
     }
 
     upload_single = (file, id, type) => {
         let body = {};
-        body[type] = {id: id, file: file};
-        fetch("/api/course/" + this.props.course._id, {
+        body[type] = {id: id, name: file.name};
+        
+        console.log(body);
+        fetch("/api/courses/" + this.props.course._id, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
             method: 'PUT',
-            body: body
+            body: JSON.stringify(body)
         })
         .then(res => res.json())
         .then(json => console.log(json))
         .catch(err => console.error(err));
     }
 
-    onSubmit = (event) =>{
-        console.log(this.fileInput.current.files[0]);
+    onSubmit = (event,type) =>{
         event.preventDefault()
-        this.uploadFile(this.fileInput.current.files[0], this.upload_single, event.target.id)
+        this.uploadFile(this.fileInput.current.files[0], this.upload_single, type)
         alert(
             `Selected file - ${this.fileInput.current.files[0].name}`
           );
@@ -60,9 +65,9 @@ class CourseFiles extends React.Component {
             <div>
                 CourseFiles
 
-                <form onSubmit={this.onSubmit}>
-                    <input type="file" id="courseSyllabus" name="file" ref={this.fileInput}></input>
-                    <button type="submit"></button> 
+                <form onSubmit={e => this.onSubmit(e, "courseSyllabus")}>
+                    <input type="file"  ref={this.fileInput}></input>
+                    <button name="courseSyllabus" id="courseSyllabus" type="submit"></button> 
                 </form>
             </div>
 

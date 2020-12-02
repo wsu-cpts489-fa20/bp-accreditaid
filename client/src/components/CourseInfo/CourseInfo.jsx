@@ -80,6 +80,7 @@ class CourseInfo extends React.Component {
             <div>
             <ActiveTab
                             mode={this.props.mode}
+                            course={this.props.modeParams.course}
                             startData={this.props.modeParams.course} 
                             saveCourse={this.editCourse}
                             instructor={true}
