@@ -167,6 +167,7 @@ class CourseInfo extends React.Component {
     //toggle the mode back to AppMode.PROGRAMS since the user is done editing the
     //program. 
     editCourse = async (newData) => {
+        this.setState({course: newData});
         const url = '/api/courses/' + newData._id;
         delete newData._id;
         const res = await fetch(url, {
@@ -182,11 +183,29 @@ class CourseInfo extends React.Component {
             this.setState({errorMsg: msg});
         } else {
             this.setState({errorMsg: msg});
-            await this.fetchData();
+            // await this.fetchData();
         }
     }
 
-
+    async fetchData() {
+        const url = '/api/courses/' + this.state.course._id;
+        const res = await fetch(url, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            method: 'GET'}); 
+        if (res.status != 200) {
+            const msg = await res.text();
+            console.log(msg);
+            this.setState({errorMsg: msg});
+        } else {
+            const msg = await res.json();
+            let course = JSON.parse(msg);
+            this.setState({errorMsg: ""});
+            this.setState({course: course})
+        }
+    }
 
     changeTab = (newTab, index) => {
         let newTabClasses = ["nav-link", "nav-link", "nav-link", "nav-link", "nav-link"]

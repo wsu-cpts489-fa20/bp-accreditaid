@@ -73,7 +73,7 @@ class CoursesForm extends React.Component {
     }  
 
     render() {
-        console.log(this.props.currentProgram)
+        console.log(this.state)
         return (
             <div id="course-form">
                 <form onSubmit={this.handleSubmit}>
@@ -202,6 +202,7 @@ class CoursesForm extends React.Component {
                             Semester:
                             <select name="courseSemester" id="select-semester"
                             className="form-control"
+                            value={this.state.courseSemester}
                             required={false}
                             onChange={this.handleNewCourseChange}>
                                 <option value="Fall">Fall</option>
@@ -218,7 +219,7 @@ class CoursesForm extends React.Component {
                                 id="course-year"
                                 className="form-control form-text form-center"
                                 name="courseYear"
-                                value={this.state.year}
+                                value={this.state.courseYear}
                                 type="number"
                                 required={false}
                                 onChange={this.handleNewCourseChange}
@@ -231,7 +232,7 @@ class CoursesForm extends React.Component {
                                 id="course-students"
                                 className="form-control form-text form-center"
                                 name="courseStudents"
-                                value={this.state.students}
+                                value={this.state.courseStudents}
                                 type="number"
                                 required={false}
                                 placeholder="Enter number of students"
