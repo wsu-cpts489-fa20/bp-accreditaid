@@ -157,6 +157,16 @@
   color: white;
 }
 
+.btn-alt-color-theme:hover {
+  background-color: #5e6a71;
+}
+
+.btn-alt-color-theme:focus,
+.btn-alt-color-theme:active {
+  background-color: #5e6a71 !important;
+  border: 2px solid #000 !important;
+}
+
 /* change items to gray when disabled class is applied  */
 .disabled {
   color: gray;
@@ -395,4 +405,19 @@ body {
   padding-bottom: 6px;
   color: black;
   background-color: lightgray;
+}
+
+.outcomes-list{
+  list-style-type: none;
+  margin-left: 0;
+  margin-right: 10%;
+}
+
+.outcomes-list > li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.outcomes-list > li > i {
+  align-self: center;
 }
