@@ -4,60 +4,143 @@ const Mongoose = require('mongoose')
 const AWS = require('aws-sdk');
 const fs = require('fs');
 
+const stream = require('stream');
+
+const multer = require('multer');
+const upload = multer({
+  dest: 'uploads/' // this saves your file into a directory called "uploads"
+}); 
+
 AWS.config.update({region: 'us-east-1'});
 
 s3 = new AWS.S3({apiVersion: '2006-03-01'});
 
 var uploadParams = {Bucket: 'accreditaid', Key: '', Body: ''};
 
+
+/**
+ * @param binary Buffer
+ * returns readableInstanceStream Readable
+ */
+function bufferToStream(binary) {
+
+    const readable = new stream.Readable()
+    readable._read = () => {} // _read is required but you can noop it
+    readable.push(binary)
+    readable.push(null)
+    
+    return readable;
+}
+
+
 //upload file route
 router.post('/',  async (req, res, next) => {
-    try {
-        if(!req.files) {
-            res.send({
-                status: false,
-                message: 'No file uploaded'
-            });
-        } else {
-            //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
-            let doc = req.files.doc;
-            
-            //Use the mv() method to place the file in upload directory (i.e. "uploads")
-            var filepath = './uploads/' + doc.name;
-            doc.mv(filepath);
+        let upload = multer({ }).single('');
+    
+        upload(req, res, function(err) {
+            // req.file contains information of uploaded file
+            // req.body contains information of text fields, if there were any
+    
+            if (req.fileValidationError) {
+                return res.send(req.fileValidationError);
+            }
+            else if (!req.file) {
+                return res.send('Please select an image to upload');
+            }
+            else if (err instanceof multer.MulterError) {
+                return res.send(err);
+            }
+            else if (err) {
+                return res.send(err);
+            }
+            console.log(req.file)
+    
+            // Display uploaded image for user validation
+            let fileStream = bufferToStream(req.file.buffer)
+            console.log(fileStream);
 
-            //upload the file to s3
-            var fileStream = fs.createReadStream(file);
-            fileStream.on('error', function(err) {
-                console.log('File Error', err);
-            });
-
+            var uploadParams = {Bucket: 'accreditaid', Key: '', Body: ''};
             uploadParams.Body = fileStream;
-            var path = require('path');
-            uploadParams.Key = path.basename(filepath);
+            uploadParams.Key = req.file.originalname;
 
+            let VersionId = null;
+
+            console.log("Before uploading file to s3");
             s3.upload (uploadParams, function (err, data) {
+                console.log("callback function");
                 if (err) {
                   console.log("Error", err);
                 } if (data) {
+                  VersionId = data.VersionId
                   console.log("Upload Success", data.Location);
                 }
             });
+            
 
             //send response
             res.send({
                 status: true,
                 message: 'File is uploaded',
                 data: {
-                    name: doc.name,
-                    mimetype: doc.mimetype,
-                    size: doc.size
+                    name: req.file.originalname,
+                    mimetype: req.file.mimetype,
+                    size: req.file.size,
                 }
             });
-        }
-    } catch (err) {
-        res.status(500).send(err);
+        });
+});
+
+router.get('/',  async (req, res, next) => {
+    if (req.query === undefined || 
+        !req.query.hasOwnProperty("name") || 
+        !req.query.hasOwnProperty("id"))
+        {
+      //Body does not contain correct properties
+      console.log(req.query);
+      return res.status(400).send("/api/s3 GET request formulated incorrectly.")
     }
+
+    var getParams = {Bucket: 'accreditaid', Key: ''};
+    var path = require('path');
+    getParams.Key = path.basename(req.query.name);
+    getParams.VersionId = req.query.id;
+    
+    s3.getObject(getParams, function (err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Successfully dowloaded data from  bucket");
+            console.log(data.Body.toString('utf-8'));
+        }
+    });
+
+    res.send();
+
+});
+
+
+router.delete('/',  async (req, res, next) => {
+    if (req.query === undefined || 
+        !req.query.hasOwnProperty("name") || 
+        !req.query.hasOwnProperty("id"))
+        {
+      //Body does not contain correct properties
+      return res.status(400).send("/api/s3 DELETE request formulated incorrectly.")
+    }
+
+    var deleteParams = {Bucket: 'accreditaid', Key: ''};
+    var path = require('path');
+    deleteParams.Key = path.basename(req.query.name);
+    deleteParams.VersionId = req.query.id;
+    
+    s3.deleteObject(deleteParams, function (err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Successfully deleted data from  bucket");
+            console.log(data);
+        }
+    });
 
 });
 
