@@ -66,7 +66,7 @@ class CoursesTable extends React.Component {
                 <tbody>
                     {Object.keys(this.props.courses).length === 0 ? 
                     <tr>
-                    <td colSpan="8" style={{fontStyle: "italic"}}>No courses created</td>
+                    <td colSpan="12" style={{fontStyle: "italic"}}>No courses created</td>
                     </tr> : this.renderTable()
                     }
                 </tbody>

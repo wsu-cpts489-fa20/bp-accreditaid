@@ -94,6 +94,7 @@ router.put('/:courseId', async (req, res, next) => {
   delete bodyObj.sos; //Not needed for update
   delete bodyObj.deliverables; //Not needed for update
   delete bodyObj.completion; //Not needed for update
+  delete bodyObj.selectedForEmail; //Not needed for update
   for (const bodyProp in bodyObj) {
     if (!validProps.includes(bodyProp)) {
       return res.status(400).send("courses/ PUT request formulated incorrectly." +
