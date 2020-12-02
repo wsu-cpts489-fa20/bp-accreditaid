@@ -43,16 +43,20 @@ router.post('/',  async (req, res, next) => {
             // req.body contains information of text fields, if there were any
     
             if (req.fileValidationError) {
-                return res.send(req.fileValidationError);
+                console.log("file validation err");
+                return res.status(400).send(req.fileValidationError);
             }
             else if (!req.file) {
-                return res.send('Please select an file to upload');
+                console.log("no file attached to req");
+                return res.status(400).json({"Error":"No file was attached"});
             }
             else if (err instanceof multer.MulterError) {
-                return res.send(err);
+                console.log("Err with multer");
+                return res.status(400).send(err);
             }
             else if (err) {
-                return res.send(err);
+                console.log(err);
+                return res.status(400).send(err);
             }
     
             // Display uploaded image for user validation
@@ -65,11 +69,11 @@ router.post('/',  async (req, res, next) => {
             s3.upload (uploadParams, function (err, data) {
                 if (err) {
                   console.log("Error", err);
-                  res.status(400).send("Error");
+                  res.status(400).json({"Error":err});
                 } if (data) {
                   console.log("Upload Success", data.Location);
                               //send response
-                    res.send({
+                    res.status(200).send({
                         status: true,
                         message: 'File is uploaded',
                         data: {
@@ -104,11 +108,16 @@ router.get('/',  async (req, res, next) => {
             console.log(err);
         } else {
             console.log("Successfully dowloaded data from  bucket");
-            console.log(data.Body.toString('utf-8'));
+            
+            res.set('Content-Type', 'application/octet-stream');
+            res.set('Content-disposition', 'attachment; filename=' + req.query.name);
+            
+            var readStream = new stream.PassThrough();
+            readStream.end(data.body);
+            readStream.pipe(res);
+            console.log("End pipe");
         }
     });
-
-    res.send();
 
 });
 

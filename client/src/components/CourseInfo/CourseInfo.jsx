@@ -6,6 +6,23 @@ import CourseFilesTab from "./CourseFilesTab.jsx";
 import CoursesForm from "../CoursesPage/CoursesForm.js"
 
 class CourseInfo extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeTab: CoursesForm,
+            tabClasses: ["nav-link active", "nav-link", "nav-link", "nav-link", "nav-link"],
+            course: this.props.modeParams.course
+        };
+        console.log(this.props);
+    }
+
+    updateCourseState = (field, value) =>{
+        let newCourse = this.state.course
+        newCourse[field] = value
+        this.setState({
+            course: newCourse
+        })
+    }
 
     //editProgram -- Given an object newData containing updated data on an
     //existing program, update the current user's program in the database. 
@@ -31,14 +48,7 @@ class CourseInfo extends React.Component {
         }
     }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            activeTab: CoursesForm,
-            tabClasses: ["nav-link active", "nav-link", "nav-link", "nav-link", "nav-link"]
-        };
-        console.log(this.props);
-    }
+
 
     changeTab = (newTab, index) => {
         let newTabClasses = ["nav-link", "nav-link", "nav-link", "nav-link", "nav-link"]
@@ -80,10 +90,11 @@ class CourseInfo extends React.Component {
             <div>
             <ActiveTab
                             mode={this.props.mode}
-                            course={this.props.modeParams.course}
-                            startData={this.props.modeParams.course} 
+                            course={this.state.course}
+                            startData={this.state.course} 
                             saveCourse={this.editCourse}
                             instructor={true}
+                            updateCourseState={this.updateCourseState}
                         />
             </div>    
         </div>
