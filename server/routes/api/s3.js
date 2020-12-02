@@ -4,6 +4,8 @@ const Mongoose = require('mongoose')
 const AWS = require('aws-sdk');
 const fs = require('fs');
 
+var path = require('path');
+
 const stream = require('stream');
 
 const multer = require('multer');
@@ -99,7 +101,6 @@ router.get('/',  async (req, res, next) => {
     }
 
     var getParams = {Bucket: 'accreditaid', Key: ''};
-    var path = require('path');
     getParams.Key = path.basename(req.query.name);
     getParams.VersionId = req.query.id;
     
@@ -112,10 +113,17 @@ router.get('/',  async (req, res, next) => {
             res.set('Content-Type', 'application/octet-stream');
             res.set('Content-disposition', 'attachment; filename=' + req.query.name);
             
-            var readStream = new stream.PassThrough();
-            readStream.end(data.body);
-            readStream.pipe(res);
-            console.log("End pipe");
+            //var readStream = new stream.PassThrough();
+            var readStream = bufferToStream(data.Body);
+            //console.log(data);
+            //readStream.end(data.body);
+            readStream.on('data', (data) => {
+                res.write(data);
+            });
+            readStream.on('end', () => {
+                res.status(200).send();
+                console.log('There will be no more data.');
+              });
         }
     });
 
