@@ -6,14 +6,39 @@ class CourseFiles extends React.Component {
         super(props);
     }
 
-    deleteFile = (id, name, db_update, key, index=0) => {
+    deleteInDatabase = (type) =>{
+        let body = {};
+        body[type] = null;
+        console.log("body = " + body)
+        
+        console.log(body);
+        fetch("/api/courses/" + this.props.course._id, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            method: 'PUT',
+            body: JSON.stringify(body)
+        })
+        .then(function(res) {
+            if(res.status == 200){
+                return res.text();
+            }
+            throw res;
+        })
+        .then(json => console.log(json))
+        .catch(err => console.error(err));
+    }
+
+    deleteFile = (id, name, db_update, type) => {
         fetch(("/api/s3?id=" + id + "&name=" + name), {
             method: 'DELETE'
         })
         .then(res => res.json())
-        .then(json => console.log(json))
-        .catch(err => console.error(err))
-        .then(() => {db_update(key, index)});
+        .then(json => console.log("json res " +json))
+        .then(() => {db_update(type)})
+        .then(()=> {this.props.updateCourseState(type, null)})
+        .catch(err => console.error(err));
     }
 
     uploadFile = (file, db_update, type) => {
@@ -86,7 +111,7 @@ class CourseFiles extends React.Component {
             <h4>Course Syllabus</h4>
             <form onSubmit={e => this.onSubmit(e, "courseSyllabus")}>
                 <input className="form-control-file"  type="file"  name="file" ></input>
-                <button className="btn btn-success" name="courseSyllabus" type="submit">Upload</button> 
+                <button  className="btn btn-success" name="courseSyllabus" type="submit">Upload</button> 
             </form>
             
         </div>)  
@@ -109,28 +134,28 @@ class CourseFiles extends React.Component {
             
         </div>)       
 
-        if(courseSyllabus != undefined){
+        if(courseSyllabus != null){
             SyllabusDiv = (<div>
                 <h4> Course Syllabus</h4>
-                    <a href={"/api/s3?id=" + courseSyllabus.id + "&name=" + courseSyllabus.name} className="btn btn-primary" > <i className="fa fa-download"></i>Download</a>
-                    <button className="btn btn-danger" ><i className="fa fa-trash"/>Delete </button>
+                    <a href={"/api/s3?id=" + courseSyllabus.id + "&name=" + courseSyllabus.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
+                    <button onClick={()=>{this.deleteFile(courseSyllabus.id, courseSyllabus.name, this.deleteInDatabase, "courseSyllabus")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
                     
             </div>)
         }
 
-        if(courseSchedule != undefined){
+        if(courseSchedule != null){
             ScheduleDiv =  (<div>
                 <h4> Course Schedule</h4>
-                <a href={"/api/s3?id=" + courseSchedule.id + "&name=" + courseSchedule.name} className="btn btn-primary" > <i className="fa fa-download"></i>Download</a>
-                    <button className="btn btn-danger" ><i className="fa fa-trash"/>Delete </button>
+                <a href={"/api/s3?id=" + courseSchedule.id + "&name=" + courseSchedule.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
+                    <button onClick={()=>{this.deleteFile(courseSchedule.id, courseSchedule.name, this.deleteInDatabase, "courseSchedule")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
             </div>)
         }
 
-        if(courseRoster != undefined){
+        if(courseRoster != null){
             RosterDiv = (<div>
                 <h4> Course Roster</h4>
-                <a href={"/api/s3?id=" + courseRoster.id + "&name=" + courseRoster.name} className="btn btn-primary" > <i className="fa fa-download"></i>Download</a>
-                    <button className="btn btn-danger" ><i className="fa fa-trash"/>Delete </button>
+                <a href={"/api/s3?id=" + courseRoster.id + "&name=" + courseRoster.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
+                    <button onClick={()=>{this.deleteFile(courseRoster.id, courseRoster.name, this.deleteInDatabase, "courseRoster")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
             </div>)   
         }
         return(

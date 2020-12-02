@@ -139,9 +139,12 @@ router.delete('/',  async (req, res, next) => {
     s3.deleteObject(deleteParams, function (err, data) {
         if (err) {
             console.log(err);
+            res.status(500).json({"Error": err})
         } else {
             console.log("Successfully deleted data from  bucket");
+
             console.log(data);
+            res.status(200).json({"Response":"Success"})
         }
     });
 
