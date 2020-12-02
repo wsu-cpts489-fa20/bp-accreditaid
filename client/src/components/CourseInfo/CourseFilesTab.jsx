@@ -7,11 +7,15 @@ class CourseFiles extends React.Component {
         this.fileInput = React.createRef();
     }
 
+    deleteFile = (id, name) => {
+        
+    }
+
     uploadFile = (file) => {
 
         // add file to FormData object
         const fd = new FormData();
-        fd.append('doc', file);
+        fd.append('file', file);
     
         // send `POST` request
         fetch("/api/s3", {
@@ -37,11 +41,13 @@ class CourseFiles extends React.Component {
             <div>
                 CourseFiles
 
-                <form onSubmit={this.handleSubmit}>
-                    <input type="file" id="myFile" name="" ref={this.fileInput}></input>
+                <form onSubmit={this.onSubmit}>
+                    <input type="file" id="myFile" name="file" ref={this.fileInput}></input>
                     <button type="submit"></button> 
                 </form>
             </div>
+
+
         )
     }
 }

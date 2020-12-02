@@ -107,20 +107,13 @@ router.put('/:courseId', async (req, res, next) => {
               JSON.stringify(req.params) + " and body = " + 
               JSON.stringify(req.body));
   const validProps = ['courseName', 'courseNumber', 'coursePrefix', 'courseCredits', 'coursePrerequisites',
-    'courseInstructor', 'courseEmail', 'courseProgram', "courseYear", "courseSemester", "courseStudents"];
+    'courseInstructor', 'courseEmail', 'courseProgram', "courseYear", "courseSemester", "courseStudents", "courseSyllabus", "courseSchedule", "courseRoster"];
   let bodyObj = req.body;
   delete bodyObj._id; //Not needed for update
   delete bodyObj.__v; //Not needed for update
   delete bodyObj.sos; //Not needed for update
   delete bodyObj.deliverables; //Not needed for update
   delete bodyObj.completion; //Not needed for update
-  for (const bodyProp in bodyObj) {
-    if (!validProps.includes(bodyProp)) {
-      return res.status(400).send("courses/ PUT request formulated incorrectly." +
-        "It includes " + bodyProp + ". However, only the following props are allowed: " +
-        "'courseName', 'courseNumber', 'coursePrefix', 'courseCredits', 'coursePrerequisites', 'courseInstructor', 'courseEmail', 'courseProgram'");
-    }
-  }
   try {
     console.log(JSON.stringify(bodyObj));
     let status = await Course.updateOne(

@@ -36,7 +36,7 @@ function bufferToStream(binary) {
 //upload file route
 router.post('/',  async (req, res, next) => {
         console.log("POST request on /api/s3/")
-        let upload = multer({ }).single();
+        let upload = multer({ }).single('file');
     
         upload(req, res, function(err) {
             // req.file contains information of uploaded file
@@ -62,26 +62,23 @@ router.post('/',  async (req, res, next) => {
             uploadParams.Body = fileStream;
             uploadParams.Key = req.file.originalname;
 
-            let VersionId = null;
-
             s3.upload (uploadParams, function (err, data) {
                 if (err) {
                   console.log("Error", err);
+                  res.status(400).send("Error");
                 } if (data) {
-                  VersionId = data.VersionId
                   console.log("Upload Success", data.Location);
-                }
-            });
-            
-
-            //send response
-            res.send({
-                status: true,
-                message: 'File is uploaded',
-                data: {
-                    name: req.file.originalname,
-                    mimetype: req.file.mimetype,
-                    size: req.file.size,
+                              //send response
+                    res.send({
+                        status: true,
+                        message: 'File is uploaded',
+                        data: {
+                            name: req.file.originalname,
+                            mimetype: req.file.mimetype,
+                            size: req.file.size,
+                            VersionId: data.VersionId
+                        }
+                    });
                 }
             });
         });
