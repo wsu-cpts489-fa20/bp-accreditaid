@@ -69,17 +69,17 @@ router.get('/',  async (req, res, next) => {
       return res.status(400).send("/api/s3 GET request formulated incorrectly.")
     }
 
-    var getParams = {Bucket: 'accreditaid', Key: '', Body: ''};
+    var getParams = {Bucket: 'accreditaid', Key: ''};
     var path = require('path');
     getParams.Key = path.basename(name);
-    getParams['version-id'] = id;
-
-    s3.getObject(params, function (err, data) {
+    getParams.VersionId = id;
+    
+    s3.getObject(getParams, function (err, data) {
         if (err) {
-            reject(err);
+            console.log(err);
         } else {
             console.log("Successfully dowloaded data from  bucket");
-            console.log(data.body.toString('utf-8'));
+            console.log(data.Body.toString('utf-8'));
         }
     });
 
@@ -94,16 +94,17 @@ router.delete('/',  async (req, res, next) => {
       return res.status(400).send("/api/s3 DELETE request formulated incorrectly.")
     }
 
-    var deleteParams = {Bucket: 'accreditaid', Key: '', Body: ''};
+    var deleteParams = {Bucket: 'accreditaid', Key: ''};
     var path = require('path');
-    deleteParams.Key = path.basename(name);
-    deleteParams['version-id'] = id;
-
-    s3.deleteObject(params, function (err, data) {
+    deleteParams.Key = path.basename(file);
+    deleteParams.VersionId = 'wZM8uJoM9NOro_XDXG.2p._nuyU4A6a.';
+    
+    s3.deleteObject(deleteParams, function (err, data) {
         if (err) {
-            reject(err);
+            console.log(err);
         } else {
             console.log("Successfully deleted data from  bucket");
+            console.log(data);
         }
     });
 
