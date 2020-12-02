@@ -25,7 +25,7 @@ class CoursesTable extends React.Component {
                     <td>{this.props.courses[p].coursePrerequisites}</td>
                     <td>{this.props.courses[p].sos}</td>
                     <td>{this.props.courses[p].deliverables}</td>
-                    <td>{this.props.courses[p].completion}</td>
+                    <td>{this.props.courses[p].completion} %</td>
                     <td>{this.props.courses[p].courseInstructor}</td>
                     <td>{this.props.courses[p].courseEmail}</td>
                     <td><input type={"checkbox"} onClick={()=>{console.log("Toggled a checkbox!"); this.props.toggleEmailSelected(p)} } /></td>
