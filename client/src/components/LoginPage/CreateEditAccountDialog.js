@@ -14,7 +14,7 @@ class CreateEditAccountDialog extends React.Component {
         this.state = {accountName: "",
                       displayName: "",
                       password: "",
-                      accountType: "Instructor",
+                      accountType: "",
                       passwordRepeat: "",
                       securityQuestion: "",
                       securityAnswer: "",
@@ -37,6 +37,7 @@ class CreateEditAccountDialog extends React.Component {
                            displayName: userData.displayName,
                            profilePicURL: userData.profilePicURL,
                            password: userData.password,
+                           accountType: userData.accountType,
                            passwordRepeat: userData.password,
                            securityQuestion: userData.securityQuestion,
                            securityAnswer: userData.securityAnswer});
@@ -81,8 +82,10 @@ class CreateEditAccountDialog extends React.Component {
                 
             }
         } else {
+            console.log("In on Change!")
             this.setState({[event.target.name]: event.target.value,
                            formUpdated: formUpdated},this.checkDataValidity);
+            console.log(this.state.accountType);
         }
     } 
 
@@ -109,6 +112,9 @@ class CreateEditAccountDialog extends React.Component {
             {return true;}
         if (updateField != "securityAnswer" &&
             this.state.securityAnswer !== this.origAccountInfo.securityAnswer)
+            {return true;}
+        if (updateField != "accountType" &&
+            this.state.accountType !== this.origAccountInfo.accountType)
             {return true;}
         return false;
     }
@@ -277,7 +283,7 @@ class CreateEditAccountDialog extends React.Component {
                 onChange={this.handleChange}
                 />
             </label>
-            <select name="type" value={this.state.type} className="form-control form-center" onChange={this.handleChange}>
+            <select name="accountType" value={this.state.accountType} className="form-control form-center" onChange={this.handleChange}>
                 <option value="Instructor">Instructor</option>
                 <option value="ABET Evaluator">ABET Evaluator</option>
                 <option value="College Admin">College Admin</option>
