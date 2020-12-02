@@ -10,7 +10,6 @@ import Rounds from './RoundsPage/Rounds.js';
 import Courses from './CoursesPage/Courses.js';
 import Programs from './ProgramsPage/Programs.js'
 import AboutBox from './common/AboutBox.js';
-import DeliverablesForm from './CoursesPage/DeliverablesForm.js';
 
 const modeTitle = {};
 modeTitle[AppMode.LOGIN] = "Welcome to AcreditAid";
@@ -35,7 +34,7 @@ modeToPage[AppMode.ROUNDS_EDITROUND] = Rounds;
 modeToPage[AppMode.COURSES] = Courses;
 modeToPage[AppMode.COURSES_LOGCOURSE] = Courses;
 modeToPage[AppMode.COURSES_EDITCOURSE] = Courses;
-modeToPage[AppMode.COURSES_DELIVERABLES] = DeliverablesForm;
+modeToPage[AppMode.COURSES_DELIVERABLES] = Courses;
 modeToPage[AppMode.PROGRAMS] = Programs
 modeToPage[AppMode.PROGRAMS_LOGPROGRAM] = Programs
 modeToPage[AppMode.PROGRAMS_EDITPROGRAM] = Programs
@@ -46,7 +45,7 @@ class App extends React.Component {
 
   constructor() {
     super();
-    this.state = {mode: AppMode.COURSES_DELIVERABLES,
+    this.state = {mode: AppMode.LOGIN,
                   menuOpen: false,
                   authenticated: false,
                   userObj: {displayName: "", profilePicURL: ""},

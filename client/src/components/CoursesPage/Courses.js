@@ -4,6 +4,7 @@ import CoursesForm from './CoursesForm.js';
 import CoursesTable from './CoursesTable.js';
 import FloatingButton from '../common/FloatingButton.js';
 import EmailModal from "../EmailModal/EmailModal.jsx"
+import DeliverablesForm from './DeliverablesForm.js';
 
 class Courses extends React.Component {
 
@@ -225,6 +226,13 @@ class Courses extends React.Component {
                             setDeleteId={this.setDeleteId}
                             deleteCourse={this.deleteCourse}
                             currentProgram={this.props.currentProgram}
+                        />
+                    </>
+                );
+            case AppMode.COURSES_DELIVERABLES:
+                return (
+                    <>
+                        <DeliverablesForm
                         />
                     </>
                 );
