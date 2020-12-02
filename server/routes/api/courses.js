@@ -35,6 +35,9 @@ router.post('/:name',  async (req, res, next) => {
         courseInstructor: req.body.courseInstructor,
         courseEmail: req.body.courseEmail,
         courseProgram: req.body.courseProgram,
+        courseSemester: req.body.courseSemester,
+        courseYear: req.body.courseYear,
+        courseStudents: req.body.courseStudents
       }).save();
       return res.status(201).send("New course of the name '" + 
       req.params.name + "' successfully created.");
@@ -104,7 +107,7 @@ router.put('/:courseId', async (req, res, next) => {
               JSON.stringify(req.params) + " and body = " + 
               JSON.stringify(req.body));
   const validProps = ['courseName', 'courseNumber', 'coursePrefix', 'courseCredits', 'coursePrerequisites',
-    'courseInstructor', 'courseEmail', 'courseProgram'];
+    'courseInstructor', 'courseEmail', 'courseProgram', "courseYear", "courseSemester", "courseStudents"];
   let bodyObj = req.body;
   delete bodyObj._id; //Not needed for update
   delete bodyObj.__v; //Not needed for update

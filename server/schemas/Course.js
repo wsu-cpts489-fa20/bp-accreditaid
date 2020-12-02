@@ -10,7 +10,10 @@ const courseSchema = new mongoose.Schema({
     coursePrerequisites: String,
     courseInstructor: String,
     courseEmail: String,
-    courseProgram: String
+    courseProgram: String,
+    courseSemester: String,
+    courseYear: Number,
+    courseStudents: Number
 });
 const Course = mongoose.model("Course",courseSchema); 
 

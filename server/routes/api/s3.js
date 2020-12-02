@@ -35,7 +35,8 @@ function bufferToStream(binary) {
 
 //upload file route
 router.post('/',  async (req, res, next) => {
-        let upload = multer({ }).single('');
+        console.log("POST request on /api/s3/")
+        let upload = multer({ }).single();
     
         upload(req, res, function(err) {
             // req.file contains information of uploaded file
@@ -45,7 +46,7 @@ router.post('/',  async (req, res, next) => {
                 return res.send(req.fileValidationError);
             }
             else if (!req.file) {
-                return res.send('Please select an image to upload');
+                return res.send('Please select an file to upload');
             }
             else if (err instanceof multer.MulterError) {
                 return res.send(err);
@@ -53,11 +54,9 @@ router.post('/',  async (req, res, next) => {
             else if (err) {
                 return res.send(err);
             }
-            console.log(req.file)
     
             // Display uploaded image for user validation
             let fileStream = bufferToStream(req.file.buffer)
-            console.log(fileStream);
 
             var uploadParams = {Bucket: 'accreditaid', Key: '', Body: ''};
             uploadParams.Body = fileStream;
@@ -65,9 +64,7 @@ router.post('/',  async (req, res, next) => {
 
             let VersionId = null;
 
-            console.log("Before uploading file to s3");
             s3.upload (uploadParams, function (err, data) {
-                console.log("callback function");
                 if (err) {
                   console.log("Error", err);
                 } if (data) {
