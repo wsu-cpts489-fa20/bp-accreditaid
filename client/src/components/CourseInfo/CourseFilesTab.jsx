@@ -6,96 +6,12 @@ class CourseFiles extends React.Component {
         super(props);
     }
 
-    deleteInDatabase = (type) =>{
-        let body = {};
-        body[type] = null;
-        console.log("body = " + body)
-        
-        console.log(body);
-        fetch("/api/courses/" + this.props.course._id, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-                },
-            method: 'PUT',
-            body: JSON.stringify(body)
-        })
-        .then(function(res) {
-            if(res.status == 200){
-                return res.text();
-            }
-            throw res;
-        })
-        .then(json => console.log(json))
-        .catch(err => console.error(err));
-    }
-
-    deleteFile = (id, name, db_update, type) => {
-        fetch(("/api/s3?id=" + id + "&name=" + name), {
-            method: 'DELETE'
-        })
-        .then(res => res.json())
-        .then(json => console.log("json res " +json))
-        .then(() => {db_update(type)})
-        .then(()=> {this.props.updateCourseState(type, null)})
-        .catch(err => console.error(err));
-    }
-
-    uploadFile = (file, db_update, type) => {
-        console.log("TYPE: "+ type);
-        // add file to FormData object
-        const fd = new FormData();
-        fd.append('file', file);
-    
-        // send `POST` request
-        fetch("/api/s3", {
-            method: 'POST',
-            body: fd
-        })
-        .then(function(res) {
-            if(res.status == 200){
-                return res.json();
-            }
-            throw res;
-        })
-        .then(json => {console.log(json); return json})
-        .then((json) => {db_update(file, json.data.VersionId, type)})
-        .catch(err => console.error(err))
-    }
-
-    upload_single = (file, id, type) => {
-        console.log("upload_single has been called");
-        let body = {};
-        body[type] = {id: id, name: file.name};
-        
-        console.log(body);
-        fetch("/api/courses/" + this.props.course._id, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-                },
-            method: 'PUT',
-            body: JSON.stringify(body)
-        })
-        .then(function(res) {
-            if(res.status == 200){
-                return res.text();
-            }
-            throw res;
-        })
-        .then(json => console.log(json))
-        .then(()=> {this.props.updateCourseState(type, body[type])})
-        .catch(err => console.error(err));
-        
-    }
-
-
     onSubmit = (event,type) =>{
         console.log("on sumbit!")
         event.preventDefault()
         console.log("file");
         console.log("files array" + event.target.files);
-        this.uploadFile(event.target['file'].files[0], this.upload_single, type)
+        this.props.uploadFile(event.target['file'].files[0], this.props.upload_single, type)
         alert(
             `Selected file - ${event.target.files[0].name}`
           );
@@ -138,7 +54,7 @@ class CourseFiles extends React.Component {
             SyllabusDiv = (<div>
                 <h4> Course Syllabus</h4>
                     <a href={"/api/s3?id=" + courseSyllabus.id + "&name=" + courseSyllabus.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
-                    <button onClick={()=>{this.deleteFile(courseSyllabus.id, courseSyllabus.name, this.deleteInDatabase, "courseSyllabus")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+                    <button onClick={()=>{this.props.deleteFile(courseSyllabus.id, courseSyllabus.name, this.props.deleteInDatabase_single, "courseSyllabus")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
                     
             </div>)
         }
@@ -147,7 +63,7 @@ class CourseFiles extends React.Component {
             ScheduleDiv =  (<div>
                 <h4> Course Schedule</h4>
                 <a href={"/api/s3?id=" + courseSchedule.id + "&name=" + courseSchedule.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
-                    <button onClick={()=>{this.deleteFile(courseSchedule.id, courseSchedule.name, this.deleteInDatabase, "courseSchedule")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+                    <button onClick={()=>{this.props.deleteFile(courseSchedule.id, courseSchedule.name, this.props.deleteInDatabase_single, "courseSchedule")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
             </div>)
         }
 
@@ -155,7 +71,7 @@ class CourseFiles extends React.Component {
             RosterDiv = (<div>
                 <h4> Course Roster</h4>
                 <a href={"/api/s3?id=" + courseRoster.id + "&name=" + courseRoster.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
-                    <button onClick={()=>{this.deleteFile(courseRoster.id, courseRoster.name, this.deleteInDatabase, "courseRoster")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+                    <button onClick={()=>{this.props.deleteFile(courseRoster.id, courseRoster.name, this.props.deleteInDatabase_single, "courseRoster")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
             </div>)   
         }
         return(

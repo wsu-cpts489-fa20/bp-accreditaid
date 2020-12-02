@@ -24,6 +24,89 @@ class CourseInfo extends React.Component {
         })
     }
 
+    deleteInDatabase_single = (type) =>{
+        let body = {};
+        body[type] = null;
+        console.log("body = " + body)
+        
+        console.log(body);
+        fetch("/api/courses/" + this.state.course._id, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            method: 'PUT',
+            body: JSON.stringify(body)
+        })
+        .then(function(res) {
+            if(res.status == 200){
+                return res.text();
+            }
+            throw res;
+        })
+        .then(json => console.log(json))
+        .catch(err => console.error(err));
+    }
+
+    deleteFile = (id, name, db_update, type) => {
+        fetch(("/api/s3?id=" + id + "&name=" + name), {
+            method: 'DELETE'
+        })
+        .then(res => res.json())
+        .then(json => console.log("json res " +json))
+        .then(() => {db_update(type)})
+        .then(()=> {this.updateCourseState(type, null)})
+        .catch(err => console.error(err));
+    }
+
+    uploadFile = (file, db_update, type) => {
+        console.log("TYPE: "+ type);
+        // add file to FormData object
+        const fd = new FormData();
+        fd.append('file', file);
+    
+        // send `POST` request
+        fetch("/api/s3", {
+            method: 'POST',
+            body: fd
+        })
+        .then(function(res) {
+            if(res.status == 200){
+                return res.json();
+            }
+            throw res;
+        })
+        .then(json => {console.log(json); return json})
+        .then((json) => {db_update(file, json.data.VersionId, type)})
+        .catch(err => console.error(err))
+    }
+
+    upload_single = (file, id, type) => {
+        console.log("upload_single has been called");
+        let body = {};
+        body[type] = {id: id, name: file.name};
+        
+        console.log(body);
+        fetch("/api/courses/" + this.state.course._id, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            method: 'PUT',
+            body: JSON.stringify(body)
+        })
+        .then(function(res) {
+            if(res.status == 200){
+                return res.text();
+            }
+            throw res;
+        })
+        .then(json => console.log(json))
+        .then(()=> {this.updateCourseState(type, body[type])})
+        .catch(err => console.error(err));
+        
+    }
+
     //editProgram -- Given an object newData containing updated data on an
     //existing program, update the current user's program in the database. 
     //toggle the mode back to AppMode.PROGRAMS since the user is done editing the
@@ -95,6 +178,11 @@ class CourseInfo extends React.Component {
                             saveCourse={this.editCourse}
                             instructor={true}
                             updateCourseState={this.updateCourseState}
+                            deleteFile={this.deleteFile}
+                            deleteInDatabase_single={this.deleteInDatabase_single}
+                            uploadFile={this.uploadFile}
+                            upload_single={this.upload_single}
+
                         />
             </div>    
         </div>
