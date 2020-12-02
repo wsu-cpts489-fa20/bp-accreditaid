@@ -7,40 +7,19 @@ class SideMenu extends React.Component {
 //current mode, which is stored in this.prop.mode. Uses switch statement to
 //determine mode.
 renderModeMenuItems = () => {
-  switch (this.props.mode) {
-    case AppMode.FEED:
-      return(
-        <div>
-        <a className="sidemenu-item">
-            <span className="fa fa-users"></span>&nbsp;Followed Users</a>
-        <a className="sidemenu-item ">
-            <span className="fa fa-search"></span>&nbsp;Search Feed</a>
-        </div>
-      );
-    break;
-    case AppMode.ROUNDS:
-      return(
-        <div>
-          <a className="sidemenu-item">
-            <span className="fa fa-plus"></span>&nbsp;Log New Round</a>
-          <a className="sidemenu-item">
-            <span className="fa fa-search"></span>&nbsp;Search Rounds</a>
-        </div>
-      );
-    break;
-    case AppMode.COURSES:
-      return(
-        <div>
+    return(
+      <div>
         <a className="sidemenu-item"
-            onClick={() => this.props.changeMode(AppMode.COURSES_LOGCOURSE)}>
-            <span className="fa fa-plus"></span>&nbsp;Add a Course</a>
-        <a className="sidemenu-item">
-            <span className="fa fa-search"></span>&nbsp;Search Courses</a>
-        </div>
-      );
-    default:
-        return null;
-    }
+            onClick={() => this.props.changeMode(AppMode.PROGRAMS)}>
+            <span className="fa fa-search"></span>&nbsp;Programs</a>
+        <a className="sidemenu-item"
+            onClick={() => this.props.changeMode(AppMode.COURSES)}>
+            <span className="fa fa-plus"></span>&nbsp;Courses</a>
+        <a className="sidemenu-item"
+            onClick={() => this.props.changeMode(AppMode.COURSES_DELIVERABLES)}>
+            <span className="fa fa-search"></span>&nbsp;Deliverables</a>
+      </div>
+    )
 }
 
     render() {
