@@ -50,7 +50,8 @@ router.post('/:name',  async (req, res, next) => {
   if (req.body === undefined || 
       !req.body.hasOwnProperty("department") ||
       !req.body.hasOwnProperty("college") ||
-      !req.body.hasOwnProperty("credits") ){
+      !req.body.hasOwnProperty("credits") ||
+      !req.body.hasOwnProperty("studentOutcomes")){
     //Body does not contain correct properties
     return res.status(400).send("/api/programs POST request formulated incorrectly. ")
   }
@@ -64,6 +65,7 @@ router.post('/:name',  async (req, res, next) => {
         department: req.body.department,
         college: req.body.college,
         credits: req.body.credits,
+        studentOutcomes: req.body.studentOutcomes
       }).save();
       return res.status(201).send("New program of the name '" + 
         req.params.name + "' successfully created.");
@@ -82,7 +84,7 @@ router.put('/:name',  async (req, res, next) => {
         "It must contain 'name' as parameter.");
   }
   const validProps = ['name', 'department', 'college', 
-    'credits'];
+    'credits', 'studentOutcomes'];
   for (const bodyProp in req.body) {
     if (!validProps.includes(bodyProp)) {
       return res.status(400).send("Programs/ PUT request formulated incorrectly." +
