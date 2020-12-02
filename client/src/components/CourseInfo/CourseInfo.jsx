@@ -48,13 +48,39 @@ class CourseInfo extends React.Component {
         .catch(err => console.error(err));
     }
 
-    deleteFile = (id, name, db_update, type) => {
+    deleteInDatabase_array = (type, index) =>{
+        let body = {};
+        body[type] = this.state.course[type];
+        console.log("body = " + body)
+        body[type].splice(index, 1);
+        console.log("body = " + body)
+        
+        console.log(body);
+        fetch("/api/courses/" + this.state.course._id, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            method: 'PUT',
+            body: JSON.stringify(body)
+        })
+        .then(function(res) {
+            if(res.status == 200){
+                return res.text();
+            }
+            throw res;
+        })
+        .then(json => console.log(json))
+        .catch(err => console.error(err));
+    }
+
+    deleteFile = (id, name, db_update, type, index) => {
         fetch(("/api/s3?id=" + id + "&name=" + name), {
             method: 'DELETE'
         })
         .then(res => res.json())
         .then(json => console.log("json res " +json))
-        .then(() => {db_update(type)})
+        .then(() => {db_update(type, index)})
         .then(()=> {this.updateCourseState(type, null)})
         .catch(err => console.error(err));
     }
@@ -85,6 +111,35 @@ class CourseInfo extends React.Component {
         console.log("upload_single has been called");
         let body = {};
         body[type] = {id: id, name: file.name};
+        
+        console.log(body);
+        fetch("/api/courses/" + this.state.course._id, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            method: 'PUT',
+            body: JSON.stringify(body)
+        })
+        .then(function(res) {
+            if(res.status == 200){
+                return res.text();
+            }
+            throw res;
+        })
+        .then(json => console.log(json))
+        .then(()=> {this.updateCourseState(type, body[type])})
+        .catch(err => console.error(err));
+        
+    }
+
+    upload_array = (file, id, type) => {
+        console.log("upload_array has been called");
+        let body = {};
+        body[type] = this.state.course[type];
+        if(!body[type])
+            body[type] = [];
+        body[type].push({id: id, name: file.name});
         
         console.log(body);
         fetch("/api/courses/" + this.state.course._id, {
@@ -180,8 +235,10 @@ class CourseInfo extends React.Component {
                             updateCourseState={this.updateCourseState}
                             deleteFile={this.deleteFile}
                             deleteInDatabase_single={this.deleteInDatabase_single}
+                            deleteInDatabase_array={this.deleteInDatabase_array}
                             uploadFile={this.uploadFile}
                             upload_single={this.upload_single}
+                            upload_array={this.upload_array}
 
                         />
             </div>    
