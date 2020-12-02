@@ -63,12 +63,15 @@ router.post('/',  async (req, res, next) => {
             uploadParams.Body = fileStream;
             uploadParams.Key = req.file.originalname;
 
+            let VersionId = null;
+
             console.log("Before uploading file to s3");
             s3.upload (uploadParams, function (err, data) {
                 console.log("callback function");
                 if (err) {
                   console.log("Error", err);
                 } if (data) {
+                  VersionId = data.VersionId
                   console.log("Upload Success", data.Location);
                 }
             });
@@ -112,6 +115,32 @@ router.get('/',  async (req, res, next) => {
     });
 
     res.send();
+
+});
+
+
+router.delete('/',  async (req, res, next) => {
+    if (req.query === undefined || 
+        !req.query.hasOwnProperty("name") || 
+        !req.query.hasOwnProperty("id"))
+        {
+      //Body does not contain correct properties
+      return res.status(400).send("/api/s3 DELETE request formulated incorrectly.")
+    }
+
+    var deleteParams = {Bucket: 'accreditaid', Key: ''};
+    var path = require('path');
+    deleteParams.Key = path.basename(req.query.name);
+    deleteParams.VersionId = req.query.id;
+    
+    s3.deleteObject(deleteParams, function (err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Successfully deleted data from  bucket");
+            console.log(data);
+        }
+    });
 
 });
 
