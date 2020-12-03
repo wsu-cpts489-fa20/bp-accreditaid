@@ -66,7 +66,7 @@ router.post('/:name',  async (req, res, next) => {
         college: req.body.college,
         credits: req.body.credits,
         studentOutcomes: req.body.studentOutcomes
-      }).save();
+      }).save({checkKeys: false});
       return res.status(201).send("New program of the name '" + 
         req.params.name + "' successfully created.");
     }
