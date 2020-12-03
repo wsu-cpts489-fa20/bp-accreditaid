@@ -17,6 +17,13 @@ class DeliverablesForm extends React.Component {
         this.setState({[name]: event.target.value}); 
     } 
 
+    handleIndicatorChange = (event) => {
+        let index = parseInt(event.target.name);
+        let indicators = [...this.state.performanceIndicators];
+        indicators[index] = event.target.value;
+        this.setState({performanceIndicators: indicators});
+    }
+
     handleSubmit = (event) => {
         console.log(this.state);
         event.preventDefault();
@@ -28,32 +35,43 @@ class DeliverablesForm extends React.Component {
           performanceIndicators: [...this.state.performanceIndicators, indicator],
         });
         event.preventDefault();
-      }
+    }
+
+    deleteIndicator = (index) => {
+        let indicators = [...this.state.performanceIndicators];
+        indicators.splice(index, 1);
+        this.setState({performanceIndicators: indicators});
+    }
 
     renderIndicators = () => {
         const indicators = []
         for (let i = 0; i < this.state.performanceIndicators.length; ++i) {
+            let indicatorName = i;
             indicators.push(
-                <>
+                <div style={{display: "flex", justifyContent: "space-around",
+                    width: "30%"}}>
                     <label>
                         <input
                             id="performance-indicators"
                             className="form-control form-text form-center"
-                            name="performanceIndicators"
+                            name={indicatorName}
                             value={this.state.performanceIndicators[i]}
                             type="text"
                             placeholder="Enter Indicator"
                             required={true}
                             size="41" 
                             maxLength="50"
-                            onChange={this.handleChange}
+                            onChange={this.handleIndicatorChange}
                         />
                     </label>
                     <br></br>
-                </>
+                    <div onClick={() => this.deleteIndicator(i)}
+                        style={{paddingTop: "10px"}}>
+                        <span class="fa fa-minus-square"></span>
+                    </div>
+                </div>
             );
         }
-        console.log(indicators);
         return indicators;
     }
 
@@ -94,15 +112,18 @@ class DeliverablesForm extends React.Component {
                             />
                         </label> 
                         <p></p>
-                        Performance Indicators:
-                        <br/>
-                        <button onClick={this.addIndicator}
-                            className="btn btn-primary btn-color-theme modal-submit-btn"
-                            style={{height: "30px", width: "10%", borderRadius: "15px", fontSize: "16px",
-                                marginTop: "10px", marginBottom: "15px"}}>
-                            Add Indicator
-                        </button>
-                        <br/>
+                        <div style={{display: "flex", justifyContent: "space-around", width: "25%"}}>
+                            <p style={{paddingTop: "12px"}}>
+                                Performance Indicators:
+                            </p>
+                            <br/>
+                            <button onClick={this.addIndicator}
+                                className="btn btn-primary btn-color-theme modal-submit-btn"
+                                style={{height: "30px", width: "150px", borderRadius: "15px", fontSize: "13px",
+                                    marginTop: "10px", marginBottom: "15px"}}>
+                                Add Indicator
+                            </button>
+                        </div>
                         {this.renderIndicators()}
                         <br/>
                         <button role="submit"
