@@ -17,6 +17,7 @@ class StudentOutcomesList extends React.Component {
         let outcomes = {...this.props.studentOutcomes};
         outcomes[this.state.outcome] = [];
         this.props.outcomesChanged(outcomes);
+        this.setState({outcome: ""});
     }
 
     removeOutcome = (outcome) => {
@@ -47,16 +48,17 @@ class StudentOutcomesList extends React.Component {
                                     <h4>Student Outcomes</h4>
                                     <div className="d-flex">
                                         <input id="outcomes-input" value={this.state.outcome} name="outcome" onChange={this.handleChange} type="text" className="form-control todo-list-input" placeholder="Add a student outcome"/>
-                                        <button type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.addOutcome}>Add</button>
+                                        <button id="add-outcome" type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.addOutcome}>Add</button>
                                     </div>
                                     <div>
                                         <ol className="outcomes-list">
                                         {Object.keys(this.props.studentOutcomes).map((key, index) => {
                                             return  <li key={key}> 
-                                                        <div className="outcome-div">{key}
-                                                            <i className="fa fa-minus fa-2x" onClick={() => this.removeOutcome(key)}></i>
+                                                        <div className="outcomes-div">
+                                                            <div className="outcome-div" id={"outcome-" + index}>{key}</div>
+                                                            <i id={"outcome-" + index + "-delete"} className="fa fa-minus fa-2x" onClick={() => this.removeOutcome(key)}></i>
                                                         </div>
-                                                        <PerformanceIndicator outcome={key} performanceIndicators={this.props.studentOutcomes[key]} indicatorsChanged={this.indicatorsChanged}/>
+                                                        <PerformanceIndicator id={index} outcome={key} performanceIndicators={this.props.studentOutcomes[key]} indicatorsChanged={this.indicatorsChanged}/>
                                                     </li>
                                         })}
                                         </ol>

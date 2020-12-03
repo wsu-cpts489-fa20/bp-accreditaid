@@ -15,6 +15,7 @@ class PerformanceIndicator extends React.Component {
         let indicators = [...this.props.performanceIndicators];
         indicators.push(this.state.indicator);
         this.props.indicatorsChanged(this.props.outcome, indicators);
+        this.setState({indicator: ""});
     }
 
     removeIndicator = (indicator) => {
@@ -40,13 +41,18 @@ class PerformanceIndicator extends React.Component {
                             <div className="card px-3">
                                 <div>
                                     <div className="d-flex">
-                                        <input id={"indicator-" + this.props.id} value={this.state.indicator} name="indicator" onChange={this.handleChange} type="text" className="form-control todo-list-input" placeholder="Add a performance indicator"/>
-                                        <button type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.addIndicator}>Add</button>
+                                        <input id={"outcome-" + this.props.id + "-indicator-input"} value={this.state.indicator} name="indicator" onChange={this.handleChange} type="text" className="form-control todo-list-input" placeholder="Add a performance indicator"/>
+                                        <button id={"add-" + this.props.id + "-indicator"} type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.addIndicator}>Add</button>
                                     </div>
                                     <div>
                                         <ol className="indicators-list">
                                         {this.props.performanceIndicators.map((value, index) => {
-                                            return <li key={index}>{value} <i className="fa fa-minus fa-lg" onClick={() => this.removeIndicator(value)}></i></li>
+                                            return <li key={index}>
+                                                        <div className="indicator-element-div">
+                                                            <div className="indicators-div" id={"outcome-" + this.props.id + "-indicator-" + index}>{value}</div>
+                                                            <i id={"outcome-" + this.props.id + "-indicator-" + index + "-delete"} className="fa fa-minus fa-lg" onClick={() => this.removeIndicator(value)}></i>
+                                                        </div>
+                                                    </li>
                                         })}
                                         </ol>
                                     </div>
