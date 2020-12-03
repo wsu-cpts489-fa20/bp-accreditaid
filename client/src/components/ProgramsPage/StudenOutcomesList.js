@@ -1,4 +1,6 @@
 import React from 'react';
+import PerformanceIndicator from './PerformanceIndicator.js';
+import PeformanceIndicator from './PerformanceIndicator.js';
 
 class StudentOutcomesList extends React.Component {
     constructor(props) {
@@ -7,29 +9,31 @@ class StudentOutcomesList extends React.Component {
     }
 
     addOutcome = () => {
-        if (this.props.studentOutcomes.includes(this.state.outcome) || this.state.outcome == "")
+        if (this.state.outcome in this.props.studentOutcomes || this.state.outcome == "")
         {
             return;
         }
 
-        let outcomes = [...this.props.studentOutcomes];
-        outcomes.push(this.state.outcome);
-
+        let outcomes = {...this.props.studentOutcomes};
+        outcomes[this.state.outcome] = [];
         this.props.outcomesChanged(outcomes);
     }
 
     removeOutcome = (outcome) => {
-        let outcomes = [...this.props.studentOutcomes];
-        const index = outcomes.indexOf(outcome);
-        if (index > -1) {
-            outcomes.splice(index, 1);
-            this.props.outcomesChanged(outcomes);
-        }
+        let outcomes = {...this.props.studentOutcomes};
+        delete outcomes[outcome];
+        this.props.outcomesChanged(outcomes);
     }
 
     handleChange = (event) => {
         const name = event.target.name;
         this.setState({[name]: event.target.value});
+    }
+
+    indicatorsChanged = (outcome, indicators) => {
+        let outcomes = {...this.props.studentOutcomes};
+        outcomes[outcome] = indicators;
+        this.props.outcomesChanged(outcomes);
     }
 
     render() {
@@ -42,15 +46,20 @@ class StudentOutcomesList extends React.Component {
                                 <div>
                                     <h4>Student Outcomes</h4>
                                     <div className="d-flex">
-                                        <input value={this.state.outcome} name="outcome" onChange={this.handleChange} type="text" className="form-control todo-list-input" placeholder="Add a student outcome"/>
+                                        <input id="outcomes-input" value={this.state.outcome} name="outcome" onChange={this.handleChange} type="text" className="form-control todo-list-input" placeholder="Add a student outcome"/>
                                         <button type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.addOutcome}>Add</button>
                                     </div>
                                     <div>
-                                        <ul className="outcomes-list">
-                                        {this.props.studentOutcomes.map((value, index) => {
-                                            return <li key={index}>{value} <i className="fa fa-minus fa-lg" onClick={() => this.removeOutcome(value)}></i></li>
+                                        <ol className="outcomes-list">
+                                        {Object.keys(this.props.studentOutcomes).map((key, index) => {
+                                            return  <li key={key}> 
+                                                        <div className="outcome-div">{key}
+                                                            <i className="fa fa-minus fa-2x" onClick={() => this.removeOutcome(key)}></i>
+                                                        </div>
+                                                        <PerformanceIndicator outcome={key} performanceIndicators={this.props.studentOutcomes[key]} indicatorsChanged={this.indicatorsChanged}/>
+                                                    </li>
                                         })}
-                                        </ul>
+                                        </ol>
                                     </div>
                                 </div>
                             </div>

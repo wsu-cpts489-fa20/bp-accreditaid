@@ -407,17 +407,34 @@ body {
   background-color: lightgray;
 }
 
-.outcomes-list{
-  list-style-type: none;
+.outcomes-list,
+.indicators-list {
   margin-left: 0;
   margin-right: 10%;
 }
 
-.outcomes-list > li {
+.indicators-list {
+  /*list-style-type: none; */
+  margin-left: 0;
+}
+
+.outcomes-list > li,
+.indicators-list > li {
+  margin-top: 15px;
+}
+
+.outcome-div,
+.indicators-list > li {
   display: flex;
   justify-content: space-between;
 }
 
-.outcomes-list > li > i {
+.outcome-div > i,
+.indicators-list > li > i {
   align-self: center;
+}
+
+.outcome-div > i:hover,
+.indicators-list > li > i:hover {
+  cursor: pointer;
 }

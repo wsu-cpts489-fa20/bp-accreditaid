@@ -13,7 +13,7 @@ class ProgramForm extends React.Component {
                     college: "",
                     credits: "",
                     oldName: "",
-                    studentOutcomes: [],
+                    studentOutcomes: {},
                     faIcon: "fa fa-save",
                     btnLabel: "Save Program Data"}
     } else {
