@@ -10,6 +10,8 @@ import Rounds from './RoundsPage/Rounds.js';
 import Courses from './CoursesPage/Courses.js';
 import Programs from './ProgramsPage/Programs.js'
 import AboutBox from './common/AboutBox.js';
+import InstructorPage from "./InstructorPage/InstructorPage.jsx"
+import CourseInfoPage from "./CourseInfo/CourseInfo.jsx"
 
 const modeTitle = {};
 modeTitle[AppMode.LOGIN] = "Welcome to AcreditAid";
@@ -36,7 +38,8 @@ modeToPage[AppMode.COURSES_EDITCOURSE] = Courses;
 modeToPage[AppMode.PROGRAMS] = Programs
 modeToPage[AppMode.PROGRAMS_LOGPROGRAM] = Programs
 modeToPage[AppMode.PROGRAMS_EDITPROGRAM] = Programs
-
+modeToPage[AppMode.INSTRUCTOR_DASHBOARD] = InstructorPage
+modeToPage[AppMode.COURSE_INFO] = CourseInfoPage
 
 
 class App extends React.Component {
@@ -64,10 +67,23 @@ class App extends React.Component {
         .then((response) => response.json())
         .then((obj) => {
           if (obj.isAuthenticated) {
+
+            let usermode = AppMode.PROGRAMS;
+            switch(obj.user.accountType){
+              case "Instructor":
+                usermode = AppMode.INSTRUCTOR_DASHBOARD
+                break
+              case "College Admin":
+                usermode = AppMode.PROGRAMS
+                break
+              default:
+                usermode = AppMode.INSTRUCTOR_DASHBOARD
+            }
+            
             this.setState({
               userObj: obj.user,
               authenticated: true,
-              mode: AppMode.PROGRAMS //We're authenticated so can get into the app.
+              mode: usermode//We're authenticated so can get into the app.
             });
           }
         }
@@ -75,8 +91,12 @@ class App extends React.Component {
     } 
   }
 
-  handleChangeMode = (newMode) => {
-    this.setState({mode: newMode});
+  handleChangeMode = (newMode, modeParams) => {
+    this.setState(
+      {
+        mode: newMode,
+        modeParams: modeParams
+      });
   }
 
   openMenu = () => {
@@ -164,6 +184,7 @@ class App extends React.Component {
           <ModePage 
             menuOpen={this.state.menuOpen}
             mode={this.state.mode}
+            modeParams={this.state.modeParams}
             changeMode={this.handleChangeMode}
             userObj={this.state.userObj}
             refreshOnUpdate={this.refreshOnUpdate}

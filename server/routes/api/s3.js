@@ -4,6 +4,8 @@ const Mongoose = require('mongoose')
 const AWS = require('aws-sdk');
 const fs = require('fs');
 
+var path = require('path');
+
 const stream = require('stream');
 
 const multer = require('multer');
@@ -35,56 +37,54 @@ function bufferToStream(binary) {
 
 //upload file route
 router.post('/',  async (req, res, next) => {
-        let upload = multer({ }).single('');
+        console.log("POST request on /api/s3/")
+        let upload = multer({ }).single('file');
     
         upload(req, res, function(err) {
             // req.file contains information of uploaded file
             // req.body contains information of text fields, if there were any
     
             if (req.fileValidationError) {
-                return res.send(req.fileValidationError);
+                console.log("file validation err");
+                return res.status(400).send(req.fileValidationError);
             }
             else if (!req.file) {
-                return res.send('Please select an image to upload');
+                console.log("no file attached to req");
+                return res.status(400).json({"Error":"No file was attached"});
             }
             else if (err instanceof multer.MulterError) {
-                return res.send(err);
+                console.log("Err with multer");
+                return res.status(400).send(err);
             }
             else if (err) {
-                return res.send(err);
+                console.log(err);
+                return res.status(400).send(err);
             }
-            console.log(req.file)
     
             // Display uploaded image for user validation
             let fileStream = bufferToStream(req.file.buffer)
-            console.log(fileStream);
 
             var uploadParams = {Bucket: 'accreditaid', Key: '', Body: ''};
             uploadParams.Body = fileStream;
             uploadParams.Key = req.file.originalname;
 
-            let VersionId = null;
-
-            console.log("Before uploading file to s3");
             s3.upload (uploadParams, function (err, data) {
-                console.log("callback function");
                 if (err) {
                   console.log("Error", err);
+                  res.status(400).json({"Error":err});
                 } if (data) {
-                  VersionId = data.VersionId
                   console.log("Upload Success", data.Location);
-                }
-            });
-            
-
-            //send response
-            res.send({
-                status: true,
-                message: 'File is uploaded',
-                data: {
-                    name: req.file.originalname,
-                    mimetype: req.file.mimetype,
-                    size: req.file.size,
+                              //send response
+                    res.status(200).send({
+                        status: true,
+                        message: 'File is uploaded',
+                        data: {
+                            name: req.file.originalname,
+                            mimetype: req.file.mimetype,
+                            size: req.file.size,
+                            VersionId: data.VersionId
+                        }
+                    });
                 }
             });
         });
@@ -101,7 +101,6 @@ router.get('/',  async (req, res, next) => {
     }
 
     var getParams = {Bucket: 'accreditaid', Key: ''};
-    var path = require('path');
     getParams.Key = path.basename(req.query.name);
     getParams.VersionId = req.query.id;
     
@@ -110,11 +109,23 @@ router.get('/',  async (req, res, next) => {
             console.log(err);
         } else {
             console.log("Successfully dowloaded data from  bucket");
-            console.log(data.Body.toString('utf-8'));
+            
+            res.set('Content-Type', 'application/octet-stream');
+            res.set('Content-disposition', 'attachment; filename=' + req.query.name);
+            
+            //var readStream = new stream.PassThrough();
+            var readStream = bufferToStream(data.Body);
+            //console.log(data);
+            //readStream.end(data.body);
+            readStream.on('data', (data) => {
+                res.write(data);
+            });
+            readStream.on('end', () => {
+                res.status(200).send();
+                console.log('There will be no more data.');
+              });
         }
     });
-
-    res.send();
 
 });
 
@@ -136,9 +147,12 @@ router.delete('/',  async (req, res, next) => {
     s3.deleteObject(deleteParams, function (err, data) {
         if (err) {
             console.log(err);
+            res.status(500).json({"Error": err})
         } else {
             console.log("Successfully deleted data from  bucket");
+
             console.log(data);
+            res.status(200).json({"Response":"Success"})
         }
     });
 
