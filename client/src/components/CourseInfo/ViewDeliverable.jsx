@@ -120,6 +120,11 @@ class ViewDeliverable extends React.Component {
                     <p>{this.state.deliverable.deliverableName}</p>
                     <h4>Description</h4>
                     <p>{this.state.deliverable.description}</p>
+                    <h4>Course Schedule</h4>
+                    <form onSubmit={() => alert("uploading work sample")}>
+                        <input className="form-control-file"  type="file"  name="file" ></input>
+                        <button className="btn btn-success" name="courseSchedule" type="submit">Upload</button> 
+                    </form>
                     <h4>Student Outcomes and Preformace Indicators</h4>
                     <p>{this.displaySOPIs()}</p>
                     <div>
