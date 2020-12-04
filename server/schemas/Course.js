@@ -27,6 +27,7 @@ const deliverable = new mongoose.Schema({
     deliverableName: String,
     prompt: tupleSchema,
     description: String,
+    labels: [String],
     SOs: [SOInformation],
     studentWorkSamples: [workSample]
 });
