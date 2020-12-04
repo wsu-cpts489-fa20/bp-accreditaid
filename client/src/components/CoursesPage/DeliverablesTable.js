@@ -17,7 +17,7 @@ class DeliverablesTable extends React.Component {
     displayLabels = (labels) => {
         let result = []
         if (labels.length == 0) {
-            result.push(<td>Not Applicable</td>);
+            result.push(<td>N/A</td>);
         } else {
             let labelString = "";
             for (let i = 0; i < labels.length - 1; i++) {
