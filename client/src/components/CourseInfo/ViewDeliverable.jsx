@@ -17,7 +17,6 @@ class ViewDeliverable extends React.Component {
 
   handleDeliverableSubmit = async (event) => {
     event.preventDefault();
-    this.props.close();
   }
 
   retriveSoPis = async () => {
@@ -102,8 +101,37 @@ class ViewDeliverable extends React.Component {
     }
   }
 
+  onSubmit = (event,type) =>{
+    console.log("on sumbit!")
+    event.preventDefault()
+    console.log("file");
+    console.log("files array" + event.target.files);
+    this.props.uploadFile(event.target['file'].files[0], this.props.upload_prompt, type)
+    alert(
+        `Selected file - ${event.target.files[0].name}`
+      );
+  }
+
   render() {
-              console.log(this.props.deliverable);
+    console.log(this.props.index)
+    let prompt = this.state.deliverable.prompt
+    var PromptDiv =(<div>
+      <h4>Prompt</h4>
+      <form onSubmit={e => this.onSubmit(e, this.props.index)}>
+          <input className="form-control-file"  type="file"  name="file" ></input>
+          <button  className="btn btn-success" name="prompt" type="submit">Upload</button> 
+      </form>
+      
+    </div>)  
+
+  if(prompt != null){
+    PromptDiv = (<div>
+        <h4>Prompt</h4>
+            <a href={"/api/s3?id=" + prompt.id + "&name=" + prompt.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
+            <button onClick={()=>{this.props.deleteFile(prompt.id, prompt.name, this.props.deleteInDatabase_single, "prompt")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+            
+    </div>)
+    }
     return (
       <div className="modal" role="dialog">
               <div className="modal-dialog modal-lg"></div>
@@ -120,11 +148,7 @@ class ViewDeliverable extends React.Component {
                     <p>{this.state.deliverable.deliverableName}</p>
                     <h4>Description</h4>
                     <p>{this.state.deliverable.description}</p>
-                    <h4>Course Schedule</h4>
-                    <form onSubmit={() => alert("uploading work sample")}>
-                        <input className="form-control-file"  type="file"  name="file" ></input>
-                        <button className="btn btn-success" name="courseSchedule" type="submit">Upload</button> 
-                    </form>
+                    {PromptDiv}
                     <h4>Student Outcomes and Preformace Indicators</h4>
                     <p>{this.displaySOPIs()}</p>
                     <div>
