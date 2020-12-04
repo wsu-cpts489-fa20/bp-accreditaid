@@ -37,16 +37,13 @@ class Programs extends React.Component {
             const msg = await res.json();
             let programs = JSON.parse(msg);
             this.setState({errorMsg: ""});
-            // console.log(programs)
             for(var i = 0; i < programs.length; i++)
             {
                 programs[i].courses = 0;
                 programs[i].instructors = 0;
                 programs[i].completion = 0;
             }
-            // console.log(programs)
             this.setState({programs: programs})
-            //console.log(res.json())
         }
     }
 
@@ -90,7 +87,6 @@ class Programs extends React.Component {
             method: 'PUT',
             body: JSON.stringify(newData)}); 
         const msg = await res.text();
-        console.log(msg);
         if (res.status != 200) {
             this.setState({errorMsg: msg});
             this.props.changeMode(AppMode.PROGRAMS);

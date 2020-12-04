@@ -82,10 +82,8 @@ class CreateEditAccountDialog extends React.Component {
                 
             }
         } else {
-            console.log("In on Change!")
             this.setState({[event.target.name]: event.target.value,
                            formUpdated: formUpdated},this.checkDataValidity);
-            console.log(this.state.accountType);
         }
     } 
 
@@ -146,7 +144,6 @@ class CreateEditAccountDialog extends React.Component {
         };
         const url = '/api/users/' + this.state.accountName;
         let res;
-        console.log("User data", JSON.stringify(userData));
         if (this.props.create) { //use POST route to create new user account
             res = await fetch(url, {
                 headers: {

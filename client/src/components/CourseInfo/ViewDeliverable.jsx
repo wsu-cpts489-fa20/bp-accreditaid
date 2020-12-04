@@ -39,7 +39,7 @@ class ViewDeliverable extends React.Component {
         let course = JSON.parse(msg);
         console.log(course.courseProgram);
         //fetching the program
-        url = '/api/program/' + course.courseProgram;
+        url = '/api/programs/' + course.courseProgram;
         res = await fetch(url, {
             headers: {
                 'Accept': 'application/json',
