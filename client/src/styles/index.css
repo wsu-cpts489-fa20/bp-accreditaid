@@ -457,6 +457,20 @@ body {
 }
 
 /*styling for deliverables checkbox list*/
-.deliverableList{
+.deliverableList, 
+.deliverableList-pi{
   list-style-type: none;
+}
+
+.deliverableList > li {
+  font-size: medium;
+}
+
+.deliverableList-pi{
+  margin-left: 1%;
+  font-size: small;
+}
+
+.upload-schedule {
+  display: inline-flex;
 }

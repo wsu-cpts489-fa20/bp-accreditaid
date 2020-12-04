@@ -5,7 +5,7 @@ class ViewDeliverable extends React.Component {
     super(props);
     this.state = {
       placeHolder: false,
-      deliverable: this.props.deliverable,
+      deliverable: props.deliverable,
       deliverableSOs: {},
 
     }
@@ -36,7 +36,6 @@ class ViewDeliverable extends React.Component {
     } else { //success! we are ready to get the SOs and PIs from programs
       const msg = await res.json();
       let course = JSON.parse(msg);
-      console.log(course.courseProgram);
       //fetching the program
       url = '/api/programs/' + course.courseProgram;
       res = await fetch(url, {
@@ -52,7 +51,6 @@ class ViewDeliverable extends React.Component {
       } else { //suscses! we have our program that has 
         const msg = await res.json();
         let program = JSON.parse(msg);
-        console.log(program.studentOutcomes);
         this.setState({ deliverableSOs: { ...program.studentOutcomes } });
       }
     }
@@ -63,20 +61,18 @@ class ViewDeliverable extends React.Component {
     var SOPIs = [];
     var PIs = [];
     var keys = Object.keys(this.state.deliverableSOs);
-    console.log("keys" + keys);
     for (var i = 0; i < keys.length; i++) {
       //gets each PI from a given SO
       for (var j = 0; j < this.state.deliverableSOs[keys[i]].length; j++) {
         PIs.push(
-            <li>{this.state.deliverableSOs[keys[i]][j]}<input type="checkbox"/></li>
+            <li><input style={{marginRight: 20}} type="checkbox"/>{this.state.deliverableSOs[keys[i]][j]}</li>
         );
       }
       // add SO to the unordered list
-      console.log(this.state.deliverableSOs[keys[i]]);
       SOPIs.push(
         <ul className="deliverableList">
-          <li>{keys[i]}<input type="checkbox"/></li>
-          <ul className="deliverableList">
+          <li><input style={{marginRight: 20}} type="checkbox"/>{keys[i]}</li>
+          <ul className="deliverableList-pi">
             {PIs}
           </ul>
         </ul>
@@ -88,16 +84,30 @@ class ViewDeliverable extends React.Component {
   }
 
   displayNeededWorkSamples = () => {
-    let workSamples = [];
+    var workSamples = [];
     for (var i = 0; i < this.state.deliverable.labels.length; i++) {
               workSamples.push(
-                <div>
+                <tr>
                   <td>{"Work Sample " + i}</td>
-                  <td>{this.state.deliverable.labels[i]}</td>
-                  <td>{this.state.deliverable.labels[i]}</td>
+                  <td className={() => this.getLabelClassName(this.state.deliverable.labels[i])}>{this.state.deliverable.labels[i]}</td>
                   <td><a href={"/api/s3?id=" + "coursedeliverable.id" + "&name=" + "coursedeliverable.name"} className="btn btn-primary" > <i className="fa fa-download"></i> Add Sample</a></td>
-                </div>
+                </tr>
               );
+    }
+
+    return workSamples;
+  }
+
+  getLabelClassName(label) {
+    switch(label) {
+      case "High":
+        return "btn btn-danger"
+      case "Medium":
+        return "btn btn-warning"
+      case "Low":
+        return "btn btn-primary"
+      default: 
+        return ""
     }
   }
 
@@ -154,10 +164,10 @@ class ViewDeliverable extends React.Component {
                     <div>
                       <h4>Upload student work samples</h4>
                       <table id="courses-table" className="table table-hover">
-                        <thead className="thead-light">
+                        <thead className="thead-dark">
                           <tr>
                             <th>Name</th>
-                            <th>Lable</th>
+                            <th>Label</th>
                             <th>Add file</th>
                           </tr>
                         </thead>
