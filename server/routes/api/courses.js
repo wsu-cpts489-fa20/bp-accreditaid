@@ -35,6 +35,9 @@ router.post('/:name',  async (req, res, next) => {
         courseInstructor: req.body.courseInstructor,
         courseEmail: req.body.courseEmail,
         courseProgram: req.body.courseProgram,
+        courseSemester: req.body.courseSemester,
+        courseYear: req.body.courseYear,
+        courseStudents: req.body.courseStudents
       }).save();
       return res.status(201).send("New course of the name '" + 
       req.params.name + "' successfully created.");
@@ -53,6 +56,23 @@ router.get('/program/:courseProgram', async(req, res) => {
     let courses = await Course.find({courseProgram: req.params.courseProgram});
     if (!courses) {
       return res.status(400).send("No courses with specified courseProgram was found in database.");
+    } else {
+      return res.status(200).json(JSON.stringify(courses));
+    }
+  } catch (err) {
+    console.log()
+    return res.status(400).send("Unexpected error occurred when looking up course in database: " + err);
+  }
+});
+
+//READ course route: with no query, this will return the entire courses collection.
+router.get('/', async(req, res) => {
+  console.log("in /api/courses route (GET)  ");
+  console.log("query - " + JSON.stringify(req.query))
+  try {
+    let courses = await Course.find(req.query);
+    if (!courses) {
+      return res.status(400).send("Err, courses returned null");
     } else {
       return res.status(200).json(JSON.stringify(courses));
     }
@@ -87,21 +107,13 @@ router.put('/:courseId', async (req, res, next) => {
               JSON.stringify(req.params) + " and body = " + 
               JSON.stringify(req.body));
   const validProps = ['courseName', 'courseNumber', 'coursePrefix', 'courseCredits', 'coursePrerequisites',
-    'courseInstructor', 'courseEmail', 'courseProgram'];
+    'courseInstructor', 'courseEmail', 'courseProgram', "courseYear", "courseSemester", "courseStudents", "courseSyllabus", "courseSchedule", "courseRoster"];
   let bodyObj = req.body;
   delete bodyObj._id; //Not needed for update
   delete bodyObj.__v; //Not needed for update
   delete bodyObj.sos; //Not needed for update
   delete bodyObj.deliverables; //Not needed for update
   delete bodyObj.completion; //Not needed for update
-  delete bodyObj.selectedForEmail; //Not needed for update
-  for (const bodyProp in bodyObj) {
-    if (!validProps.includes(bodyProp)) {
-      return res.status(400).send("courses/ PUT request formulated incorrectly." +
-        "It includes " + bodyProp + ". However, only the following props are allowed: " +
-        "'courseName', 'courseNumber', 'coursePrefix', 'courseCredits', 'coursePrerequisites', 'courseInstructor', 'courseEmail', 'courseProgram'");
-    }
-  }
   try {
     console.log(JSON.stringify(bodyObj));
     let status = await Course.updateOne(
