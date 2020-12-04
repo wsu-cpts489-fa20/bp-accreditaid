@@ -14,7 +14,7 @@ class CreateEditAccountDialog extends React.Component {
         this.state = {accountName: "",
                       displayName: "",
                       password: "",
-                      accountType: "",
+                      accountType: "Instructor",
                       passwordRepeat: "",
                       securityQuestion: "",
                       securityAnswer: "",
