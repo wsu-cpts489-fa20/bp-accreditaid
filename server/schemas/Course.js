@@ -13,7 +13,8 @@ const workSample = new mongoose.Schema({
 
 const deliverable = new mongoose.Schema({
     deliverableName : String,
-    prompt: String,
+    prompt: tupleSchema,
+    description: String,
     SIPI: [String],
     studentWorkSamples: [workSample]
 });

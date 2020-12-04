@@ -3,7 +3,7 @@ import React from 'react';
 class ViewDeliverable extends React.Component {
   constructor(props) {
     super(props);
-    state = {
+    this.state = {
         placeHolder: false
     }
   }   
