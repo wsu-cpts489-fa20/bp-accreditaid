@@ -37,6 +37,41 @@ class StudentOutcomesList extends React.Component {
         this.props.outcomesChanged(outcomes);
     }
 
+    importData = (file) => {
+        var outcomes = {}
+        var fileReader = new FileReader();
+        fileReader.onloadend = function(e) {
+            var lines = e.target.result.split(/\r?\n/);
+
+            lines.forEach(function (line) {
+                var stuff = line.split(',');
+                var performanceIndicators = [];
+                var studentoutcome = "";
+
+                for (let i = 1; i < stuff.length; i++)
+                {
+                    if (i == 0)
+                    {
+                        studentoutcome = stuff[i];
+                    }
+                    else
+                    {
+                        performanceIndicators.push(stuff[i]);
+                    }
+                }
+
+                if(studentoutcome != "")
+                {
+                    outcomes[studentoutcome] = performanceIndicators;
+                }
+
+            });
+
+            this.props.outcomesChanged(outcomes);
+        };
+        fileReader.readAsText(file);
+    }
+
     render() {
         return (
             <div className="page-content page-container">
@@ -62,6 +97,10 @@ class StudentOutcomesList extends React.Component {
                                                     </li>
                                         })}
                                         </ol>
+                                    </div>
+                                    <div className="import-csv">
+                                        <input type="file" accept=".csv" onChange={e => this.importData(e.target.files[0])}/>
+                                        <button id="upload-csv" type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.importData}>Import data</button>
                                     </div>
                                 </div>
                             </div>
