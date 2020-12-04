@@ -34,7 +34,6 @@ renderModeMenuItems = () => {
             <span id="userID" className="sidemenu-userID">&nbsp;{this.props.displayName}</span>
         </div>
           {/* MENU CONTENT */}
-          {this.renderModeMenuItems()}
           {/* The following menu items are present regardless of mode */}
           {this.props.localAccount ? 
             <a id="accountBtn" className="sidemenu-item" onClick={this.props.editAccount}>
