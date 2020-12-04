@@ -1,5 +1,6 @@
 import React from 'react';
-import AppMode from '../../AppMode.js'
+import AppMode from '../../AppMode.js';
+import UserType from '../../UserTypes.js';
 
 class SideMenu extends React.Component {
 
@@ -7,18 +8,19 @@ class SideMenu extends React.Component {
 //current mode, which is stored in this.prop.mode. Uses switch statement to
 //determine mode.
 renderModeMenuItems = () => {
+    if (this.props.userType === UserType.ADMIN || this.props.userType === UserType.ACREDITADMIN)
+    {
+      return (
+          <a className="sidemenu-item"
+              onClick={() => this.props.changeMode(AppMode.PROGRAMS)}>
+          <span className="fa fa-tasks"></span>&nbsp;Program's dashboard</a>
+      )
+    }
+    else if (this.props.userType === UserType.INSTRUCTOR)
     return(
-      <div>
         <a className="sidemenu-item"
-            onClick={() => this.props.changeMode(AppMode.PROGRAMS)}>
-            <span className="fa fa-search"></span>&nbsp;Programs</a>
-        <a className="sidemenu-item"
-            onClick={() => this.props.changeMode(AppMode.COURSES)}>
-            <span className="fa fa-plus"></span>&nbsp;Courses</a>
-        <a className="sidemenu-item"
-            onClick={() => this.props.changeMode(AppMode.COURSES_DELIVERABLES)}>
-            <span className="fa fa-search"></span>&nbsp;Deliverables</a>
-      </div>
+            onClick={() => this.props.changeMode(AppMode.INSTRUCTOR_DASHBOARD)}>
+        <span className="fa fa-tachometer"></span>&nbsp;Instructor's dashboard</a>
     )
 }
 
