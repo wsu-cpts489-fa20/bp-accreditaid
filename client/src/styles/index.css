@@ -474,3 +474,8 @@ body {
 .upload-schedule {
   display: inline-flex;
 }
+.import-csv {
+  display: inline-flex;
+  margin-bottom: 16px;
+  margin-top: 8px;
+}
