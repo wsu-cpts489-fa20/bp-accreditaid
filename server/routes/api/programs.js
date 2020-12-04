@@ -25,21 +25,21 @@ router.get('/', async(req, res, next) => {
 });
 
 //READ Program route: Retrieves the Program with the specified name from Programs collection (GET)
-router.get('/:name', async(req, res, next) => {
-  console.log("in /api/programs route (GET) with name = " + 
-    JSON.stringify(req.params.name));
+router.get('/:programId', async(req, res, next) => {
+  console.log("in /api/programs route (GET) with an id = " + 
+    JSON.stringify(req.params.programId));
   try {
-    let thisProgram = await Program.findOne({name: req.params.name});
+    let thisProgram = await Program.findOne({_id: req.params.programId});
     if (!thisProgram) {
-      return res.status(404).send("No Program with name " +
-        req.params.name + " was found in database.");
+      return res.status(404).send("No Program with an id " +
+        req.params.programId + " was found in database.");
     } else {
       return res.status(200).json(JSON.stringify(thisProgram));
     }
   } catch (err) {
     console.log()
-    return res.status(400).send("Unexpected error occurred when looking up Program with name " +
-      req.params.name + " in database: " + err);
+    return res.status(400).send("Unexpected error occurred when looking up Program with an id " +
+      req.params.programId + " in database: " + err);
   }
 });
   
