@@ -15,17 +15,29 @@ class DeliverablesTable extends React.Component {
         return headers;
     }
 
+    renderRows = () => {
+        let rows = []
+        for (let p = 0; p < this.props.labels.length; ++p) {
+            let label = this.props.labels[p]
+            rows.push(
+                <td>
+                <input type="checkbox" id={label[p]+p}
+                    name={label[p]+p} value={label[p]+p}/>
+            </td>
+            );
+        }
+        return rows;
+    }
+
     renderTable = () => {
-        console.log(this.props.deliverables);
         let table = [];
-        for (let p = 0; p < this.props.deliverables.length; ++p) {
+        let deliverables = this.props.deliverables;
+        for (let p = 0; p < deliverables.length; ++p) {
             table.push(
                 <tr key={p}>
-                    <td>{this.props.deliverables[p].deliverableName}</td>
-                    <td>{this.props.deliverables[p].description}</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
+                    <td>{deliverables[p].deliverableName}</td>
+                    <td>{deliverables[p].description}</td>
+                    {this.renderRows()}
                     <td>
                         <button 
                             id={"deliverable-edit-" + p}
@@ -44,7 +56,7 @@ class DeliverablesTable extends React.Component {
     render() {
         return (
         <div>
-            <table id="courses-table" className="table table-hover">
+            <table id="deliverables-table" className="table table-hover">
                 <thead className="thead-light">
                     <tr>
                     {this.getHeader()}

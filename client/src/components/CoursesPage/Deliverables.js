@@ -3,6 +3,7 @@ import AppMode from '../../AppMode.js';
 import DeliverablesForm from './DeliverablesForm.js';
 import DeliverablesTable from './DeliverablesTable.js';
 import FloatingButton from '../common/FloatingButton.js';
+import LabelsForm from "./LabelsForm.js";
 
 class Deliverables extends React.Component {
 
@@ -21,11 +22,6 @@ class Deliverables extends React.Component {
                       });
     }
 
-    populateTable() {
-        console.log(this.state.course);
-    }
-
-
     updateCourseState = (field, value) =>{
         let newCourse = this.state.course
         newCourse[field] = value
@@ -35,7 +31,6 @@ class Deliverables extends React.Component {
     }
 
     addDeliverable = async (newData) => {
-        console.log(newData);
         let body = {};
         body["courseDeliverables"] = this.state.course.courseDeliverables;
         newData["deliverableCourseID"] = this.state.course._id;
@@ -44,7 +39,7 @@ class Deliverables extends React.Component {
         body["courseDeliverables"].push(newData);
 
         console.log(body);
-        this.setState({deliverables: body});
+        this.setState({deliverables: body.courseDeliverables});
         await fetch("/api/courses/" + this.state.course._id, {
             headers: {
                 'Accept': 'application/json',
@@ -75,19 +70,30 @@ class Deliverables extends React.Component {
             case AppMode.DELIVERABLES:
                 return (
                     <>
+                        <button className="btn btn-primary" id="edit-labels-button"
+                            onClick={() => this.props.changeMode(AppMode.DELIVERABLES_EDITLABELS)}>
+                            Edit Work Sample Labels
+                        </button>
                         <DeliverablesTable
                             deliverables={this.state.deliverables}
                             labels={this.state.labels}
                         />
                         <FloatingButton
+                            id="add-deliverable-button"
                             handleClick={() => this.props.changeMode(AppMode.DELIVERABLES_LOGDELIVERABLE)}
                         />
                     </>
                 );
+            case AppMode.DELIVERABLES_EDITLABELS:
+                return (
+                    <LabelsForm
+                        updateLabels={this.updateLabels}
+                        labels={this.state.labels}
+                    />
+                );
             case AppMode.DELIVERABLES_LOGDELIVERABLE:
                 return (
                     <DeliverablesForm
-                        updateLabels={this.updateLabels}
                         saveDeliverable={this.addDeliverable} 
                         labels={this.state.labels}
                     />
