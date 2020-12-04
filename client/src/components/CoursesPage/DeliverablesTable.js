@@ -8,36 +8,38 @@ class DeliverablesTable extends React.Component {
         let headers = []
         headers.push(<th>Name</th>);
         headers.push(<th>Description</th>);
-        for (let i = 0; i < labels.length; i++) {
-            headers.push(<th>{labels[i]}</th>);
-        }
+        headers.push(<th>Work Sample Labels</th>)
+        headers.push(<th>Completion</th>)
         headers.push(<th>View/Edit...</th>);
         return headers;
     }
 
-    renderRows = () => {
-        let rows = []
-        for (let p = 0; p < this.props.labels.length; ++p) {
-            let label = this.props.labels[p]
-            rows.push(
-                <td>
-                <input type="checkbox" id={label[p]+p}
-                    name={label[p]+p} value={label[p]+p}/>
-            </td>
-            );
+    displayLabels = (labels) => {
+        let result = []
+        if (labels.length == 0) {
+            result.push(<td>N/A</td>);
+        } else {
+            let labelString = "";
+            for (let i = 0; i < labels.length - 1; i++) {
+                labelString = labelString + labels[i] + ", "
+            }
+            labelString = labelString + labels[labels.length - 1];
+            result.push(<td>{labelString}</td>)
         }
-        return rows;
+        return result;
     }
 
     renderTable = () => {
         let table = [];
         let deliverables = [...this.props.deliverables];
+        console.log(deliverables);
         for (let p = 0; p < deliverables.length; ++p) {
             table.push(
                 <tr key={p}>
                     <td>{deliverables[p].deliverableName}</td>
                     <td>{deliverables[p].description}</td>
-                    {this.renderRows()}
+                    {this.displayLabels(deliverables[p].labels)}
+                    <td>0%</td>
                     <td>
                         <button 
                             id={"deliverable-edit-" + p}
@@ -69,7 +71,7 @@ class DeliverablesTable extends React.Component {
                 <tbody>
                     {Object.keys(this.props.deliverables).length === 0 ? 
                     <tr>
-                    <td colSpan={this.props.labels.length + 3} style={{fontStyle: "italic"}}>No deliverables added yet</td>
+                    <td colSpan="4" style={{fontStyle: "italic"}}>No deliverables added yet</td>
                     </tr> : this.renderTable()
                     }
                 </tbody>
