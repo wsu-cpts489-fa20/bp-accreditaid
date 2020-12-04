@@ -1,11 +1,13 @@
+import { set } from 'mongoose';
 import React from 'react';
+import CSVReader from 'react-csv-reader';
 import PerformanceIndicator from './PerformanceIndicator.js';
 import PeformanceIndicator from './PerformanceIndicator.js';
 
 class StudentOutcomesList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {outcome: ""};
+        this.state = {outcome: "", data: null, fileInfo: null};
     }
 
     addOutcome = () => {
@@ -37,39 +39,37 @@ class StudentOutcomesList extends React.Component {
         this.props.outcomesChanged(outcomes);
     }
 
-    importData = (file) => {
-        var outcomes = {}
-        var fileReader = new FileReader();
-        fileReader.onloadend = function(e) {
-            var lines = e.target.result.split(/\r?\n/);
+    prepareFile = (data, fileInfo) => {
+        this.setState({data: [...data], fileInfo: fileInfo});
+    }
 
-            lines.forEach(function (line) {
-                var stuff = line.split(',');
-                var performanceIndicators = [];
-                var studentoutcome = "";
 
-                for (let i = 1; i < stuff.length; i++)
+    importData = () => {
+        var outcomes = {};
+
+        for(var i = 0; i < this.state.data.length; i++) 
+        {
+            if (this.state.data[i].length > 1)
+            {
+                let performanceIndicators = [];
+                for (var j = 1; j < this.state.data[i].length; j++)
                 {
-                    if (i == 0)
+                    if (this.state.data[i][j] == "")
                     {
-                        studentoutcome = stuff[i];
+                        continue;
                     }
-                    else
-                    {
-                        performanceIndicators.push(stuff[i]);
-                    }
+
+                    performanceIndicators.push(this.state.data[i][j]);
                 }
+                outcomes[this.state.data[i][0]] = performanceIndicators;
+            }
+            else if (this.state.data[i].length == 0)
+            {
+                outcomes[this.state.data[i][0]] = [];
+            }
+        }
 
-                if(studentoutcome != "")
-                {
-                    outcomes[studentoutcome] = performanceIndicators;
-                }
-
-            });
-
-            this.props.outcomesChanged(outcomes);
-        };
-        fileReader.readAsText(file);
+        this.props.outcomesChanged(outcomes);
     }
 
     render() {
@@ -99,7 +99,12 @@ class StudentOutcomesList extends React.Component {
                                         </ol>
                                     </div>
                                     <div className="import-csv">
-                                        <input type="file" accept=".csv" onChange={e => this.importData(e.target.files[0])}/>
+                                        <CSVReader
+                                            cssClass="csv-reader-input"
+                                            label="Select CSV with student outcomes and performance indicators"
+                                            onFileLoaded={this.prepareFile}
+                                            inputId="upload-csv"
+                                        />
                                         <button id="upload-csv" type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.importData}>Import data</button>
                                     </div>
                                 </div>

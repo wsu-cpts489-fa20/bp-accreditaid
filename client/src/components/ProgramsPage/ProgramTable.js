@@ -48,21 +48,21 @@ class ProgramTable extends React.Component {
     <div id="programs-table" className="padded-page">
       <h1></h1>
       <table className="table table-hover">
-        <thead className="thead-light">
+        <thead className="thead-dark">
         <tr>
-          <th>Name</th>
-          <th>Department</th>
-          <th>College</th>
-          <th>Credits</th>
-          <th>Courses</th>
-          <th>Instructors</th>
-          <th>Completion</th>
-          <th>View/Edit...</th>
+          <th scope="col">Name</th>
+          <th scope="col">Department</th>
+          <th scope="col">College</th>
+          <th scope="col">Credits</th>
+          <th scope="col">Courses</th>
+          <th scope="col">Instructors</th>
+          <th scope="col">Completion</th>
+          <th scope="col">View/Edit...</th>
         </tr>
         </thead>
         <tbody>
           {Object.keys(this.props.programs).length === 0 ? 
-          <tr>
+          <tr scope="row">
           <td colSpan="8" style={{fontStyle: "italic"}}>No programs created</td>
           </tr> : this.renderTable()
           }

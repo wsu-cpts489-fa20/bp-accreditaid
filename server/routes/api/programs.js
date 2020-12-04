@@ -58,7 +58,7 @@ router.post('/:name',  async (req, res, next) => {
   try {
     let thisProgram = await Program.findOne({name: req.params.name});
     if (thisProgram) { //program already exists
-      res.status(400).send("There is already a program under that name'" + req.params.name);
+      res.status(400).send("There is already a program under that name '" + req.params.name);
     } else { // add to database
       thisProgram = await new Program({
         name: req.params.name,
@@ -84,7 +84,7 @@ router.put('/:name',  async (req, res, next) => {
         "It must contain 'name' as parameter.");
   }
   const validProps = ['name', 'department', 'college', 
-    'credits', 'studentOutcomes'];
+    'credits', 'studentOutcomes', 'courseId'];
   for (const bodyProp in req.body) {
     if (!validProps.includes(bodyProp)) {
       return res.status(400).send("Programs/ PUT request formulated incorrectly." +
@@ -92,10 +92,10 @@ router.put('/:name',  async (req, res, next) => {
     } 
   }
   try {
-        let status = await Program.updateOne({name: req.params.name}, 
-          {$set: req.body});
+        let status = await Program.updateOne({_id: (req.body.courseId)}
+        ,{"$set" : req.body});
         if (status.nModified != 1) { //program could not be found
-          res.status(404).send("No Program with the name " + req.params.name + " exists. Program could not be updated.");
+          res.status(404).send("Program with the name " + req.params.name + " Was not modified. Either it does not exist or there were no new changes submitted.");
         } else {
           res.status(200).send("Program " + req.params.name + " successfully updated.")
         }

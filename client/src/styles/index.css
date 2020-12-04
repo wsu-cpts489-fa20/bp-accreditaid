@@ -454,3 +454,9 @@ body {
 .outcome-div {
   margin-right: 15px;
 }
+
+.import-csv {
+  display: inline-flex;
+  margin-bottom: 16px;
+  margin-top: 8px;
+}

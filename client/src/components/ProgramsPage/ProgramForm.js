@@ -24,6 +24,10 @@ class ProgramForm extends React.Component {
       thisProgram.oldName = thisProgram.name.slice(0);
       thisProgram.faIcon = "fa fa-edit";
       thisProgram.btnLabel = "Update Program Data";
+      if (thisProgram["studentOutcomes"] == null)
+      {
+        thisProgram["studentOutcomes"] = {};
+      }
       this.state = thisProgram;
     }
   }
@@ -60,11 +64,21 @@ class ProgramForm extends React.Component {
       programData.department = this.state.department;
       programData.college = this.state.college;
       programData.credits = this.state.credits;
-      programData.studentOutcomes = this.state.studentOutcomes;
+      programData.courseId = this.state._id; 
+
+      if (Object.keys(this.state.studentOutcomes).length == 0)
+      {
+        programData.studentOutcomes = null;
+      }
+      else
+      {
+        programData.studentOutcomes = this.state.studentOutcomes;
+      }
+
       delete programData.faIcon;
       delete programData.btnLabel;
       //call saveProgram on 1 second delay to show spinning icon
-      setTimeout(this.props.saveProgram,1000, localName, programData); 
+      setTimeout(this.props.saveProgram, 1000, localName, programData); 
       event.preventDefault(); 
       }
 
