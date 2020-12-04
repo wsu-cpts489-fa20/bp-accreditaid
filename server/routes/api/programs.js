@@ -29,7 +29,7 @@ router.get('/:programId', async(req, res, next) => {
   console.log("in /api/programs route (GET) with an id = " + 
     JSON.stringify(req.params.programId));
   try {
-    let thisProgram = await Program.findOne({_id: req.params.programId});
+    let thisProgram = await Program.findById(req.params.programId);
     if (!thisProgram) {
       return res.status(404).send("No Program with an id " +
         req.params.programId + " was found in database.");

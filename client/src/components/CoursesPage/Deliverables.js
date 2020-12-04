@@ -38,6 +38,7 @@ class Deliverables extends React.Component {
         console.log(newData);
         let body = {};
         body["courseDeliverables"] = this.state.course.courseDeliverables;
+        newData["deliverableCourseID"] = this.state.course._id;
         if(!body["courseDeliverables"])
             body["courseDeliverables"] = [];
         body["courseDeliverables"].push(newData);
