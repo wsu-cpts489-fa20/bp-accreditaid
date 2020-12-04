@@ -4,7 +4,7 @@ import CoursesForm from './CoursesForm.js';
 import CoursesTable from './CoursesTable.js';
 import FloatingButton from '../common/FloatingButton.js';
 import EmailModal from "../EmailModal/EmailModal.jsx"
-import DeliverablesForm from './DeliverablesForm.js';
+import Deliverables from "./Deliverables.js";
 
 class Courses extends React.Component {
 
@@ -84,6 +84,7 @@ class Courses extends React.Component {
     //toggle the mode back to AppMode.PROGRAMS since the user is done editing the
     //program. 
     editCourse = async (newData) => {
+        console.log(newData);
         const url = '/api/courses/' + newData._id;
         delete newData._id;
         const res = await fetch(url, {
@@ -229,10 +230,11 @@ class Courses extends React.Component {
                         />
                     </>
                 );
-            case AppMode.COURSES_DELIVERABLES:
+            case AppMode.DELIVERABLES:
                 return (
                     <>
-                        <DeliverablesForm
+                        <Deliverables
+                            editId={this.state.editId}
                         />
                     </>
                 );

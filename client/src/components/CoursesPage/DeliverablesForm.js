@@ -6,73 +6,82 @@ class DeliverablesForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-                      deliverableName: "",
-                      prompt: "",
-                      performanceIndicators: ["High", "Medium", "Low"],
-                    };    
+                        name: "",
+                        description: "",
+                        labels: [],
+                     };    
+    }
+
+    componentDidMount() {
+        this.setState({labels: this.props.labels});
     }
 
     handleChange = (event) => {
         const name = event.target.name;
-        this.setState({[name]: event.target.value}); 
-    } 
+        this.setState({[name]: event.target.value});
+    }
 
-    handleIndicatorChange = (event) => {
+    handleLabelChange = (event) => {
         let index = parseInt(event.target.name);
-        let indicators = [...this.state.performanceIndicators];
-        indicators[index] = event.target.value;
-        this.setState({performanceIndicators: indicators});
+        let updatedLabels = [...this.state.labels];
+        updatedLabels[index] = event.target.value;
+        this.setState({labels: updatedLabels});
     }
 
     handleSubmit = (event) => {
-        console.log(this.state);
+        event.preventDefault();
+        this.props.updateLabels(this.state.labels);
+        let deliverableData = {};
+        deliverableData.deliverableName = this.state.name;
+        deliverableData.description = this.state.description;
+        setTimeout(this.props.saveDeliverable, 1000, deliverableData);
         event.preventDefault();
     }
 
-    addIndicator = (event) => {
-        let indicator = "None";
+    addLabel = (event) => {
+        let newLabel = "None";
         this.setState({
-          performanceIndicators: [...this.state.performanceIndicators, indicator],
+          labels: [...this.state.labels, newLabel],
         });
         event.preventDefault();
     }
 
-    deleteIndicator = (index) => {
-        let indicators = [...this.state.performanceIndicators];
-        indicators.splice(index, 1);
-        this.setState({performanceIndicators: indicators});
+    deleteLabel = (index) => {
+        let updatedLabels = [...this.state.labels];
+        updatedLabels.splice(index, 1);
+        this.setState({labels: updatedLabels});
     }
 
-    renderIndicators = () => {
-        const indicators = []
-        for (let i = 0; i < this.state.performanceIndicators.length; ++i) {
-            let indicatorName = i;
-            indicators.push(
+    renderLabels = () => {
+        const labels = []
+        for (let i = 0; i < this.state.labels.length; ++i) {
+            let labelName = i;
+            labels.push(
                 <div style={{display: "flex", justifyContent: "space-around",
-                    width: "30%"}}>
+                    width: "30%"}} id={"label-" + i}>
                     <label>
                         <input
-                            id="performance-indicators"
+                            id="performance-labels"
                             className="form-control form-text form-center"
-                            name={indicatorName}
-                            value={this.state.performanceIndicators[i]}
+                            name={labelName}
+                            value={this.state.labels[i]}
                             type="text"
-                            placeholder="Enter Indicator"
+                            placeholder="Enter Label"
                             required={true}
                             size="41" 
                             maxLength="50"
-                            onChange={this.handleIndicatorChange}
+                            onChange={this.handleLabelChange}
                         />
                     </label>
                     <br></br>
-                    <div onClick={() => this.deleteIndicator(i)}
+                    <div onClick={() => this.deleteLabel(i)}
                         style={{paddingTop: "10px"}}>
                         <span class="fa fa-minus-square"></span>
                     </div>
                 </div>
             );
         }
-        return indicators;
+        return labels;
     }
 
     render() {
@@ -81,50 +90,49 @@ class DeliverablesForm extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <center>
                         <label>
-                            Name of Deliverable:
-                            <input
-                                id="deliverable-name"
-                                className="form-control form-text form-center"
-                                name="deliverableName"
-                                value={this.state.deliverableName}
+                            Name:
+                            <input 
+                                id="deliverable-name" 
+                                name="name" 
+                                className="form-control form-center" 
                                 type="text"
-                                placeholder="Name"
+                                value={this.state.name}
+                                onChange={this.handleChange} 
                                 required={true}
+                                placeholder="Deliverable Name" 
                                 size="41" 
-                                maxLength="50"
-                                onChange={this.handleChange}
+                                maxLength="50" 
                             />
                         </label>
                         <p></p>
                         <label>
-                            Prompt:<br/>
-                            <input
-                            id="prompt"
-                            className="form-control form-text form-center"
-                            name="prompt"
-                            value={this.state.prompt}
-                            type="file"
-                            placeholder="Select File"
-                            accept="application/pdf" 
-                            /*required={true}*/
-                            size="75" 
-                            onChange={this.handleChange}
+                            Description:
+                            <textarea 
+                                id="deliverable-description" 
+                                name="description"
+                                className="form-control form-center" 
+                                type="text"
+                                value={this.state.description}
+                                onChange={this.handleChange}
+                                required={true}
+                                placeholder="Deliverable Description"
+                                rows="6" 
+                                cols="75" 
                             />
-                        </label> 
-                        <p></p>
+                        </label>
                         <div style={{display: "flex", justifyContent: "space-around", width: "25%"}}>
                             <p style={{paddingTop: "12px"}}>
-                                Performance Indicators:
+                                Work Sample Labels:
                             </p>
                             <br/>
-                            <button onClick={this.addIndicator}
+                            <button id="add-label" onClick={this.addLabel}
                                 className="btn btn-primary btn-color-theme modal-submit-btn"
                                 style={{height: "30px", width: "150px", borderRadius: "15px", fontSize: "13px",
                                     marginTop: "10px", marginBottom: "15px"}}>
-                                Add Indicator
+                                Add Label
                             </button>
                         </div>
-                        {this.renderIndicators()}
+                        {this.renderLabels()}
                         <br/>
                         <button role="submit"
                             id="deliverables-submit"

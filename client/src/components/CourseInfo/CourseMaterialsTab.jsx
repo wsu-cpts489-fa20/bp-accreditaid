@@ -31,6 +31,7 @@ class CourseMaterialsTab extends React.Component {
         event.preventDefault()
         console.log("file");
         console.log("files array" + event.target.files);
+        console.log(type);
         this.props.uploadFile(event.target['file'].files[0], this.props.upload_array, type)
     }
 

@@ -8,10 +8,6 @@ class CoursesTable extends React.Component {
         this.state = {showConfirm: false};
     }
 
-    editDeliverables = (id) => {
-        this.props.changeMode(AppMode.COURSES_DELIVERABLES);
-    }
-
     editCourse = (id) => {
         this.props.setEditId(id);
         this.props.changeMode(AppMode.COURSES_EDITCOURSE);
@@ -32,7 +28,7 @@ class CoursesTable extends React.Component {
                         <button 
                             id={"deliverables-" + p}
                             onClick={this.props.menuOpen ? null : () => 
-                            this.editDeliverables(p)}>
+                                this.props.changeMode(AppMode.DELIVERABLES, {course: this.props.courses[p], prevMode: AppMode.COURSES})}>
                             <span className="fa fa-files-o"></span>
                         </button>
                     </td>

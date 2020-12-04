@@ -1,10 +1,11 @@
 import React from 'react';
+import ViewDeliverable from './ViewDeliverable.jsx';
 
 class CourseDeliverablesTab extends React.Component {
 
     constructor(props) {
         super(props);
-        state = {
+        this.state = {
             ViewDeliverable: false
         }
     }
