@@ -10,7 +10,7 @@ const AppMode = {
     COURSES_LOGCOURSE: "CoursesMode-LogCourse",
     COURSES_EDITCOURSE: "CoursesMode-EditCourse",
     DELIVERABLES: "DeliverablesMode",
-    DELIVERABLES_EDITLABELS: "DeliverablesMode-EditLabels",
+    DELIVERABLES_EDITDELIVERABLE: "DeliverablesMode-EditDeliverable",
     DELIVERABLES_LOGDELIVERABLE: "DeliverablesMode-LogDeliverable",
     PROGRAMS: "ProgramsMode",
     PROGRAMS_LOGPROGRAM: "ProgramsMode-LogProgram",

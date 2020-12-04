@@ -438,7 +438,8 @@ body {
 }
 
 .outcomes-div > i:hover,
-.indicators-list > li > i:hover {
+.indicators-list > li > i:hover,
+.delete-label {
   cursor: pointer;
 }
 

@@ -54,7 +54,7 @@ class CoursesTable extends React.Component {
         return (
         <div>
             <table id="courses-table" className="table table-hover">
-                <thead className="thead-light">
+                <thead className="thead-dark">
                     <tr>
                     <th>Course Name</th>
                     <th>Number</th>

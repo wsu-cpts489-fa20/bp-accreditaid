@@ -48,7 +48,7 @@ class ProgramTable extends React.Component {
     <div id="programs-table" className="padded-page">
       <h1></h1>
       <table className="table table-hover">
-        <thead className="thead-light">
+        <thead className="thead-dark">
         <tr>
           <th>Name</th>
           <th>Department</th>

@@ -1,42 +1,42 @@
 import React from 'react';
-import AppMode from '../../AppMode.js';
 
 class LabelsForm extends React.Component {
     
     constructor(props) {
         super(props);
-        this.state = {
-                        labels: [],
-                     };    
-    }
+        var labels = []
+        if (props.labels != null && props.labels.length > 0)
+        {
+            labels = props.labels;
+        }
 
-    componentDidMount() {
-        this.setState({labels: this.props.labels});
+        this.state = {
+                        labels: labels,
+                     };    
     }
 
     handleLabelChange = (event) => {
         let index = parseInt(event.target.name);
         let updatedLabels = [...this.state.labels];
         updatedLabels[index] = event.target.value;
+        this.props.updateLabels(updatedLabels);
         this.setState({labels: updatedLabels});
-    }
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-        this.props.updateLabels(this.state.labels);
     }
 
     addLabel = (event) => {
         let newLabel = "None";
+        var updatedLabels = [...this.state.labels, newLabel];
         this.setState({
-          labels: [...this.state.labels, newLabel],
+          labels: updatedLabels,
         });
+        this.props.updateLabels(updatedLabels);
         event.preventDefault();
     }
 
     deleteLabel = (index) => {
         let updatedLabels = [...this.state.labels];
         updatedLabels.splice(index, 1);
+        this.props.updateLabels(updatedLabels);
         this.setState({labels: updatedLabels});
     }
 
@@ -62,9 +62,9 @@ class LabelsForm extends React.Component {
                         />
                     </label>
                     <br></br>
-                    <div id={"delete-label-"+i} onClick={() => this.deleteLabel(i)}
+                    <div className={"delete-label"} id={"delete-label-"+i} onClick={() => this.deleteLabel(i)}
                         style={{paddingTop: "10px"}}>
-                        <span class="fa fa-minus-square"></span>
+                        <span className="fa fa-minus-square"></span>
                     </div>
                 </div>
             );
@@ -93,12 +93,6 @@ class LabelsForm extends React.Component {
                         </div>
                         {this.renderLabels()}
                         <br/>
-                        <button role="submit"
-                            id="labels-submit"
-                            className="btn btn-primary btn-color-theme modal-submit-btn"
-                            style={{marginBottom: "20px", height: "70px", width: "40%"}}>
-                            <span className="fa fa-pencil-square-o"></span>&nbsp;Edit Labels
-                        </button>
                     </center>
                 </form>
             </div>

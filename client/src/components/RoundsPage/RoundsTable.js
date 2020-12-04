@@ -78,7 +78,7 @@ class RoundsTable extends React.Component {
     <div className="padded-page">
       <h1></h1>
       <table className="table table-hover">
-        <thead className="thead-light">
+        <thead className="thead-dark">
         <tr>
           <th>Date</th>
           <th>Course</th>

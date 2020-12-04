@@ -43,7 +43,7 @@ class CourseMaterialsTab extends React.Component {
                 <button className="btn btn-success" name="courseMaterials" type="submit">Upload</button> 
             </form>
             <table id="courses-table" className="table table-hover">
-                <thead className="thead-light">
+                <thead className="thead-dark">
                     <tr>
                     <th>Material Name</th>
                     <th>Download</th>
