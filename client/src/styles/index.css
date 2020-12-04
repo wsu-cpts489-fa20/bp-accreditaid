@@ -455,3 +455,8 @@ body {
 .outcome-div {
   margin-right: 15px;
 }
+
+/*styling for deliverables checkbox list*/
+.deliverableList{
+  list-style-type: none;
+}

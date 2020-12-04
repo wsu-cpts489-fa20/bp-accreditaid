@@ -13,108 +13,144 @@ class ViewDeliverable extends React.Component {
 
   componentDidMount() {
     this.retriveSoPis();
-    
   }
 
   handleDeliverableSubmit = async (event) => {
     event.preventDefault();
-    alert("preform Deliverable Update from instructor");
+    this.props.close();
   }
 
-  retriveSoPis = async () =>{
+  retriveSoPis = async () => {
     //This fetches the course that is linked to the deliverable
     var url = '/api/courses/' + this.state.deliverable.deliverableCourseID;
     var res = await fetch(url, {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-            },
-        method: 'GET'}); 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    });
     if (res.status != 200) {
-        const msg = await res.text();
-        console.log(msg);
-        this.setState({errorMsg: msg});
+      const msg = await res.text();
+      console.log(msg);
+      this.setState({ errorMsg: msg });
     } else { //success! we are ready to get the SOs and PIs from programs
+      const msg = await res.json();
+      let course = JSON.parse(msg);
+      console.log(course.courseProgram);
+      //fetching the program
+      url = '/api/programs/' + course.courseProgram;
+      res = await fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'GET'
+      });
+      if (res.status != 200) {
+        const msg = await res.text();
+        this.setState({ errorMsg: msg });
+      } else { //suscses! we have our program that has 
         const msg = await res.json();
-        let course = JSON.parse(msg);
-        console.log(course.courseProgram);
-        //fetching the program
-        url = '/api/programs/' + course.courseProgram;
-        res = await fetch(url, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-                },
-            method: 'GET'}); 
-        if (res.status != 200) {
-            const msg = await res.text();
-            this.setState({errorMsg: msg});
-        } else { //suscses! we have our program that has 
-            const msg = await res.json();
-            let program = JSON.parse(msg);
-            console.log(program.studentOutcomes);
-            this.setState({deliverableSOs: {...program.studentOutcomes}});
-        }
+        let program = JSON.parse(msg);
+        console.log(program.studentOutcomes);
+        this.setState({ deliverableSOs: { ...program.studentOutcomes } });
+      }
     }
   }
 
 
   displaySOPIs = () => {
     var SOPIs = [];
-    for (var i = 0; i < this.state.deliverable.SOs.length; i++) {
+    var PIs = [];
+    var keys = Object.keys(this.state.deliverableSOs);
+    console.log("keys" + keys);
+    for (var i = 0; i < keys.length; i++) {
+      //gets each PI from a given SO
+      for (var j = 0; j < this.state.deliverableSOs[keys[i]].length; j++) {
+        PIs.push(
+            <li>{this.state.deliverableSOs[keys[i]][j]}<input type="checkbox"/></li>
+        );
+      }
+      // add SO to the unordered list
+      console.log(this.state.deliverableSOs[keys[i]]);
       SOPIs.push(
-        <div>
-          <p>{this.state.deliverable.SOs[i].SOName}</p>
-          <p>{this.state.deliverable.SOs[i].SOStatus}</p>
-        </div>
+        <ul className="deliverableList">
+          <li>{keys[i]}<input type="checkbox"/></li>
+          <ul className="deliverableList">
+            {PIs}
+          </ul>
+        </ul>
       );
+      //empty to do another SO
+      PIs = [];
     }
     return SOPIs;
   }
 
+  displayNeededWorkSamples = () => {
+    let workSamples = [];
+    for (var i = 0; i < this.state.deliverable.labels.length; i++) {
+              workSamples.push(
+                <div>
+                  <td>{"Work Sample " + i}</td>
+                  <td>{this.state.deliverable.labels[i]}</td>
+                  <td>{this.state.deliverable.labels[i]}</td>
+                  <td><a href={"/api/s3?id=" + "coursedeliverable.id" + "&name=" + "coursedeliverable.name"} className="btn btn-primary" > <i className="fa fa-download"></i> Add Sample</a></td>
+                </div>
+              );
+    }
+  }
+
   render() {
-    console.log(this.props.deliverable);
+              console.log(this.props.deliverable);
     return (
       <div className="modal" role="dialog">
-        <div className="modal-dialog modal-lg"></div>
-        <div className="modal-content form-center">
-          <div className="modal-header">
-            <h3><b>Deliverable details</b></h3>
-            <button className="modal-close"
-              onClick={() => this.props.close()}>
-              &times;</button>
-          </div>
-          <div className="modal-body">
-            <form id="deliverablesView" onSubmit={this.handleDeliverableSubmit}>
-              <h4>Name</h4>
-              <p>{this.state.deliverable.deliverableName}</p>
-              <h4>Description</h4>
-              <p>{this.state.deliverable.description}</p>
-              <h4>Student Outcomes and Preformace Indicators</h4>
-              <p>{this.displaySOPIs()}</p>             
-              <div>
-              <h4>Upload student work samples</h4>
-              <table id="courses-table" className="table table-hover">
-                <thead className="thead-dark">
-                    <tr>
-                    <th>Name</th>
-                    <th>Lable</th>
-                    <th>Add file</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <td>sample name</td>
-                <td>sample status</td>
-                <td><a href={"/api/s3?id=" + "coursedeliverable.id" + "&name=" + "coursedeliverable.name"} className="btn btn-primary" > <i className="fa fa-download"></i> Add Sample</a></td>
-                </tbody>
-            </table>
-                
-                {/*<button onClick={() => alert("delete student work functionality") } className="btn btn-danger" ><i className="fa fa-trash" /> Delete </button>*/}
+              <div className="modal-dialog modal-lg"></div>
+              <div className="modal-content form-center">
+                <div className="modal-header">
+                  <h3><b>Deliverable details</b></h3>
+                  <button className="modal-close"
+                    onClick={() => this.props.close()}>
+                    &times;</button>
+                </div>
+                <div className="modal-body">
+                  <form id="deliverablesView" onSubmit={this.handleDeliverableSubmit}>
+                    <h4>Name</h4>
+                    <p>{this.state.deliverable.deliverableName}</p>
+                    <h4>Description</h4>
+                    <p>{this.state.deliverable.description}</p>
+                    <h4>Student Outcomes and Preformace Indicators</h4>
+                    <p>{this.displaySOPIs()}</p>
+                    <div>
+                      <h4>Upload student work samples</h4>
+                      <table id="courses-table" className="table table-hover">
+                        <thead className="thead-light">
+                          <tr>
+                            <th>Name</th>
+                            <th>Lable</th>
+                            <th>Add file</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {this.state.deliverable.labels.length == 0 || this.state.deliverable.labels.length == null ?
+                            <tr>
+                              <td colSpan="12" style={{ fontStyle: "italic" }}>No Samples To Upload</td>
+                            </tr> : this.displayNeededWorkSamples()
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                    <button role="submit"
+                      id="Deliverable-submit"
+                      className="btn btn-primary btn-color-theme modal-submit-btn"
+                      style={{ marginTop: "15px", marginBottom: "70px" }}>
+                      <span className="fa fa-user-plus"></span>&nbsp;Update Deliverable
+                        </button>
+                  </form>
+                </div>
               </div>
-            </form>
-          </div>
-        </div>
-      </div>
+            </div>
     );
   }
 }
