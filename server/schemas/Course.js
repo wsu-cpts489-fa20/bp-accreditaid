@@ -8,14 +8,26 @@ const tupleSchema = new mongoose.Schema({
 
 const workSample = new mongoose.Schema({
     importance: String,
-    file : tupleSchema
+    file: tupleSchema
+});
+
+const PIInformation = new mongoose.Schema({
+    PIName: String,
+    PIStatus: Boolean
+});
+
+const SOInformation = new mongoose.Schema({
+    SOName: String,
+    SOStatus: Boolean,
+    PIs: [PIInformation]
 });
 
 const deliverable = new mongoose.Schema({
-    deliverableName : String,
+    deliverableCourseID: String,
+    deliverableName: String,
     prompt: tupleSchema,
     description: String,
-    SIPI: [String],
+    SOs: [SOInformation],
     studentWorkSamples: [workSample]
 });
 
@@ -38,9 +50,9 @@ const courseSchema = new mongoose.Schema({
     courseRoster: tupleSchema,
     courseReadings: [tupleSchema],
     courseMaterials: [tupleSchema],
-    courseDeliverables:[deliverable],
+    courseDeliverables: [deliverable],
 
 });
-const Course = mongoose.model("Course",courseSchema); 
+const Course = mongoose.model("Course", courseSchema);
 
 module.exports = Course;

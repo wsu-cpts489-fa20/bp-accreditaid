@@ -1,17 +1,20 @@
 import React from 'react';
 import ViewDeliverable from './ViewDeliverable.jsx';
-
 class CourseDeliverablesTab extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            ViewDeliverable: false
+            ViewDeliverable: false,
+            deliverableInformation: null
+
         }
     }
 
-    openDeliverable = () => {
+    openDeliverable = (deliverableToView) => {
+        this.setState({deliverableInformation: deliverableToView});
         this.setState({ViewDeliverable : true});
+        console.log("Opening Deliverable");
     }
 
     closeDeliverable = () => {
@@ -24,13 +27,12 @@ class CourseDeliverablesTab extends React.Component {
             table.push(
                 <tr key={p}>
                     <td>{this.props.course.courseDeliverables[p].deliverableName}</td>
-                    <td>
-                    <a href={"/api/s3?id=" + this.props.course.courseDeliverables[p].id + "&name=" + this.props.course.courseDeliverables[p].name} className="btn btn-primary" > 
-                        <i className="fa fa-download"></i> Download</a>
+                    <td>                   
+                    <button onClick={()=>this.openDeliverable(this.props.course.courseDeliverables[p])} className="btn btn-danger" > View </button>
                     </td>
-                    <td>
-                    <button onClick={()=>{this.openDeliverable()}} className="btn btn-danger" ><i className="fa fa-trash"/> View </button>
-                    </td>
+                    <td>  
+                    0%
+                    </td>                
                 </tr> 
             );
         }
@@ -38,14 +40,15 @@ class CourseDeliverablesTab extends React.Component {
     }
 
     render() {
+        console.log(this.state.ViewDeliverable);
         return (
         <div>
             <table id="courses-table" className="table table-hover">
                 <thead className="thead-light">
                     <tr>
                     <th>Deliverable Name</th>
-                    <th>Prompt</th>
                     <th>View</th>
+                    <th>Progress</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,7 +60,10 @@ class CourseDeliverablesTab extends React.Component {
                 </tbody>
             </table>
             {this.state.ViewDeliverable ?  
-            <ViewDeliverable close={this.closeDeliverable()}/>: null}
+            <ViewDeliverable 
+            close={() => this.closeDeliverable()}
+            deliverable={this.state.deliverableInformation}
+            />: null}
         </div>
         );
     }
