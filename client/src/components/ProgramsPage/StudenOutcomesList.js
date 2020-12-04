@@ -1,6 +1,5 @@
 import React from 'react';
 import PerformanceIndicator from './PerformanceIndicator.js';
-import PeformanceIndicator from './PerformanceIndicator.js';
 
 class StudentOutcomesList extends React.Component {
     constructor(props) {
