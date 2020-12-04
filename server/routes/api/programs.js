@@ -25,21 +25,21 @@ router.get('/', async(req, res, next) => {
 });
 
 //READ Program route: Retrieves the Program with the specified name from Programs collection (GET)
-router.get('/:name', async(req, res, next) => {
-  console.log("in /api/programs route (GET) with name = " + 
-    JSON.stringify(req.params.name));
+router.get('/:programId', async(req, res, next) => {
+  console.log("in /api/programs route (GET) with an id = " + 
+    JSON.stringify(req.params.programId));
   try {
-    let thisProgram = await Program.findOne({name: req.params.name});
+    let thisProgram = await Program.findOne({_id: req.params.programId});
     if (!thisProgram) {
-      return res.status(404).send("No Program with name " +
-        req.params.name + " was found in database.");
+      return res.status(404).send("No Program with an id " +
+        req.params.programId + " was found in database.");
     } else {
       return res.status(200).json(JSON.stringify(thisProgram));
     }
   } catch (err) {
     console.log()
-    return res.status(400).send("Unexpected error occurred when looking up Program with name " +
-      req.params.name + " in database: " + err);
+    return res.status(400).send("Unexpected error occurred when looking up Program with an id " +
+      req.params.programId + " in database: " + err);
   }
 });
   
@@ -105,22 +105,22 @@ router.put('/:name',  async (req, res, next) => {
 });
   
 //DELETE Program route: Deletes the document with the specified name from Programs collection (DELETE)
-router.delete('/:name', async(req, res, next) => {
-  console.log("in /api/programs route (DELETE) with name = " + 
-    JSON.stringify(req.params.name));
+router.delete('/:programId', async(req, res, next) => {
+  console.log("in /api/programs route (DELETE) with an id = " + 
+    JSON.stringify(req.params.programId));
   try {
-    let status = await Program.deleteOne({name: req.params.name});
+    let status = await Program.deleteOne({_id: req.params.programId});
     if (status.deletedCount != 1) {
-      return res.status(404).send("No Program " +
-        req.params.name + " was found. Program could not be deleted.");
+      return res.status(404).send("No Program with an id " +
+        req.params.programId + " was found. Program could not be deleted.");
     } else {
-      return res.status(200).send("Program  " +
-      req.params.name + " was successfully deleted.");
+      return res.status(200).send("Program with an id " +
+      req.params.programId + " was successfully deleted.");
     }
   } catch (err) {
     console.log()
-    return res.status(400).send("Unexpected error occurred when attempting to delete Program  with name " +
-      req.params.name + ": " + err);
+    return res.status(400).send("Unexpected error occurred when attempting to delete Program  with an id " +
+      req.params.programId + ": " + err);
   }
 });
 

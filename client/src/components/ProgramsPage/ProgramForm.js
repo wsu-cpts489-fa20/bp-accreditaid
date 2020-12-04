@@ -8,7 +8,9 @@ class ProgramForm extends React.Component {
     super(props);
     if (this.props.mode === AppMode.PROGRAMS_LOGPROGRAM) {
       //If logging a new program, the starting state is a default program with
-      this.state = {name:  "", 
+      this.state = {
+                    _id: "",
+                    name:  "", 
                     department: "",
                     college: "",
                     credits: "",
@@ -148,7 +150,7 @@ class ProgramForm extends React.Component {
               <button id="delete-program" type="button" style={{width: "40%",fontSize: "36px"}} 
                 className="btn btn-primary btn-color-theme"
                 onClick={this.props.menuOpen ? null : () => 
-                this.confirmDelete(this.state.name)}>
+                this.confirmDelete(this.state._id)}>
                   <span className="fa fa-times">Delete Program</span></button>
               : null}
           </center>
