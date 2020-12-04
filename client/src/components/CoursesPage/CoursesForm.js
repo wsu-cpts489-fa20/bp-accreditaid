@@ -37,7 +37,16 @@ class CoursesForm extends React.Component {
         console.log(courseData);
         setTimeout(this.props.saveCourse, 1000, courseData); 
         event.preventDefault();
+
+        setTimeout(()=>{
+            this.setState({faIcon: "fa fa-edit",
+        btnLabel: "Update Course"});
+
+        }, 1000); 
+        
+
     }
+
 
     handleNewCourseChange = (event) => {
         const name = event.target.name;
@@ -64,7 +73,7 @@ class CoursesForm extends React.Component {
     }  
 
     render() {
-        console.log(this.props.currentProgram)
+        console.log(this.state)
         return (
             <div id="course-form">
                 <form onSubmit={this.handleSubmit}>
@@ -72,6 +81,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Name:
                             <input
+                                disabled={this.props.instructor}
                                 id="course-name"
                                 className="form-control form-text form-center"
                                 name="courseName"
@@ -88,6 +98,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Number:
                             <input
+                            disabled={this.props.instructor}
                                 id="course-number"
                                 className="form-control form-text form-center"
                                 name="courseNumber"
@@ -104,6 +115,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Prefix:
                             <input
+                            disabled={this.props.instructor}
                                 id="course-prefix"
                                 className="form-control form-text form-center"
                                 name="coursePrefix"
@@ -120,6 +132,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Number of Credits:
                             <input
+                            disabled={this.props.instructor}
                                 id="course-credits"
                                 className="form-control form-text form-center"
                                 name="courseCredits"
@@ -136,6 +149,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Prerequisites:
                             <input
+                            disabled={this.props.instructor}
                                 id="course-prereqs"
                                 className="form-control form-text form-center"
                                 name="coursePrerequisites"
@@ -152,6 +166,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Instructor Name:
                             <input
+                            disabled={this.props.instructor}
                                 id="course-instructorname"
                                 className="form-control form-text form-center"
                                 name="courseInstructor"
@@ -168,6 +183,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Instructor Email:
                             <input
+                            disabled={this.props.instructor}
                                 id="course-instructoremail"
                                 className="form-control form-text form-center"
                                 name="courseEmail"
@@ -177,6 +193,49 @@ class CoursesForm extends React.Component {
                                 placeholder="Enter Email Address"
                                 pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
                                 required={true}
+                                onChange={this.handleNewCourseChange}
+                            />
+                        </label>
+
+                        <p></p>
+                        <label>
+                            Semester:
+                            <select name="courseSemester" id="select-semester"
+                            className="form-control"
+                            value={this.state.courseSemester}
+                            required={false}
+                            onChange={this.handleNewCourseChange}>
+                                <option value="Fall">Fall</option>
+                                <option value="Spring">Spring</option>
+                                <option value="Summer">Summer</option>
+                                <option value="Winter">Winter</option>
+                            </select>
+                        </label>
+                        
+                        <p></p>
+                        <label>
+                            Year:
+                            <input
+                                id="course-year"
+                                className="form-control form-text form-center"
+                                name="courseYear"
+                                value={this.state.courseYear}
+                                type="number"
+                                required={false}
+                                onChange={this.handleNewCourseChange}
+                            />
+                        </label>
+                        <p></p>
+                        <label>
+                            Students:
+                            <input
+                                id="course-students"
+                                className="form-control form-text form-center"
+                                name="courseStudents"
+                                value={this.state.courseStudents}
+                                type="number"
+                                required={false}
+                                placeholder="Enter number of students"
                                 onChange={this.handleNewCourseChange}
                             />
                         </label>

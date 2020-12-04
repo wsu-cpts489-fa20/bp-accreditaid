@@ -12,7 +12,9 @@ const AppMode = {
     COURSES_DELIVERABLES: "CoursesMode-Deliverables",
     PROGRAMS: "ProgramsMode",
     PROGRAMS_LOGPROGRAM: "ProgramsMode-LogProgram",
-    PROGRAMS_EDITPROGRAM: "ProgramsMode-EditProgram"
+    PROGRAMS_EDITPROGRAM: "ProgramsMode-EditProgram",
+    INSTRUCTOR_DASHBOARD: "Instructor Dashboard",
+    COURSE_INFO: "Course Info"
 };
 
 Object.freeze(AppMode); //This ensures that the object is immutable.
