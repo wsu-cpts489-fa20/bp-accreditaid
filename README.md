@@ -5,6 +5,21 @@ AcreditAid is a webapp designed to assist university program administrators, ins
 ## Tech stack
 AcreditAid is built on the MERN stack. Deliverables are stored in S3.
 
+### Milestone 3
+#### Summary of work done
+  -Created Instructor page to display dashboard of assigned courses for instructor 
+  -Created Courseinfo page to display all info for course
+  -Added "Course Overview", "Materials", "Readings", "Deliverables", and "Course Files tabs
+  -Each tab contains information about the course, including files such as the syllabus or course deliverables
+  -Implemented system for files to be uploaded to the server and routed to an s3 bucket. Created controls to view and delete file as well.
+  
+#### Example of work done
+https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/CourseInfo/CourseInfo.jsx
+https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/server/routes/api/s3.js
+
+Gif of tests running
+https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/InstructorTests.gif
+
 
 ### Milestone 2
 #### Summary of work done
