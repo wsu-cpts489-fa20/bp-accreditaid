@@ -5,7 +5,6 @@ const tupleSchema = new mongoose.Schema({
     name: String
 });
 
-
 const workSample = new mongoose.Schema({
     importance: String,
     file: tupleSchema
