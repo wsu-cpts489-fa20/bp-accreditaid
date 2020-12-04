@@ -1,15 +1,33 @@
 import React from 'react';
 import AppMode from '../../AppMode.js';
-
+import LabelsForm from "./LabelsForm.js";
 class DeliverablesForm extends React.Component {
 
     constructor(props) {
         super(props);
+        var labels = props.labels;
+        var name = "";
+        var description = "";
+
+        if (props.delivarable != null)
+        {
+            name = props.delivarable.deliverableName;
+            description = props.delivarable.description;
+
+            if (props.delivarable.labels != null && props.delivarable.labels.length > 0)
+            {
+                labels = [...props.delivarable.labels];
+            }
+        }
+
+        var ButtonText = (props.mode === AppMode.DELIVERABLES_EDITDELIVERABLE) ? "Update Deliverable" : "Add Deliverable";
         this.state = {
-                        name: "",
-                        description: "",
-                        faIcon: "fa fa-check-square-o"
-                     };    
+                        name: name,
+                        description: description,
+                        faIcon: "fa fa-check-square-o",
+                        labels: labels,
+                        ButtonText: ButtonText
+                     };
     }
 
     handleChange = (event) => {
@@ -19,13 +37,19 @@ class DeliverablesForm extends React.Component {
 
     handleSubmit = (event) => {
         this.setState({faIcon: "fa fa-spin fa-spinner"});
-        let deliverableData = {};
+        var deliverableData = {};
         deliverableData.deliverableName = this.state.name;
         deliverableData.description = this.state.description;
+        deliverableData.labels = this.state.labels;
         setTimeout(this.props.saveDeliverable, 1000, deliverableData);
         event.preventDefault();
         setTimeout(()=>{
             this.setState({faIcon: "fa fa-check-square-o"});}, 1000); 
+    }
+
+    updateLabels = (newLables) => {
+        console.log(newLables);
+        this.setState({labels: newLables});
     }
 
     render() {
@@ -65,12 +89,16 @@ class DeliverablesForm extends React.Component {
                             />
                         </label>
                         <p></p>
+                        <LabelsForm
+                            updateLabels={this.updateLabels}
+                            labels={this.state.labels}
+                        />
                         <br/>
                         <button role="submit"
                             id="deliverables-submit"
                             className="btn btn-primary btn-color-theme modal-submit-btn"
                             style={{marginBottom: "20px", height: "70px", width: "40%"}}>
-                            <span className={this.state.faIcon}></span>&nbsp;Add Deliverable
+                            <span className={this.state.faIcon}></span>&nbsp;{this.state.ButtonText}
                         </button>
                     </center>
                 </form>

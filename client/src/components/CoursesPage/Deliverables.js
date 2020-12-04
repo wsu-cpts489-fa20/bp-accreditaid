@@ -3,7 +3,7 @@ import AppMode from '../../AppMode.js';
 import DeliverablesForm from './DeliverablesForm.js';
 import DeliverablesTable from './DeliverablesTable.js';
 import FloatingButton from '../common/FloatingButton.js';
-import LabelsForm from "./LabelsForm.js";
+import App from '../App.js';
 
 class Deliverables extends React.Component {
 
@@ -12,8 +12,9 @@ class Deliverables extends React.Component {
         this.state = {
                       course: {},
                       labels: ["High", "Medium", "Low"],
-                      deliverables: {}
-                    };    
+                      deliverables: [],
+                      editDeliverableIndex: null
+                    };
     }
 
     componentDidMount() {
@@ -30,13 +31,22 @@ class Deliverables extends React.Component {
         })
     }
 
-    addDeliverable = async (newData) => {
+    addOrUpdateDeliverable = async (newData) => {
         let body = {};
         body["courseDeliverables"] = this.state.course.courseDeliverables;
         newData["deliverableCourseID"] = this.state.course._id;
         if(!body["courseDeliverables"])
             body["courseDeliverables"] = [];
-        body["courseDeliverables"].push(newData);
+
+        if (this.props.mode === AppMode.DELIVERABLES_EDITDELIVERABLE)
+        {
+            body["courseDeliverables"][this.state.editDeliverableIndex] = newData;
+            this.setState({editDeliverableIndex: null});
+        }
+        else
+        {
+            body["courseDeliverables"].push(newData);
+        }
 
         console.log(body);
         this.setState({deliverables: body.courseDeliverables});
@@ -65,39 +75,38 @@ class Deliverables extends React.Component {
         this.props.changeMode(AppMode.DELIVERABLES);
     }
 
+    setEditDeliverableIndex = (index) => {
+        this.setState({editDeliverableIndex: index}, () => this.props.changeMode(AppMode.DELIVERABLES_EDITDELIVERABLE));
+    }
+
     render() {
-        switch(this.props.mode) {
-            case AppMode.DELIVERABLES:
-                return (
-                    <>
-                        <button className="btn btn-primary" id="edit-labels-button"
-                            onClick={() => this.props.changeMode(AppMode.DELIVERABLES_EDITLABELS)}>
-                            Edit Work Sample Labels
-                        </button>
-                        <DeliverablesTable
-                            deliverables={this.state.deliverables}
-                            labels={this.state.labels}
-                        />
-                        <FloatingButton
-                            id="add-deliverable-button"
-                            handleClick={() => this.props.changeMode(AppMode.DELIVERABLES_LOGDELIVERABLE)}
-                        />
-                    </>
-                );
-            case AppMode.DELIVERABLES_EDITLABELS:
-                return (
-                    <LabelsForm
-                        updateLabels={this.updateLabels}
+        if (this.props.mode === AppMode.DELIVERABLES) {
+            return (
+                <>
+                    <DeliverablesTable
+                        deliverables={this.state.deliverables}
                         labels={this.state.labels}
+                        editDeliverableIndex={this.setEditDeliverableIndex}
+                        changeMode={this.props.changeMode}
                     />
-                );
-            case AppMode.DELIVERABLES_LOGDELIVERABLE:
-                return (
-                    <DeliverablesForm
-                        saveDeliverable={this.addDeliverable} 
-                        labels={this.state.labels}
+                    <FloatingButton
+                        id="add-deliverable-button"
+                        handleClick={() => this.props.changeMode(AppMode.DELIVERABLES_LOGDELIVERABLE)}
                     />
-                );
+                </>
+            )
+        }
+        else if(this.props.mode === AppMode.DELIVERABLES_LOGDELIVERABLE || this.props.mode === AppMode.DELIVERABLES_EDITDELIVERABLE)
+        {
+            return (
+                <DeliverablesForm
+                    mode={this.props.mode}
+                    delivarable={this.state.deliverables[this.state.editDeliverableIndex]}
+                    updateLabels={this.updateLabels}
+                    saveDeliverable={this.addOrUpdateDeliverable} 
+                    labels={this.state.labels}
+                />
+            );
         }
 
     }

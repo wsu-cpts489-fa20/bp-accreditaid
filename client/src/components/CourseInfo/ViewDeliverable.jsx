@@ -95,7 +95,7 @@ class ViewDeliverable extends React.Component {
               <div>
               <h4>Upload student work samples</h4>
               <table id="courses-table" className="table table-hover">
-                <thead className="thead-light">
+                <thead className="thead-dark">
                     <tr>
                     <th>Name</th>
                     <th>Lable</th>

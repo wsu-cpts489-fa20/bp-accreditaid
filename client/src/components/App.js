@@ -27,7 +27,7 @@ modeTitle[AppMode.COURSES] = "Courses";
 modeTitle[AppMode.COURSES_LOGCOURSE] = "Log New Course";
 modeTitle[AppMode.COURSES_EDITCOURSE] = "Edit Course";
 modeTitle[AppMode.DELIVERABLES] = "Deliverables";
-modeTitle[AppMode.DELIVERABLES_EDITLABELS] = "Edit Work Sample Labels";
+modeTitle[AppMode.DELIVERABLES_EDITDELIVERABLE] = "View/Edit the Deliverable";
 modeTitle[AppMode.DELIVERABLES_LOGDELIVERABLE] = "Create New Deliverable";
 
 const modeToPage = {};
@@ -40,7 +40,7 @@ modeToPage[AppMode.COURSES] = Courses;
 modeToPage[AppMode.COURSES_LOGCOURSE] = Courses;
 modeToPage[AppMode.COURSES_EDITCOURSE] = Courses;
 modeToPage[AppMode.DELIVERABLES] = Deliverables;
-modeToPage[AppMode.DELIVERABLES_EDITLABELS] = Deliverables;
+modeToPage[AppMode.DELIVERABLES_EDITDELIVERABLE] = Deliverables;
 modeToPage[AppMode.DELIVERABLES_LOGDELIVERABLE] = Deliverables;
 modeToPage[AppMode.PROGRAMS] = Programs
 modeToPage[AppMode.PROGRAMS_LOGPROGRAM] = Programs

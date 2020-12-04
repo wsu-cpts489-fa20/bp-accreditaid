@@ -31,7 +31,7 @@ class DeliverablesTable extends React.Component {
 
     renderTable = () => {
         let table = [];
-        let deliverables = this.props.deliverables;
+        let deliverables = [...this.props.deliverables];
         for (let p = 0; p < deliverables.length; ++p) {
             table.push(
                 <tr key={p}>
@@ -53,11 +53,15 @@ class DeliverablesTable extends React.Component {
 
     }
 
+    editDeliverable = (p) => {
+        this.props.editDeliverableIndex(p);
+    }
+
     render() {
         return (
         <div>
             <table id="deliverables-table" className="table table-hover">
-                <thead className="thead-light">
+                <thead className="thead-dark">
                     <tr>
                     {this.getHeader()}
                     </tr>
