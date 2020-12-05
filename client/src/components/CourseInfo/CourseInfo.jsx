@@ -74,6 +74,35 @@ class CourseInfo extends React.Component {
         .catch(err => console.error(err));
     }
 
+    deleteInDatabase_prompt = (deliverableIndex) => {
+        console.log("upload_prompt has been called");
+        let body = {};
+        body["courseDeliverables"] = this.state.course["courseDeliverables"];
+        console.log(body);
+        console.log("index = " + deliverableIndex)
+        body["courseDeliverables"][deliverableIndex]["prompt"] = null;
+        
+        console.log(body);
+        fetch("/api/courses/" + this.state.course._id, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            method: 'PUT',
+            body: JSON.stringify(body)
+        })
+        .then(function(res) {
+            if(res.status == 200){
+                return res.text();
+            }
+            throw res;
+        })
+        .then(json => console.log(json))
+        .then(()=> {this.updateCourseState("courseDeliverables", body["courseDeliverables"])})
+        .catch(err => console.error(err));
+        
+    }
+
     deleteFile = (id, name, db_update, type, index) => {
         fetch(("/api/s3?id=" + id + "&name=" + name), {
             method: 'DELETE'
@@ -288,6 +317,7 @@ class CourseInfo extends React.Component {
                             upload_single={this.upload_single}
                             upload_array={this.upload_array}
                             upload_prompt={this.upload_prompt}
+                            deleteInDatabase_prompt={this.deleteInDatabase_prompt}
 
                         />
             </div>    

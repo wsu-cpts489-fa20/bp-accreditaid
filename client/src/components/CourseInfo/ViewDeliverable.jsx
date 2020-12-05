@@ -128,7 +128,7 @@ class ViewDeliverable extends React.Component {
     var PromptDiv =(<div>
       <h4>Prompt</h4>
       <form onSubmit={e => this.onSubmit(e, this.props.index)}>
-          <input className="form-control-file"  type="file"  name="file" ></input>
+          <center><input className="form-control-file"  type="file"  name="file" ></input></center>
           <button  className="btn btn-success" name="prompt" type="submit">Upload</button> 
       </form>
       
@@ -138,7 +138,7 @@ class ViewDeliverable extends React.Component {
     PromptDiv = (<div>
         <h4>Prompt</h4>
             <a href={"/api/s3?id=" + prompt.id + "&name=" + prompt.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
-            <button onClick={()=>{this.props.deleteFile(prompt.id, prompt.name, this.props.deleteInDatabase_single, "prompt")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+            <button onClick={()=>{this.props.deleteFile(prompt.id, prompt.name, this.props.deleteInDatabase_prompt, this.props.index)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
             
     </div>)
     }
