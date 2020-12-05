@@ -7,18 +7,30 @@ AcreditAid is built on the MERN stack. Deliverables are stored in S3.
 
 ### Milestone 3
 #### Summary of work done
-  -Created Instructor page to display dashboard of assigned courses for instructor 
-  -Created Courseinfo page to display all info for course
-  -Added "Course Overview", "Materials", "Readings", "Deliverables", and "Course Files tabs
-  -Each tab contains information about the course, including files such as the syllabus or course deliverables
-  -Implemented system for files to be uploaded to the server and routed to an s3 bucket. Created controls to view and delete file as well.
+  - Created Instructor page to display dashboard of assigned courses for instructor 
+  - Created Courseinfo page to display all info for course
+  - Added "Course Overview", "Materials", "Readings", "Deliverables", and "Course Files tabs
+  - Each tab contains information about the course, including files such as the syllabus or course deliverables
+  - Added Student Outcomes and Perfomance indicators to the Creates/View/Edit for for the Program
+  - Added Deliverables view for a course for the instrucor's side
+  - Added Delverables addition for a course for the admin's side
+  - Updated styling to be consitent and better
+  - Added ability to add labels to deliverables
+  - Added adminDeliverables, email, instructor tests
+  - Updated Program's tests to reflect additions of SOs and PIs inputs
+  - Added ability to import SOs and PIs from a CSV file 
+  - Implemented system for files to be uploaded to the server and routed to an s3 bucket. Created controls to view and delete file as well.
   
 #### Example of work done
-https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/CourseInfo/CourseInfo.jsx
-https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/server/routes/api/s3.js
+  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/CoursesPage/Deliverables.js
+  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/CoursesPage/LabelsForm.js
+  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/ProgramsPage/PerformanceIndicator.js
+  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/server/routes/api/s3.js
+  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/CourseInfo/CourseFilesTab.jsx
 
-Gif of tests running
-https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/InstructorTests.gif
+#### Gif of tests running
+  - https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/InstructorTests.gif
+  - https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/Milestone3ProgramTests.gif
 
 
 ### Milestone 2
@@ -35,30 +47,5 @@ https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/Inst
 - https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/ProgramsPage/Programs.js
 - https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/server/routes/api/programs.js
 
-Gif of tests running
+#### Gif of tests running
 https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/Milestone2Tests.gif
-
-### Milestone 3
-
-#### Summary of work done
-  - Added Student Outcomes and Perfomance indicators to the Creates/View/Edit for for the Program
-  - Added Instructor's course dashboard view with course to complete
-  - Added Deliverables view for a course for the instrucor's side
-  - Added Delverables addition for a course for the admin's side
-  - Updated styling to be consitent and better
-  - Added ability to add labels to deliverables
-  - Added routes for Amazon S3 storage CRUD operations. Ability to add, modify and delete files.
-  - Added ability to upload files such as prompts, student samples, syllabus, etc interfacing with Mongo for reference storage and Amazon S3 for the actual storage
-  - Added adminDeliverables, email, instructor tests
-  - Updated Program's tests to reflect additions of SOs and PIs inputs
-  - Added ability to import SOs and PIs from a CSV file 
-
-#### Examples of work done
-  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/CoursesPage/Deliverables.js
-  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/CoursesPage/LabelsForm.js
-  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/ProgramsPage/PerformanceIndicator.js
-  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/server/routes/api/s3.js
-  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/CourseInfo/CourseFilesTab.jsx
-
-Gif of tests running
-https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/Milestone3ProgramTests.gif
