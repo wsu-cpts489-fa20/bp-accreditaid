@@ -34,7 +34,7 @@ test('TestCreateNewProgram', async t => {
     await t
         .expect(Selector('#programs-table').find('td').withText('Test program 1').visible).eql(false)
         .click("#create-program-floating-button")
-        .wait(500)
+        .wait(1000)
         .expect(Selector('#program-div').visible).eql(true)
         .typeText('#program-name', 'Test program 1')
         .typeText('#program-department', 'Dep 1')
@@ -60,14 +60,14 @@ test('TestCreateNewProgram', async t => {
         // Add one performance indicator to second outcome
         .typeText('#outcome-1-indicator-input', 'Does not attend lectures.')
         .click("#add-1-indicator")
-        .wait(500)
+        .wait(1000)
 
         // Submit changes and check if data are present in the table
         .click("#submit-changes")
-        .wait(500)
+        .wait(1000)
         .expect(Selector('#programs-table').visible).eql(true)
         .expect(Selector('#programs-table').find('td').withText('Test program 1').visible).eql(true)
-        .wait(500);
+        .wait(1000);
 });
 
 // Test editing of the Program.
@@ -96,30 +96,29 @@ test('TestEditingProgram', async t => {
         // Delete second student outcome all together.
         .click("#outcome-1-delete")
         .expect(Selector('#outcome-1').textContent).eql("Communicate effectively in a variety of professional contexts.")
-        .wait(500)
+        .wait(1000)
 
         // Add an outcome to the second indicator.
         .typeText('#outcome-1-indicator-input', 'Applies standard rules of grammar, syntax and structure in written and oral work.')
         .click("#add-1-indicator")
-        .wait(500)
+        .wait(1000)
 
         // Submit edits and check if changes persisted in table
         .click("#submit-changes")
-        .wait(500)
+        .wait(1000)
         .expect(Selector('#programs-table').visible).eql(true)
         .expect(Selector('#programs-table').find('td').withText('Test program 2').visible).eql(true)
-        .wait(500)
 
         // Go into entry and verify data changed.
         .click(Selector('#programs-table').find('td').withText('Test program 2').sibling('td').find('button').nth(0))
-        .wait(500)
+        .wait(1000)
         .expect(Selector('#program-div').visible).eql(true)
         .expect(Selector('#program-name').value).eql("Test program 2")
 
         .expect(Selector('#outcome-1').textContent).eql("Communicate effectively in a variety of professional contexts.")
         .expect(Selector('#outcome-1-indicator-0').textContent).eql("Applies standard rules of grammar, syntax and structure in written and oral work.")
         .click("#submit-changes")
-        .wait(500);
+        .wait(1000);
 });
 
 // Test deletion of the Program.
@@ -133,8 +132,9 @@ test('TestDeletingProgram', async t => {
         .expect(Selector('#program-div').visible).eql(true)
         .expect(Selector('#program-name').value).eql("Test program 2")
         .click("#delete-program")
+        .wait(1000)
         .click("#confirm-delete")
-        .wait(500)
+        .wait(1000)
 
         .expect(Selector('#programs-table').visible).eql(true)
         .expect(Selector('#programs-table').find('td').withText('Test program 2').visible).eql(false)
