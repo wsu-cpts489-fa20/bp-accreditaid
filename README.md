@@ -23,17 +23,17 @@ https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/Inst
 
 ### Milestone 2
 #### Summary of work done
-  -Created ProgramsPage to display all of the programs created by admins
-  -Created ProgramForm for admins to add and edit programs
-  -Created CoursesPage to display all of the courses created by admins
-  -Created CoursesForm for admins to add and edit programs
-  -Created an email page for admins to send email invites to instructors
-  -Fixed the deployment process so that the react code is built on deployment to the server
-  -Developed the backend routes further to allow the CRUD operations used above
+  - Created ProgramsPage to display all of the programs created by admins
+  - Created ProgramForm for admins to add and edit programs
+  - Created CoursesPage to display all of the courses created by admins
+  - Created CoursesForm for admins to add and edit programs
+  - Created an email page for admins to send email invites to instructors
+  - Fixed the deployment process so that the react code is built on deployment to the server
+  - Developed the backend routes further to allow the CRUD operations used above
   
 #### Example of work done
-https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/ProgramsPage/Programs.js
-https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/server/routes/api/programs.js
+- https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/ProgramsPage/Programs.js
+- https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/server/routes/api/programs.js
 
 Gif of tests running
 https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/Milestone2Tests.gif
@@ -41,10 +41,24 @@ https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/Mile
 ### Milestone 3
 
 #### Summary of work done
-  TODO
+  - Added Student Outcomes and Perfomance indicators to the Creates/View/Edit for for the Program
+  - Added Instructor's course dashboard view with course to complete
+  - Added Deliverables view for a course for the instrucor's side
+  - Added Delverables addition for a course for the admin's side
+  - Updated styling to be consitent and better
+  - Added ability to add labels to deliverables
+  - Added routes for Amazon S3 storage CRUD operations. Ability to add, modify and delete files.
+  - Added ability to upload files such as prompts, student samples, syllabus, etc interfacing with Mongo for reference storage and Amazon S3 for the actual storage
+  - Added adminDeliverables, email, instructor tests
+  - Updated Program's tests to reflect additions of SOs and PIs inputs
+  - Added ability to import SOs and PIs from a CSV file 
 
 #### Examples of work done
-  TODO
+  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/CoursesPage/Deliverables.js
+  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/CoursesPage/LabelsForm.js
+  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/ProgramsPage/PerformanceIndicator.js
+  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/server/routes/api/s3.js
+  -  https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/src/components/CourseInfo/CourseFilesTab.jsx
 
 Gif of tests running
 https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/Milestone3ProgramTests.gif
