@@ -1,23 +1,19 @@
 import React from 'react';
 import AppMode from '../../AppMode.js';
-import LabelsForm from "./LabelsForm.js";
+import StudentWorkSamplesForm from "./StudentWorkSamplesForm.js";
 class DeliverablesForm extends React.Component {
 
     constructor(props) {
         super(props);
-        var labels = props.labels;
         var name = "";
         var description = "";
+        var studentWorkSamples = [{"importance": "High", "file": null}, {"importance": "Medium", "file": null}, {"importance": "Low", "file": null}];
 
         if (props.delivarable != null)
         {
             name = props.delivarable.deliverableName;
             description = props.delivarable.description;
-
-            if (props.delivarable.labels != null && props.delivarable.labels.length > 0)
-            {
-                labels = [...props.delivarable.labels];
-            }
+            studentWorkSamples = props.delivarable.studentWorkSamples;
         }
 
         var ButtonText = (props.mode === AppMode.DELIVERABLES_EDITDELIVERABLE) ? "Update Deliverable" : "Add Deliverable";
@@ -25,7 +21,7 @@ class DeliverablesForm extends React.Component {
                         name: name,
                         description: description,
                         faIcon: "fa fa-check-square-o",
-                        labels: labels,
+                        studentWorkSamples: studentWorkSamples,
                         ButtonText: ButtonText
                      };
     }
@@ -40,16 +36,16 @@ class DeliverablesForm extends React.Component {
         var deliverableData = {};
         deliverableData.deliverableName = this.state.name;
         deliverableData.description = this.state.description;
-        deliverableData.labels = this.state.labels;
+        deliverableData.studentWorkSamples = this.state.studentWorkSamples;
         setTimeout(this.props.saveDeliverable, 1000, deliverableData);
         event.preventDefault();
         setTimeout(()=>{
             this.setState({faIcon: "fa fa-check-square-o"});}, 1000); 
     }
 
-    updateLabels = (newLables) => {
-        console.log(newLables);
-        this.setState({labels: newLables});
+    updateStudentWorkSamples = (newSamples) => {
+        console.log(newSamples);
+        this.setState({studentWorkSamples: newSamples});
     }
 
     render() {
@@ -89,9 +85,9 @@ class DeliverablesForm extends React.Component {
                             />
                         </label>
                         <p></p>
-                        <LabelsForm
-                            updateLabels={this.updateLabels}
-                            labels={this.state.labels}
+                        <StudentWorkSamplesForm
+                            updateStudentWorkSamples={this.updateStudentWorkSamples}
+                            studentWorkSamples={this.state.studentWorkSamples}
                         />
                         <br/>
                         <button role="submit"

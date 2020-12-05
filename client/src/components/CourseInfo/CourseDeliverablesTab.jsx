@@ -6,13 +6,14 @@ class CourseDeliverablesTab extends React.Component {
         super(props);
         this.state = {
             ViewDeliverable: false,
-            deliverableInformation: null
-
+            deliverableInformation: null,
+            openDeliverableIndex: null
         }
     }
 
-    openDeliverable = (deliverableToView) => {
+    openDeliverable = (deliverableToView, index) => {
         this.setState({deliverableInformation: deliverableToView});
+        this.setState({openDeliverableIndex: index});
         this.setState({ViewDeliverable : true});
         console.log("Opening Deliverable");
     }
@@ -28,7 +29,7 @@ class CourseDeliverablesTab extends React.Component {
                 <tr key={p}>
                     <td>{this.props.course.courseDeliverables[p].deliverableName}</td>
                     <td>                   
-                    <button onClick={()=>this.openDeliverable(this.props.course.courseDeliverables[p])} className="btn btn-danger" > View </button>
+                    <button onClick={()=>this.openDeliverable(this.props.course.courseDeliverables[p], p)} className="btn btn-danger" > View </button>
                     </td>
                     <td>  
                     0%
@@ -61,8 +62,15 @@ class CourseDeliverablesTab extends React.Component {
             </table>
             {this.state.ViewDeliverable ?  
             <ViewDeliverable 
-            close={() => this.closeDeliverable()}
-            deliverable={this.state.deliverableInformation}
+                close={() => this.closeDeliverable()}
+                deliverable={this.state.deliverableInformation}
+                index={this.state.openDeliverableIndex}
+                deleteFile={this.props.deleteFile}
+                uploadFile={this.props.uploadFile}
+                upload_prompt={this.props.upload_prompt}
+                deleteInDatabase_prompt={this.props.deleteInDatabase_prompt}
+                upload_workSample={this.props.upload_workSample}
+                deleteInDatabase_workSample={this.props.deleteInDatabase_workSample}
             />: null}
         </div>
         );

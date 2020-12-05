@@ -187,7 +187,8 @@ class App extends React.Component {
             localAccount={this.state.userObj.authStrategy === "local"}
             editAccount={this.showEditAccount}
             logOut={() => this.handleChangeMode(AppMode.LOGIN)}
-            showAbout={() => {this.setState({showAboutDialog: true})}}/>
+            showAbout={() => {this.setState({showAboutDialog: true})}}
+            userType={this.state.userObj.accountType}/>
           <ModePage 
             menuOpen={this.state.menuOpen}
             mode={this.state.mode}

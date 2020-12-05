@@ -1,7 +1,28 @@
 import React from 'react';
-import AppMode from '../../AppMode.js'
+import AppMode from '../../AppMode.js';
+import UserType from '../../UserTypes.js';
 
 class SideMenu extends React.Component {
+
+//renderModeItems -- Renders correct subset of mode menu items based on
+//current mode, which is stored in this.prop.mode. Uses switch statement to
+//determine mode.
+renderModeMenuItems = () => {
+    if (this.props.userType === UserType.ADMIN || this.props.userType === UserType.ACREDITADMIN)
+    {
+      return (
+          <a className="sidemenu-item"
+              onClick={() => this.props.changeMode(AppMode.PROGRAMS)}>
+          <span className="fa fa-tasks"></span>&nbsp;Program's dashboard</a>
+      )
+    }
+    else if (this.props.userType === UserType.INSTRUCTOR)
+    return(
+        <a className="sidemenu-item"
+            onClick={() => this.props.changeMode(AppMode.INSTRUCTOR_DASHBOARD)}>
+        <span className="fa fa-tachometer"></span>&nbsp;Instructor's dashboard</a>
+    )
+}
 
     render() {
        return (
