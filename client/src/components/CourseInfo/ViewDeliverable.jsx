@@ -3,10 +3,12 @@ import React from 'react';
 class ViewDeliverable extends React.Component {
   constructor(props) {
     super(props);
+    this.refArray = [];
     this.state = {
       placeHolder: false,
       deliverable: props.deliverable,
       deliverableSOs: {},
+      file: null
 
     }
   }
@@ -61,9 +63,9 @@ class ViewDeliverable extends React.Component {
     var SOPIs = [];
     var PIs = [];
     var keys = Object.keys(this.state.deliverableSOs);
-    for (var i = 0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       //gets each PI from a given SO
-      for (var j = 0; j < this.state.deliverableSOs[keys[i]].length; j++) {
+      for (let j = 0; j < this.state.deliverableSOs[keys[i]].length; j++) {
         PIs.push(
             <li><input style={{marginRight: 20}} type="checkbox"/>{this.state.deliverableSOs[keys[i]][j]}</li>
         );
@@ -83,17 +85,37 @@ class ViewDeliverable extends React.Component {
     return SOPIs;
   }
 
+  getFileFromRefArray = (index) => {
+    console.log(index);
+    // return this.refArray[index].current.files[0];
+  }
+
   displayNeededWorkSamples = () => {
     var workSamples = [];
-    for (var i = 0; i < this.state.deliverable.labels.length; i++) {
-              workSamples.push(
-                <tr>
-                  <td>{"Work Sample " + i}</td>
-                  <td className={() => this.getLabelClassName(this.state.deliverable.labels[i])}>{this.state.deliverable.labels[i]}</td>
-                  <td><a href={"/api/s3?id=" + "coursedeliverable.id" + "&name=" + "coursedeliverable.name"} className="btn btn-primary" > <i className="fa fa-download"></i> Add Sample</a></td>
-                </tr>
-              );
-    }
+    for (let i = 0; i < this.state.deliverable.studentWorkSamples.length; i++) {
+      this.refArray.push(React.createRef())
+      if(this.state.deliverable.studentWorkSamples[i].file)
+        workSamples.push(
+          <tr>
+            <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
+            <td>{this.state.deliverable.studentWorkSamples[i].file.name}</td>
+            <td><a href={"/api/s3?id=" + this.state.deliverable.studentWorkSamples[i].file.id + "&name=" + this.state.deliverable.studentWorkSamples[i].file.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a></td>
+            <button onClick={()=>{this.props.deleteFile(this.state.deliverable.studentWorkSamples[i].file.id, this.state.deliverable.studentWorkSamples[i].file.name, this.props.deleteInDatabase_workSample, this.props.index, i)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+          </tr>
+        );
+        else
+        {
+          workSamples.push(
+            <tr>
+              <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
+              <td>{"index="+i}</td>
+              <td><input ref={this.refArray[i]} id={"workSampleFile-" + i} className="form-control-file" type="file"  name="file"></input></td>
+              <td><button className="btn btn-success" name="studentWorkSamples" type="button" 
+                onClick={() => this.props.uploadFile(this.refArray[i].current.files[0], this.props.upload_workSample, this.props.index, i)}>Upload</button></td>
+            </tr>
+          );
+        }
+      }
 
     return workSamples;
   }
@@ -123,6 +145,7 @@ class ViewDeliverable extends React.Component {
   }
 
   render() {
+    console.log(this.refArray);
     console.log(this.props.index)
     let prompt = this.state.deliverable.prompt
     var PromptDiv =(<div>
@@ -166,13 +189,10 @@ class ViewDeliverable extends React.Component {
                       <table id="courses-table" className="table table-hover">
                         <thead className="thead-dark">
                           <tr>
-                            <th>Name</th>
-                            <th>Label</th>
-                            <th>Add file</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {this.state.deliverable.labels.length == 0 || this.state.deliverable.labels.length == null ?
+                          {this.state.deliverable.studentWorkSamples == 0 || this.state.deliverable.studentWorkSamples == null ?
                             <tr>
                               <td colSpan="12" style={{ fontStyle: "italic" }}>No Samples To Upload</td>
                             </tr> : this.displayNeededWorkSamples()

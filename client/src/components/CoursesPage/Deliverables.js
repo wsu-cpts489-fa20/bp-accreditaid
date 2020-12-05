@@ -11,7 +11,6 @@ class Deliverables extends React.Component {
         super(props);
         this.state = {
                       course: {},
-                      labels: ["High", "Medium", "Low"],
                       deliverables: [],
                       editDeliverableIndex: null
                     };
@@ -104,7 +103,6 @@ class Deliverables extends React.Component {
                     delivarable={this.state.deliverables[this.state.editDeliverableIndex]}
                     updateLabels={this.updateLabels}
                     saveDeliverable={this.addOrUpdateDeliverable} 
-                    labels={this.state.labels}
                 />
             );
         }

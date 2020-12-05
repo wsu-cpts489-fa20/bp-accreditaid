@@ -4,7 +4,7 @@ import AppMode from '../../AppMode.js';
 class DeliverablesTable extends React.Component {
 
     getHeader = () => {
-        let labels = this.props.labels;
+        let studentWorkSamples = this.props.labstudentWorkSamplesels;
         let headers = []
         headers.push(<th>Name</th>);
         headers.push(<th>Description</th>);
@@ -14,16 +14,16 @@ class DeliverablesTable extends React.Component {
         return headers;
     }
 
-    displayLabels = (labels) => {
+    displayStudentWorkSamples = (studentWorkSamples) => {
         let result = []
-        if (labels.length == 0) {
+        if (studentWorkSamples.length == 0) {
             result.push(<td>N/A</td>);
         } else {
             let labelString = "";
-            for (let i = 0; i < labels.length - 1; i++) {
-                labelString = labelString + labels[i] + ", "
+            for (let i = 0; i < studentWorkSamples.length - 1; i++) {
+                labelString = labelString + studentWorkSamples[i].importance + ", "
             }
-            labelString = labelString + labels[labels.length - 1];
+            labelString = labelString + studentWorkSamples[studentWorkSamples.length - 1].importance;
             result.push(<td>{labelString}</td>)
         }
         return result;
@@ -38,7 +38,7 @@ class DeliverablesTable extends React.Component {
                 <tr key={p}>
                     <td>{deliverables[p].deliverableName}</td>
                     <td>{deliverables[p].description}</td>
-                    {this.displayLabels(deliverables[p].labels)}
+                    {this.displayStudentWorkSamples(deliverables[p].studentWorkSamples)}
                     <td>0%</td>
                     <td>
                         <button 

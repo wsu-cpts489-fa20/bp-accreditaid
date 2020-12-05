@@ -103,7 +103,36 @@ class CourseInfo extends React.Component {
         
     }
 
-    deleteFile = (id, name, db_update, type, index) => {
+    deleteInDatabase_workSample = (deliverableIndex, workSampleIndex) => {
+        console.log("upload_prompt has been called");
+        let body = {};
+        body["courseDeliverables"] = this.state.course["courseDeliverables"];
+        console.log(body);
+        console.log("index = " + deliverableIndex)
+        body["courseDeliverables"][deliverableIndex]["studentWorkSamples"][workSampleIndex]["file"] = null;
+        
+        console.log(body);
+        fetch("/api/courses/" + this.state.course._id, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            method: 'PUT',
+            body: JSON.stringify(body)
+        })
+        .then(function(res) {
+            if(res.status == 200){
+                return res.text();
+            }
+            throw res;
+        })
+        .then(json => console.log(json))
+        .then(()=> {this.updateCourseState("courseDeliverables", body["courseDeliverables"])})
+        .catch(err => console.error(err));
+        
+    }
+
+    deleteFile = (id, name, db_update, type, index, index2) => {
         fetch(("/api/s3?id=" + id + "&name=" + name), {
             method: 'DELETE'
         })
@@ -114,7 +143,7 @@ class CourseInfo extends React.Component {
         .catch(err => console.error(err));
     }
 
-    uploadFile = (file, db_update, type) => {
+    uploadFile = (file, db_update, type, index) => {
         console.log("TYPE: "+ type);
         // add file to FormData object
         const fd = new FormData();
@@ -132,7 +161,7 @@ class CourseInfo extends React.Component {
             throw res;
         })
         .then(json => {console.log(json); return json})
-        .then((json) => {db_update(file, json.data.VersionId, type)})
+        .then((json) => {db_update(file, json.data.VersionId, type, index)})
         .catch(err => console.error(err))
     }
 
@@ -198,6 +227,35 @@ class CourseInfo extends React.Component {
         console.log(body);
         console.log("index = " + deliverableIndex)
         body["courseDeliverables"][deliverableIndex]["prompt"] = {id: id, name: file.name};
+        
+        console.log(body);
+        fetch("/api/courses/" + this.state.course._id, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            method: 'PUT',
+            body: JSON.stringify(body)
+        })
+        .then(function(res) {
+            if(res.status == 200){
+                return res.text();
+            }
+            throw res;
+        })
+        .then(json => console.log(json))
+        .then(()=> {this.updateCourseState("courseDeliverables", body["courseDeliverables"])})
+        .catch(err => console.error(err));
+        
+    }
+
+    upload_workSample = (file, id, deliverableIndex, workSampleIndex) => {
+        console.log("upload_prompt has been called");
+        let body = {};
+        body["courseDeliverables"] = this.state.course["courseDeliverables"];
+        console.log(body);
+        console.log("index = " + deliverableIndex)
+        body["courseDeliverables"][deliverableIndex]["studentWorkSamples"][workSampleIndex]["file"] = {id: id, name: file.name};
         
         console.log(body);
         fetch("/api/courses/" + this.state.course._id, {
@@ -318,6 +376,8 @@ class CourseInfo extends React.Component {
                             upload_array={this.upload_array}
                             upload_prompt={this.upload_prompt}
                             deleteInDatabase_prompt={this.deleteInDatabase_prompt}
+                            upload_workSample={this.upload_workSample}
+                            deleteInDatabase_workSample={this.deleteInDatabase_workSample}
 
                         />
             </div>    

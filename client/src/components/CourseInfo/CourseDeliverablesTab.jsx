@@ -69,6 +69,8 @@ class CourseDeliverablesTab extends React.Component {
                 uploadFile={this.props.uploadFile}
                 upload_prompt={this.props.upload_prompt}
                 deleteInDatabase_prompt={this.props.deleteInDatabase_prompt}
+                upload_workSample={this.props.upload_workSample}
+                deleteInDatabase_workSample={this.props.deleteInDatabase_workSample}
             />: null}
         </div>
         );
