@@ -1,10 +1,12 @@
+import { set } from 'mongoose';
 import React from 'react';
+import CSVReader from 'react-csv-reader';
 import PerformanceIndicator from './PerformanceIndicator.js';
 
 class StudentOutcomesList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {outcome: ""};
+        this.state = {outcome: "", data: null, fileInfo: null};
     }
 
     addOutcome = () => {
@@ -36,6 +38,39 @@ class StudentOutcomesList extends React.Component {
         this.props.outcomesChanged(outcomes);
     }
 
+    prepareFile = (data, fileInfo) => {
+        this.setState({data: [...data], fileInfo: fileInfo});
+    }
+
+
+    importData = () => {
+        var outcomes = {};
+
+        for(var i = 0; i < this.state.data.length; i++) 
+        {
+            if (this.state.data[i].length > 1)
+            {
+                let performanceIndicators = [];
+                for (var j = 1; j < this.state.data[i].length; j++)
+                {
+                    if (this.state.data[i][j] == "")
+                    {
+                        continue;
+                    }
+
+                    performanceIndicators.push(this.state.data[i][j]);
+                }
+                outcomes[this.state.data[i][0]] = performanceIndicators;
+            }
+            else if (this.state.data[i].length == 0)
+            {
+                outcomes[this.state.data[i][0]] = [];
+            }
+        }
+
+        this.props.outcomesChanged(outcomes);
+    }
+
     render() {
         return (
             <div className="page-content page-container">
@@ -61,6 +96,15 @@ class StudentOutcomesList extends React.Component {
                                                     </li>
                                         })}
                                         </ol>
+                                    </div>
+                                    <div className="import-csv">
+                                        <CSVReader
+                                            cssClass="csv-reader-input"
+                                            label="Select CSV with student outcomes and performance indicators"
+                                            onFileLoaded={this.prepareFile}
+                                            inputId="upload-csv"
+                                        />
+                                        <button id="upload-csv" type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.importData}>Import data</button>
                                     </div>
                                 </div>
                             </div>
