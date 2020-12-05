@@ -24,8 +24,15 @@ class CoursesTable extends React.Component {
                     <td>{this.props.courses[p].courseCredits}</td>
                     <td>{this.props.courses[p].coursePrerequisites}</td>
                     <td>{this.props.courses[p].sos}</td>
-                    <td>{this.props.courses[p].deliverables}</td>
-                    <td>{this.props.courses[p].completion}</td>
+                    <td>
+                        <button 
+                            id={"deliverables-" + p}
+                            onClick={this.props.menuOpen ? null : () => 
+                                this.props.changeMode(AppMode.DELIVERABLES, {course: this.props.courses[p], prevMode: AppMode.COURSES})}>
+                            <span className="fa fa-files-o"></span>
+                        </button>
+                    </td>
+                    <td>{this.props.courses[p].completion} %</td>
                     <td>{this.props.courses[p].courseInstructor}</td>
                     <td>{this.props.courses[p].courseEmail}</td>
                     <td><input type={"checkbox"} onClick={()=>{console.log("Toggled a checkbox!"); this.props.toggleEmailSelected(p)} } /></td>
@@ -47,7 +54,7 @@ class CoursesTable extends React.Component {
         return (
         <div>
             <table id="courses-table" className="table table-hover">
-                <thead className="thead-light">
+                <thead className="thead-dark">
                     <tr>
                     <th>Course Name</th>
                     <th>Number</th>
@@ -66,7 +73,7 @@ class CoursesTable extends React.Component {
                 <tbody>
                     {Object.keys(this.props.courses).length === 0 ? 
                     <tr>
-                    <td colSpan="8" style={{fontStyle: "italic"}}>No courses created</td>
+                    <td colSpan="12" style={{fontStyle: "italic"}}>No courses created</td>
                     </tr> : this.renderTable()
                     }
                 </tbody>

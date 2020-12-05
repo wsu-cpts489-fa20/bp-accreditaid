@@ -88,7 +88,7 @@ router.get('/:courseId', async(req, res) => {
   console.log("in /courses route (GET) with courseId = " + 
     JSON.stringify(req.params.courseId));
   try {
-    let thiscourse = await Course.findOne({id: req.params.courseId});
+    let thiscourse = await Course.findOne({_id: req.params.courseId});
     if (!thiscourse) {
       return res.status(400).send("No course with specified courseId was found in database.");
     } else {

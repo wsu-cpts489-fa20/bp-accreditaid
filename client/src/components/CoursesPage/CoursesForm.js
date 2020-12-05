@@ -43,10 +43,7 @@ class CoursesForm extends React.Component {
         btnLabel: "Update Course"});
 
         }, 1000); 
-        
-
     }
-
 
     handleNewCourseChange = (event) => {
         const name = event.target.name;
@@ -244,7 +241,7 @@ class CoursesForm extends React.Component {
                             id="course-submit"
                             className="btn btn-primary btn-color-theme modal-submit-btn"
                             style={{ marginTop: "15px", marginBottom: "70px" }}>
-                            <span className="fa fa-user-plus"></span>&nbsp;{this.state.btnLabel}
+                            <span className={this.state.faIcon}></span>&nbsp;{this.state.btnLabel}
                         </button>
                         {this.props.mode === AppMode.COURSES_EDITCOURSE ?
                             <button id="delete-course" type="button" style={{width: "40%",fontSize: "36px"}} 

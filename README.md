@@ -37,3 +37,14 @@ https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/server/routes/api
 
 Gif of tests running
 https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/Milestone2Tests.gif
+
+### Milestone 3
+
+#### Summary of work done
+  TODO
+
+#### Examples of work done
+  TODO
+
+Gif of tests running
+https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/Milestone3ProgramTests.gif

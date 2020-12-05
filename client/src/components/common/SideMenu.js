@@ -1,5 +1,6 @@
 import React from 'react';
-import AppMode from '../../AppMode.js'
+import AppMode from '../../AppMode.js';
+import UserType from '../../UserTypes.js';
 
 class SideMenu extends React.Component {
 
@@ -7,40 +8,20 @@ class SideMenu extends React.Component {
 //current mode, which is stored in this.prop.mode. Uses switch statement to
 //determine mode.
 renderModeMenuItems = () => {
-  switch (this.props.mode) {
-    case AppMode.FEED:
-      return(
-        <div>
-        <a className="sidemenu-item">
-            <span className="fa fa-users"></span>&nbsp;Followed Users</a>
-        <a className="sidemenu-item ">
-            <span className="fa fa-search"></span>&nbsp;Search Feed</a>
-        </div>
-      );
-    break;
-    case AppMode.ROUNDS:
-      return(
-        <div>
-          <a className="sidemenu-item">
-            <span className="fa fa-plus"></span>&nbsp;Log New Round</a>
-          <a className="sidemenu-item">
-            <span className="fa fa-search"></span>&nbsp;Search Rounds</a>
-        </div>
-      );
-    break;
-    case AppMode.COURSES:
-      return(
-        <div>
-        <a className="sidemenu-item"
-            onClick={() => this.props.changeMode(AppMode.COURSES_LOGCOURSE)}>
-            <span className="fa fa-plus"></span>&nbsp;Add a Course</a>
-        <a className="sidemenu-item">
-            <span className="fa fa-search"></span>&nbsp;Search Courses</a>
-        </div>
-      );
-    default:
-        return null;
+    if (this.props.userType === UserType.ADMIN || this.props.userType === UserType.ACREDITADMIN)
+    {
+      return (
+          <a className="sidemenu-item"
+              onClick={() => this.props.changeMode(AppMode.PROGRAMS)}>
+          <span className="fa fa-tasks"></span>&nbsp;Program's dashboard</a>
+      )
     }
+    else if (this.props.userType === UserType.INSTRUCTOR)
+    return(
+        <a className="sidemenu-item"
+            onClick={() => this.props.changeMode(AppMode.INSTRUCTOR_DASHBOARD)}>
+        <span className="fa fa-tachometer"></span>&nbsp;Instructor's dashboard</a>
+    )
 }
 
     render() {
@@ -53,7 +34,6 @@ renderModeMenuItems = () => {
             <span id="userID" className="sidemenu-userID">&nbsp;{this.props.displayName}</span>
         </div>
           {/* MENU CONTENT */}
-          {this.renderModeMenuItems()}
           {/* The following menu items are present regardless of mode */}
           {this.props.localAccount ? 
             <a id="accountBtn" className="sidemenu-item" onClick={this.props.editAccount}>

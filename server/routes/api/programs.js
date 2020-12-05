@@ -25,21 +25,21 @@ router.get('/', async(req, res, next) => {
 });
 
 //READ Program route: Retrieves the Program with the specified name from Programs collection (GET)
-router.get('/:name', async(req, res, next) => {
-  console.log("in /api/programs route (GET) with name = " + 
-    JSON.stringify(req.params.name));
+router.get('/:programId', async(req, res, next) => {
+  console.log("in /api/programs route (GET) with an id = " + 
+    JSON.stringify(req.params.programId));
   try {
-    let thisProgram = await Program.findOne({name: req.params.name});
+    let thisProgram = await Program.findById(req.params.programId);
     if (!thisProgram) {
-      return res.status(404).send("No Program with name " +
-        req.params.name + " was found in database.");
+      return res.status(404).send("No Program with an id " +
+        req.params.programId + " was found in database.");
     } else {
       return res.status(200).json(JSON.stringify(thisProgram));
     }
   } catch (err) {
     console.log()
-    return res.status(400).send("Unexpected error occurred when looking up Program with name " +
-      req.params.name + " in database: " + err);
+    return res.status(400).send("Unexpected error occurred when looking up Program with an id " +
+      req.params.programId + " in database: " + err);
   }
 });
   
@@ -50,21 +50,23 @@ router.post('/:name',  async (req, res, next) => {
   if (req.body === undefined || 
       !req.body.hasOwnProperty("department") ||
       !req.body.hasOwnProperty("college") ||
-      !req.body.hasOwnProperty("credits") ){
+      !req.body.hasOwnProperty("credits") ||
+      !req.body.hasOwnProperty("studentOutcomes")){
     //Body does not contain correct properties
     return res.status(400).send("/api/programs POST request formulated incorrectly. ")
   }
   try {
     let thisProgram = await Program.findOne({name: req.params.name});
     if (thisProgram) { //program already exists
-      res.status(400).send("There is already a program under that name'" + req.params.name);
+      res.status(400).send("There is already a program under that name '" + req.params.name);
     } else { // add to database
       thisProgram = await new Program({
         name: req.params.name,
         department: req.body.department,
         college: req.body.college,
         credits: req.body.credits,
-      }).save();
+        studentOutcomes: req.body.studentOutcomes
+      }).save({checkKeys: false});
       return res.status(201).send("New program of the name '" + 
         req.params.name + "' successfully created.");
     }
@@ -82,7 +84,7 @@ router.put('/:name',  async (req, res, next) => {
         "It must contain 'name' as parameter.");
   }
   const validProps = ['name', 'department', 'college', 
-    'credits'];
+    'credits', 'studentOutcomes', 'courseId'];
   for (const bodyProp in req.body) {
     if (!validProps.includes(bodyProp)) {
       return res.status(400).send("Programs/ PUT request formulated incorrectly." +
@@ -90,10 +92,10 @@ router.put('/:name',  async (req, res, next) => {
     } 
   }
   try {
-        let status = await Program.updateOne({name: req.params.name}, 
-          {$set: req.body});
+        let status = await Program.updateOne({_id: (req.body.courseId)}
+        ,{"$set" : req.body});
         if (status.nModified != 1) { //program could not be found
-          res.status(404).send("No Program with the name " + req.params.name + " exists. Program could not be updated.");
+          res.status(404).send("Program with the name " + req.params.name + " Was not modified. Either it does not exist or there were no new changes submitted.");
         } else {
           res.status(200).send("Program " + req.params.name + " successfully updated.")
         }
@@ -103,22 +105,22 @@ router.put('/:name',  async (req, res, next) => {
 });
   
 //DELETE Program route: Deletes the document with the specified name from Programs collection (DELETE)
-router.delete('/:name', async(req, res, next) => {
-  console.log("in /api/programs route (DELETE) with name = " + 
-    JSON.stringify(req.params.name));
+router.delete('/:programId', async(req, res, next) => {
+  console.log("in /api/programs route (DELETE) with an id = " + 
+    JSON.stringify(req.params.programId));
   try {
-    let status = await Program.deleteOne({name: req.params.name});
+    let status = await Program.deleteOne({_id: req.params.programId});
     if (status.deletedCount != 1) {
-      return res.status(404).send("No Program " +
-        req.params.name + " was found. Program could not be deleted.");
+      return res.status(404).send("No Program with an id " +
+        req.params.programId + " was found. Program could not be deleted.");
     } else {
-      return res.status(200).send("Program  " +
-      req.params.name + " was successfully deleted.");
+      return res.status(200).send("Program with an id " +
+      req.params.programId + " was successfully deleted.");
     }
   } catch (err) {
     console.log()
-    return res.status(400).send("Unexpected error occurred when attempting to delete Program  with name " +
-      req.params.name + ": " + err);
+    return res.status(400).send("Unexpected error occurred when attempting to delete Program  with an id " +
+      req.params.programId + ": " + err);
   }
 });
 

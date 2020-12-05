@@ -8,6 +8,7 @@ import AppMode from "./../AppMode.js"
 import FeedPage from './FeedPage/FeedPage.js';
 import Rounds from './RoundsPage/Rounds.js';
 import Courses from './CoursesPage/Courses.js';
+import Deliverables from './CoursesPage/Deliverables.js';
 import Programs from './ProgramsPage/Programs.js'
 import AboutBox from './common/AboutBox.js';
 import InstructorPage from "./InstructorPage/InstructorPage.jsx"
@@ -25,6 +26,9 @@ modeTitle[AppMode.PROGRAMS_EDITPROGRAM] = "Edit Program";
 modeTitle[AppMode.COURSES] = "Courses";
 modeTitle[AppMode.COURSES_LOGCOURSE] = "Log New Course";
 modeTitle[AppMode.COURSES_EDITCOURSE] = "Edit Course";
+modeTitle[AppMode.DELIVERABLES] = "Deliverables";
+modeTitle[AppMode.DELIVERABLES_EDITDELIVERABLE] = "View/Edit the Deliverable";
+modeTitle[AppMode.DELIVERABLES_LOGDELIVERABLE] = "Create New Deliverable";
 
 const modeToPage = {};
 modeToPage[AppMode.LOGIN] = LoginPage;
@@ -35,6 +39,9 @@ modeToPage[AppMode.ROUNDS_EDITROUND] = Rounds;
 modeToPage[AppMode.COURSES] = Courses;
 modeToPage[AppMode.COURSES_LOGCOURSE] = Courses;
 modeToPage[AppMode.COURSES_EDITCOURSE] = Courses;
+modeToPage[AppMode.DELIVERABLES] = Deliverables;
+modeToPage[AppMode.DELIVERABLES_EDITDELIVERABLE] = Deliverables;
+modeToPage[AppMode.DELIVERABLES_LOGDELIVERABLE] = Deliverables;
 modeToPage[AppMode.PROGRAMS] = Programs
 modeToPage[AppMode.PROGRAMS_LOGPROGRAM] = Programs
 modeToPage[AppMode.PROGRAMS_EDITPROGRAM] = Programs
@@ -180,7 +187,8 @@ class App extends React.Component {
             localAccount={this.state.userObj.authStrategy === "local"}
             editAccount={this.showEditAccount}
             logOut={() => this.handleChangeMode(AppMode.LOGIN)}
-            showAbout={() => {this.setState({showAboutDialog: true})}}/>
+            showAbout={() => {this.setState({showAboutDialog: true})}}
+            userType={this.state.userObj.accountType}/>
           <ModePage 
             menuOpen={this.state.menuOpen}
             mode={this.state.mode}

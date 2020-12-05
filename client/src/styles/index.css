@@ -157,6 +157,16 @@
   color: white;
 }
 
+.btn-alt-color-theme:hover {
+  background-color: #5e6a71;
+}
+
+.btn-alt-color-theme:focus,
+.btn-alt-color-theme:active {
+  background-color: #5e6a71 !important;
+  border: 2px solid #000 !important;
+}
+
 /* change items to gray when disabled class is applied  */
 .disabled {
   color: gray;
@@ -395,4 +405,77 @@ body {
   padding-bottom: 6px;
   color: black;
   background-color: lightgray;
+}
+
+.outcomes-list,
+.indicators-list {
+  margin-left: 0;
+  margin-right: 10%;
+}
+
+.indicators-list {
+  list-style-type: lower-alpha;
+  margin-left: 0;
+  font-size: small;
+  text-align: justify;
+}
+
+.outcomes-list > li,
+.indicators-list > li {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.outcomes-div,
+.indicator-element-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.outcomes-div > i,
+.indicator-element-div > i {
+  align-self: center;
+}
+
+.outcomes-div > i:hover,
+.indicators-list > li > i:hover,
+.delete-label {
+  cursor: pointer;
+}
+
+.indicators-div {
+  margin-right: 15px;
+}
+
+.outcomes-div {
+  text-align: justify;
+  margin-right: 15px;
+}
+
+.outcome-div {
+  margin-right: 15px;
+}
+
+/*styling for deliverables checkbox list*/
+.deliverableList, 
+.deliverableList-pi{
+  list-style-type: none;
+}
+
+.deliverableList > li {
+  font-size: medium;
+}
+
+.deliverableList-pi{
+  margin-left: 1%;
+  font-size: small;
+}
+
+.upload-schedule {
+  display: inline-flex;
+}
+.import-csv {
+  display: inline-flex;
+  margin-bottom: 16px;
+  margin-top: 8px;
 }

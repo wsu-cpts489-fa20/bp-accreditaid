@@ -1,17 +1,21 @@
 import React from 'react';
 import ConfirmDeleteProgram from './ConfirmDeleteProgram.js';
 import AppMode from '../../AppMode.js';
+import StudentOutcomesList from './StudenOutcomesList.js';
 
 class ProgramForm extends React.Component {
   constructor(props) {
     super(props);
     if (this.props.mode === AppMode.PROGRAMS_LOGPROGRAM) {
       //If logging a new program, the starting state is a default program with
-      this.state = {name:  "", 
+      this.state = {
+                    _id: "",
+                    name:  "", 
                     department: "",
                     college: "",
                     credits: "",
                     oldName: "",
+                    studentOutcomes: {},
                     faIcon: "fa fa-save",
                     btnLabel: "Save Program Data"}
     } else {
@@ -22,6 +26,10 @@ class ProgramForm extends React.Component {
       thisProgram.oldName = thisProgram.name.slice(0);
       thisProgram.faIcon = "fa fa-edit";
       thisProgram.btnLabel = "Update Program Data";
+      if (thisProgram["studentOutcomes"] == null)
+      {
+        thisProgram["studentOutcomes"] = {};
+      }
       this.state = thisProgram;
     }
   }
@@ -58,10 +66,21 @@ class ProgramForm extends React.Component {
       programData.department = this.state.department;
       programData.college = this.state.college;
       programData.credits = this.state.credits;
+      programData.courseId = this.state._id; 
+
+      if (Object.keys(this.state.studentOutcomes).length == 0)
+      {
+        programData.studentOutcomes = null;
+      }
+      else
+      {
+        programData.studentOutcomes = this.state.studentOutcomes;
+      }
+
       delete programData.faIcon;
       delete programData.btnLabel;
       //call saveProgram on 1 second delay to show spinning icon
-      setTimeout(this.props.saveProgram,1000, localName, programData); 
+      setTimeout(this.props.saveProgram, 1000, localName, programData); 
       event.preventDefault(); 
       }
 
@@ -82,11 +101,15 @@ class ProgramForm extends React.Component {
   confirmDelete = (id) => {
     this.props.setDeleteId(id);
     this.setState({showConfirmDelete: true});
-  }      
-  
+  }
+
   openCourses = () => {
     this.props.changeMode(AppMode.COURSES);
   }
+
+  outcomesChanged = (outcomes) => {
+    this.setState({studentOutcomes: outcomes});
+  } 
   
   render() {
     return (
@@ -124,6 +147,8 @@ class ProgramForm extends React.Component {
                 placeholder="0" min="0" max="999" />
             </label>
             <p></p>
+            <StudentOutcomesList studentOutcomes={this.state.studentOutcomes} outcomesChanged={this.outcomesChanged}/>
+            <p></p>
             {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM ? 
               <button id="edit-courses" type="button" style={{width: "40%",fontSize: "36px"}} 
                 className="btn btn-primary btn-color-theme"
@@ -139,7 +164,7 @@ class ProgramForm extends React.Component {
               <button id="delete-program" type="button" style={{width: "40%",fontSize: "36px"}} 
                 className="btn btn-primary btn-color-theme"
                 onClick={this.props.menuOpen ? null : () => 
-                this.confirmDelete(this.state.name)}>
+                this.confirmDelete(this.state._id)}>
                   <span className="fa fa-times">Delete Program</span></button>
               : null}
           </center>

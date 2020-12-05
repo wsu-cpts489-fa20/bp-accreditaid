@@ -31,6 +31,7 @@ class CourseMaterialsTab extends React.Component {
         event.preventDefault()
         console.log("file");
         console.log("files array" + event.target.files);
+        console.log(type);
         this.props.uploadFile(event.target['file'].files[0], this.props.upload_array, type)
     }
 
@@ -42,7 +43,7 @@ class CourseMaterialsTab extends React.Component {
                 <button className="btn btn-success" name="courseMaterials" type="submit">Upload</button> 
             </form>
             <table id="courses-table" className="table table-hover">
-                <thead className="thead-light">
+                <thead className="thead-dark">
                     <tr>
                     <th>Material Name</th>
                     <th>Download</th>
