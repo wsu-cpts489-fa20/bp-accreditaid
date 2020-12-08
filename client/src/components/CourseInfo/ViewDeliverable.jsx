@@ -60,27 +60,34 @@ class ViewDeliverable extends React.Component {
 
 
   displaySOPIs = () => {
+    console.log(this.state.deliverableSOs)
     var SOPIs = [];
-    var PIs = [];
     var keys = Object.keys(this.state.deliverableSOs);
     for (let i = 0; i < keys.length; i++) {
+      //defines table header from SO
+      SOPIs.push(
+        <thead className="thead-dark">
+          <tr>
+            <th>{keys[i]}</th>
+            <th>Prior Competence Assumed</th>
+            <th>Taught in Course</th>
+            <th>Assessed in Course</th>
+          </tr>
+        </thead>
+      );
       //gets each PI from a given SO
+      var PIs = [];
       for (let j = 0; j < this.state.deliverableSOs[keys[i]].length; j++) {
         PIs.push(
-            <li><input style={{marginRight: 20}} type="checkbox"/>{this.state.deliverableSOs[keys[i]][j]}</li>
+          <tr>
+            <td>{this.state.deliverableSOs[keys[i]][j]}</td>
+            <td><input style={{marginRight: 20}} type="checkbox"/></td>
+            <td><input style={{marginRight: 20}} type="checkbox"/></td>
+            <td><input style={{marginRight: 20}} type="checkbox"/></td>
+          </tr>
         );
       }
-      // add SO to the unordered list
-      SOPIs.push(
-        <ul className="deliverableList">
-          <li><input style={{marginRight: 20}} type="checkbox"/>{keys[i]}</li>
-          <ul className="deliverableList-pi">
-            {PIs}
-          </ul>
-        </ul>
-      );
-      //empty to do another SO
-      PIs = [];
+      SOPIs.push(<tbody>{PIs}</tbody>)
     }
     return SOPIs;
   }
@@ -108,7 +115,6 @@ class ViewDeliverable extends React.Component {
           workSamples.push(
             <tr>
               <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
-              <td>{"index="+i}</td>
               <td><input ref={this.refArray[i]} id={"workSampleFile-" + i} className="form-control-file" type="file"  name="file"></input></td>
               <td><button className="btn btn-success" name="studentWorkSamples" type="button" 
                 onClick={() => this.props.uploadFile(this.refArray[i].current.files[0], this.props.upload_workSample, this.props.index, i)}>Upload</button></td>
@@ -183,7 +189,15 @@ class ViewDeliverable extends React.Component {
                     <p>{this.state.deliverable.description}</p>
                     {PromptDiv}
                     <h4>Student Outcomes and Preformace Indicators</h4>
-                    <p>{this.displaySOPIs()}</p>
+                    <div>
+                      <table id="courses-table" className="table table-hover">
+                        {this.state.deliverableSOs == null || this.state.deliverableSOs.length == 0 ?
+                          <tr>
+                            <td colSpan="12" style={{ fontStyle: "italic" }}>No Student Outcomes Defined</td>
+                          </tr> : this.displaySOPIs()
+                        }
+                      </table>
+                    </div>
                     <div>
                       <h4>Upload student work samples</h4>
                       <table id="courses-table" className="table table-hover">
