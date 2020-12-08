@@ -8,7 +8,8 @@ class EmailModal extends React.Component {
         
             sendIcon: "",
             sendText: "Send Email",
-            disableSend:false
+            disableSend:false,
+            toList: this.props.toList
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -24,7 +25,7 @@ class EmailModal extends React.Component {
 
     handleSubmit(event) {
         let data = {
-            toList: this.props.toList,
+            toList: this.state.toList,
             emailSubject: this.state.subject,
             emailBody: this.state.emailBody
         }
@@ -48,6 +49,10 @@ class EmailModal extends React.Component {
         this.props.close();
     }
 
+    updateToList = (event) => {
+        this.setState({toList:event.target.value})
+    }
+
 
     render() {
         return (
@@ -55,14 +60,15 @@ class EmailModal extends React.Component {
                 <div className="modal-dialog modal-xl">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h3>Invite Instructors</h3>
+                            <h3>Invite to AcreditAid</h3>
                             <button type="button" className="close" onClick={this.props.close} > &times;</button>
                         </div>
                         <div className="modal-body">
                             <center>
                                 <form onSubmit={this.handleSubmit}>
                                     <label>To:</label>
-                                    <input class="form-control" type="text" value={this.props.toList} readonly />
+                                    <input class="form-control" type="text" value={this.state.toList} pattern="^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},?)+$" onChange={this.updateToList}/>
+                                    <small id="emailHelp" class="form-text text-muted">Comma separated list of emails. Ex: "abc@wsu.edu,def@wsu.edu,"</small>
                                     <p />
                                     <label for="subjectinput">
                                         Subject

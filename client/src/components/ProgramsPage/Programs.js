@@ -7,6 +7,7 @@ import AppMode from '../../AppMode.js';
 import ProgramTable from './ProgramTable.js';
 import ProgramForm from './ProgramForm.js';
 import FloatingButton from '../common/FloatingButton.js';
+import EmailModal from "../EmailModal/EmailModal.jsx"
 
 class Programs extends React.Component {
 
@@ -15,7 +16,7 @@ class Programs extends React.Component {
         super();
         this.deleteId = "";
         this.editId = "";
-        this.state = {errorMsg: "", programs: []};           
+        this.state = {errorMsg: "", programs: [], isEmailModalDisplayed:false};           
     }
 
     componentDidMount() {
@@ -131,6 +132,12 @@ class Programs extends React.Component {
     closeErrorMsg = () => {
         this.setState({errorMsg: ""});
     }
+
+    toggleEmailModal = () => {
+        this.setState({
+            isEmailModalDisplayed: !this.state.isEmailModalDisplayed
+        })
+    }
     
     //render -- Conditionally render the Programs mode page as either the programs
     //table, the programs form set to obtain a new program, or the program form set
@@ -144,6 +151,11 @@ class Programs extends React.Component {
                        <button className="modal-close" onClick={this.closeErrorMsg}>
                           <span className="fa fa-times"></span>
                         </button></div>: null}
+                    <div>
+                        <button className="btn-primary" onClick={this.toggleEmailModal} >Invite Evaluators</button>
+                        {this.state.isEmailModalDisplayed ? <EmailModal close={this.toggleEmailModal}></EmailModal> : <div/>}
+                    </div>
+                    
                     <ProgramTable 
                         programs={this.state.programs}
                         setCurrentProgram={this.props.setCurrentProgram}
