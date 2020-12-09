@@ -18,7 +18,7 @@ class CourseTable extends React.Component {
         <td>{this.props.courses[p].courseName}</td>
         <td>{this.props.courses[p].courseNumber}</td>
         <td>{this.props.courses[p].coursePrefix}</td>
-        <td><button id={"Course-info-" + p} className="btn btn-outline-primary" onClick={()=>{ this.props.changeMode(AppMode.COURSE_INFO, {course: this.props.courses[p], prevMode: AppMode.INSTRUCTOR_DASHBOARD})}}>
+        <td><button id={"Course-info-" + p} className="btn btn-color-theme" onClick={()=>{ this.props.changeMode(AppMode.COURSE_INFO, {course: this.props.courses[p], prevMode: AppMode.INSTRUCTOR_DASHBOARD})}}>
               <span className="fa fa-file-text"></span></button></td>
       </tr> 
     );

@@ -239,13 +239,13 @@ class CoursesForm extends React.Component {
                         <br />
                         <button role="submit"
                             id="course-submit"
-                            className="btn btn-primary btn-color-theme modal-submit-btn"
+                            className="btn btn-color-theme modal-submit-btn"
                             style={{ marginTop: "15px", marginBottom: "70px" }}>
                             <span className={this.state.faIcon}></span>&nbsp;{this.state.btnLabel}
                         </button>
                         {this.props.mode === AppMode.COURSES_EDITCOURSE ?
                             <button id="delete-course" type="button" style={{width: "40%",fontSize: "36px"}} 
-                                className="btn btn-primary btn-color-theme"
+                                className="btn btn-color-theme"
                                 onClick={this.props.menuOpen ? null : () => 
                                 this.confirmDelete(this.state._id)}>
                                     <span className="fa fa-times">Delete Course</span></button>

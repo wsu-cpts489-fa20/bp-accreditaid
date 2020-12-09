@@ -59,7 +59,7 @@ class SecurityQuestionDialog extends React.Component {
                         />
                     </label>
                     <button role="submit" 
-                      className="btn btn-primary btn-color-theme form-submit-btn">
+                      className="btn btn-color-theme form-submit-btn">
                         <span className="fa fa-check"></span>&nbsp;Verify Answer
                     </button>
                     </form>

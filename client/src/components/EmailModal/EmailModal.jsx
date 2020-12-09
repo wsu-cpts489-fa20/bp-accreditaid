@@ -73,7 +73,7 @@ class EmailModal extends React.Component {
                                     <textarea rows="8" className="form-control" name="emailBody" value={this.state.emailBody} onChange={this.handleChange} required />
                                     <p />
                                     <div className="input-group">
-                                        <button className="btn btn-primary btn-color-theme" type="submit" onClick={this.handleSubmit} disabled={this.state.disableSend} >
+                                        <button className="btn btn-color-theme" type="submit" onClick={this.handleSubmit} disabled={this.state.disableSend} >
 
                                             {this.state.sendText}
                                             

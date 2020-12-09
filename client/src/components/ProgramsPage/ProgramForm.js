@@ -151,18 +151,18 @@ class ProgramForm extends React.Component {
             <p></p>
             {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM ? 
               <button id="edit-courses" type="button" style={{width: "40%",fontSize: "36px"}} 
-                className="btn btn-primary btn-color-theme"
+                className="btn btn-color-theme"
                 onClick={() => this.openCourses()}>
                   <span className="fa fa-times">Edit Courses</span></button>
               : null}
             <p></p>
             <button id="submit-changes" type="submit" style={{width: "40%",fontSize: "36px"}} 
-              className="btn btn-primary btn-color-theme">
+              className="btn btn-color-theme">
                 <span className={this.state.faIcon}/>&nbsp;{this.state.btnLabel}
             </button>
             {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM ?
               <button id="delete-program" type="button" style={{width: "40%",fontSize: "36px"}} 
-                className="btn btn-primary btn-color-theme"
+                className="btn btn-color-theme"
                 onClick={this.props.menuOpen ? null : () => 
                 this.confirmDelete(this.state._id)}>
                   <span className="fa fa-times">Delete Program</span></button>

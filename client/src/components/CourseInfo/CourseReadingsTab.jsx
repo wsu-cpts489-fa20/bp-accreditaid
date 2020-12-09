@@ -18,7 +18,7 @@ class CourseReadingsTab extends React.Component {
                     </td>
                     <td>
                     <button onClick={()=>{this.props.deleteFile(this.props.course.courseReadings[p].id, this.props.course.courseReadings[p].name, 
-                        this.props.deleteInDatabase_array, "courseReadings", p)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+                        this.props.deleteInDatabase_array, "courseReadings", p)}} className="btn btn-color-theme" ><i className="fa fa-trash"/> Delete </button>
                     </td>
                 </tr> 
             );
@@ -39,7 +39,7 @@ class CourseReadingsTab extends React.Component {
         <div>
             <form onSubmit={e => this.onSubmit(e, "courseReadings")}>
                 <input className="form-control-file" type="file"  name="file" ></input>
-                <button className="btn btn-success" name="courseReadings" type="submit">Upload</button> 
+                <button className="btn btn-color-theme" name="courseReadings" type="submit">Upload</button> 
             </form>
             <table id="courses-table" className="table table-hover">
                 <thead className="thead-dark">

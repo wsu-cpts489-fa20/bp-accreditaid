@@ -59,7 +59,7 @@ class LookUpAccountDialog extends React.Component {
                         />
                     </label>
                     <button type="submit" 
-                        className="btn btn-primary btn-color-theme form-submit-btn">
+                        className="btn btn-color-theme form-submit-btn">
                         <span className="fa fa-search"></span>&nbsp;Look Up Account
                     </button>
                     </form>

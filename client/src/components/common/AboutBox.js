@@ -29,7 +29,7 @@ render() {
                 </div>
             </div>
             <div className="modal-footer">
-                <button className="btn btn-primary btn-color-theme"
+                <button className="btn btn-color-theme"
                 onClick={this.props.close}>OK</button>
                 </div>
             </div>

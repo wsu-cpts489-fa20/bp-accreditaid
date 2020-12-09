@@ -99,7 +99,7 @@ class ViewDeliverable extends React.Component {
           <tr>
             <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
             <td>{this.state.deliverable.studentWorkSamples[i].file.name}</td>
-            <td><a href={"/api/s3?id=" + this.state.deliverable.studentWorkSamples[i].file.id + "&name=" + this.state.deliverable.studentWorkSamples[i].file.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a></td>
+            <td><a href={"/api/s3?id=" + this.state.deliverable.studentWorkSamples[i].file.id + "&name=" + this.state.deliverable.studentWorkSamples[i].file.name} className="btn btn-color-theme" > <i className="fa fa-download"></i> Download</a></td>
             <button onClick={()=>{this.props.deleteFile(this.state.deliverable.studentWorkSamples[i].file.id, this.state.deliverable.studentWorkSamples[i].file.name, this.props.deleteInDatabase_workSample, this.props.index, i)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
           </tr>
         );
@@ -110,7 +110,7 @@ class ViewDeliverable extends React.Component {
               <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
               <td>{"index="+i}</td>
               <td><input ref={this.refArray[i]} id={"workSampleFile-" + i} className="form-control-file" type="file"  name="file"></input></td>
-              <td><button className="btn btn-success" name="studentWorkSamples" type="button" 
+              <td><button className="btn btn-color-theme" name="studentWorkSamples" type="button"
                 onClick={() => this.props.uploadFile(this.refArray[i].current.files[0], this.props.upload_workSample, this.props.index, i)}>Upload</button></td>
             </tr>
           );
@@ -152,7 +152,7 @@ class ViewDeliverable extends React.Component {
       <h4>Prompt</h4>
       <form onSubmit={e => this.onSubmit(e, this.props.index)}>
           <center><input className="form-control-file"  type="file"  name="file" ></input></center>
-          <button  className="btn btn-success" name="prompt" type="submit">Upload</button> 
+          <button  className="btn btn-color-theme" name="prompt" type="submit">Upload</button> 
       </form>
       
     </div>)  
@@ -202,7 +202,7 @@ class ViewDeliverable extends React.Component {
                     </div>
                     <button role="submit"
                       id="Deliverable-submit"
-                      className="btn btn-primary btn-color-theme modal-submit-btn"
+                      className="btn btn-color-theme modal-submit-btn"
                       style={{ marginTop: "15px", marginBottom: "70px" }}>
                       <span className="fa fa-user-plus"></span>&nbsp;Update Deliverable
                         </button>

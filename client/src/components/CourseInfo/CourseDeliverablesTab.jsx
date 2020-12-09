@@ -29,7 +29,7 @@ class CourseDeliverablesTab extends React.Component {
                 <tr key={p}>
                     <td>{this.props.course.courseDeliverables[p].deliverableName}</td>
                     <td>                   
-                    <button onClick={()=>this.openDeliverable(this.props.course.courseDeliverables[p], p)} className="btn btn-danger" > View </button>
+                    <button onClick={()=>this.openDeliverable(this.props.course.courseDeliverables[p], p)} className="btn btn-color-theme" > View </button>
                     </td>
                     <td>  
                     0%

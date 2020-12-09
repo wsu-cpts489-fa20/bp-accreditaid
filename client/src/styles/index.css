@@ -136,19 +136,20 @@
 
 
 .btn-color-theme {
-  background-color: #981e32 !important;
-  color: white !important;
-  border: none !important;
+  background-color: #981e32;
+  color: white;
+  border: none;
 }
 
 .btn-color-theme:hover {
-  background: #c60c30;
+  background-color: #c60c30;
+  color: white;
 }
 
 .btn-color-theme:focus,
 .btn-color-theme:active{
-  background: #c60c30 !important;
-  border: 2px solid #000 !important;
+  background-color: #c60c30;
+  border: 2px solid #000;
 }
 
 /* The color theme when a bottom bar menu item is selected */
@@ -159,12 +160,13 @@
 
 .btn-alt-color-theme:hover {
   background-color: #5e6a71;
+  color: white;
 }
 
 .btn-alt-color-theme:focus,
 .btn-alt-color-theme:active {
-  background-color: #5e6a71 !important;
-  border: 2px solid #000 !important;
+  background-color: #5e6a71;
+  border: 2px solid #000;
 }
 
 /* change items to gray when disabled class is applied  */
@@ -174,9 +176,17 @@
 
 
 .btn-color-theme-outline {
-  border: 2px;
-  border-color: #13294E;
-  color: #13294E;
+  border: 1px solid #c60c30;
+  color:  #c60c30;
+  background-color: white;
+}
+
+.btn-color-theme-outline:focus,
+.btn-color-theme-outline:active,
+.btn-color-theme-outline:hover {
+  color: white !important;
+  background-color: #c60c30 !important;
+  border: 1px solid #c60c30 !important;
 }
 
 /* Styling for the divs in the app. Ensures that the content at top isn't obscured by top bar */
@@ -365,6 +375,8 @@ body {
   padding: 2px 16px;
   background-color: #981e32;
   color: white;
+  display: flex;
+  align-items: baseline;
 }
 
 .modal-body {
@@ -385,7 +397,10 @@ body {
   border: none;
   float: right;
   height: 100%;
-  background-color: lightgray;
+  background-color: inherit;
+  font-size: xx-large;
+  text-align: center;
+  color: white;
 }
 
 .close:hover,

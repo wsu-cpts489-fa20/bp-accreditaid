@@ -27,7 +27,7 @@ class CourseFiles extends React.Component {
             <h4>Course Syllabus</h4>
             <form onSubmit={e => this.onSubmit(e, "courseSyllabus")}>
                 <input className="form-control-file"  type="file"  name="file" ></input>
-                <button  className="btn btn-success" name="courseSyllabus" type="submit">Upload</button> 
+                <button  className="btn btn-color-theme" name="courseSyllabus" type="submit">Upload</button> 
             </form>
             
         </div>)  
@@ -36,7 +36,7 @@ class CourseFiles extends React.Component {
             <h4>Course Schedule</h4>
             <form onSubmit={e => this.onSubmit(e, "courseSchedule")}>
                 <input className="form-control-file"  type="file"  name="file" ></input>
-                <button className="btn btn-success" name="courseSchedule" type="submit">Upload</button> 
+                <button className="btn btn-color-theme" name="courseSchedule" type="submit">Upload</button> 
             </form>
             
         </div>) 
@@ -45,7 +45,7 @@ class CourseFiles extends React.Component {
             <h4>Course Roster</h4>
             <form onSubmit={e => this.onSubmit(e, "courseRoster")}>
                 <input className="form-control-file" type="file"  name="file" ></input>
-                <button className="btn btn-success" name="courseRoster" type="submit">Upload</button> 
+                <button className="btn btn-color-theme" name="courseRoster" type="submit">Upload</button> 
             </form>
             
         </div>)       

@@ -142,7 +142,7 @@ class RoundForm extends React.Component {
           <p></p>
           <p></p>
           <button type="submit" style={{width: "70%",fontSize: "36px"}} 
-            className="btn btn-primary btn-color-theme">
+            className="btn btn-color-theme">
               <span className={this.state.faIcon}/>&nbsp;{this.state.btnLabel}
           </button>
           </center>

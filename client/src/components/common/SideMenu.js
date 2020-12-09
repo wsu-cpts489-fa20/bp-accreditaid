@@ -33,6 +33,7 @@ renderModeMenuItems = () => {
             <img src={this.props.profilePicURL} height='60' width='60' />
             <span id="userID" className="sidemenu-userID">&nbsp;{this.props.displayName}</span>
         </div>
+        {this.renderModeMenuItems()}
           {/* MENU CONTENT */}
           {/* The following menu items are present regardless of mode */}
           {this.props.localAccount ? 
