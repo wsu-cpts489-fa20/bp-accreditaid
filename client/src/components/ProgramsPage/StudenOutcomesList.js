@@ -80,32 +80,38 @@ class StudentOutcomesList extends React.Component {
                             <div className="card px-3">
                                 <div>
                                     <h4>Student Outcomes</h4>
-                                    <div className="d-flex">
-                                        <input id="outcomes-input" value={this.state.outcome} name="outcome" onChange={this.handleChange} type="text" className="form-control todo-list-input" placeholder="Add a student outcome"/>
-                                        <button id="add-outcome" type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.addOutcome}>Add</button>
-                                    </div>
+                                    {this.props.userObj.accountType == "College Admin" ?
+                                        <div className="d-flex">
+                                            <input id="outcomes-input" value={this.state.outcome} name="outcome" onChange={this.handleChange} type="text" className="form-control todo-list-input" placeholder="Add a student outcome"/>
+                                            <button id="add-outcome" type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.addOutcome}>Add</button>
+                                        </div>
+                                     : null}    
                                     <div>
                                         <ol className="outcomes-list">
                                         {Object.keys(this.props.studentOutcomes).map((key, index) => {
                                             return  <li key={key}> 
                                                         <div className="outcomes-div">
                                                             <div className="outcome-div" id={"outcome-" + index}>{key}</div>
-                                                            <i id={"outcome-" + index + "-delete"} className="fa fa-minus fa-2x" onClick={() => this.removeOutcome(key)}></i>
+                                                            {this.props.userObj.accountType == "College Admin" ?
+                                                                <i id={"outcome-" + index + "-delete"} className="fa fa-minus fa-2x" onClick={() => this.removeOutcome(key)}></i>
+                                                            : null}      
                                                         </div>
-                                                        <PerformanceIndicator id={index} outcome={key} performanceIndicators={this.props.studentOutcomes[key]} indicatorsChanged={this.indicatorsChanged}/>
+                                                        <PerformanceIndicator id={index} outcome={key} performanceIndicators={this.props.studentOutcomes[key]} userObj={this.props.userObj} indicatorsChanged={this.indicatorsChanged}/>
                                                     </li>
                                         })}
                                         </ol>
                                     </div>
-                                    <div className="import-csv">
-                                        <CSVReader
-                                            cssClass="csv-reader-input"
-                                            label="Select CSV with student outcomes and performance indicators"
-                                            onFileLoaded={this.prepareFile}
-                                            inputId="upload-csv"
-                                        />
-                                        <button id="upload-csv" type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.importData}>Import data</button>
-                                    </div>
+                                    {this.props.userObj.accountType == "College Admin" ?
+                                        <div className="import-csv">
+                                            <CSVReader
+                                                cssClass="csv-reader-input"
+                                                label="Select CSV with student outcomes and performance indicators"
+                                                onFileLoaded={this.prepareFile}
+                                                inputId="upload-csv"
+                                            />
+                                            <button id="upload-csv" type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.importData}>Import data</button>
+                                        </div>
+                                    : null}
                                 </div>
                             </div>
                         </div>

@@ -192,6 +192,7 @@ class Programs extends React.Component {
                         saveProgram={this.editProgram} 
                         setDeleteId={this.setDeleteId}
                         deleteProgram={this.deleteProgram}
+                        userObj={this.props.userObj}
                         changeMode={this.props.changeMode}/>
                 );
         }
