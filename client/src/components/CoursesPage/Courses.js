@@ -18,7 +18,7 @@ class Courses extends React.Component {
                       displayEmailModal: false,
                       toList: [],
                       tabClasses: ["nav-link active", "nav-link", "nav-link", "nav-link", "nav-link"],
-                      activeTab: CoursesTable
+                      activeTab:  CoursesTable
                     };    
     }
 
@@ -193,18 +193,24 @@ class Courses extends React.Component {
                 
                 return (
                     <>
+
+                        {this.props.userObj.accountType == "College Admin" ? <div>
                         <button onClick={()=>{
                             if(toList == 0){
                                 alert("You must select a non-zero amount of instructors first!");
                                 return;
                             }
                             this.toggleEmailModal();}} className="btn btn-primary">Email Instructors</button>
+
+                        </div> :<div></div>}
+
                         {this.state.displayEmailModal ? <EmailModal toList={toList} close={this.toggleEmailModal}></EmailModal> : <div></div>}
 
                         <ul id="tabs-ul" class="nav nav-tabs">
+                            
                             <li class="nav-item">
                                 <a className={this.state.tabClasses[0]}  onClick={()=>{this.changeTab(CoursesTable,0)}} href="#">Admin View</a>
-                            </li>
+                            </li> 
                             <li class="nav-item">
                                 <a className={this.state.tabClasses[1]} onClick={()=>{this.changeTab(EvaluatorView,1)}}  href="#">Evaluator View</a>
                             </li>
@@ -218,13 +224,18 @@ class Courses extends React.Component {
                             menuOpen={this.props.menuOpen}
                             currentProgram={this.props.currentProgram}
                         />
+
+                        {this.props.userObj.accountType == "College Admin" ?  
+                        
                         <FloatingButton
                             id="create-course-floating-button"
                             handleClick={() => 
                                 this.props.changeMode(AppMode.COURSES_LOGCOURSE)}
                             menuOpen={this.props.menuOpen}
                             icon={"fa fa-plus"}
-                        />
+                        /> 
+                        :<div></div>}
+
                     </>
                 );
             case AppMode.COURSES_LOGCOURSE:

@@ -151,22 +151,26 @@ class Programs extends React.Component {
                        <button className="modal-close" onClick={this.closeErrorMsg}>
                           <span className="fa fa-times"></span>
                         </button></div>: null}
-                    <div>
-                        <button className="btn-primary" onClick={this.toggleEmailModal} disabled={this.props.userObj.accountType == "ABET Evaluator"}>Invite Evaluators</button>
+                        {this.props.userObj.accountType == "College Admin" ? <div>
+                        <button className="btn-primary" onClick={this.toggleEmailModal} >Invite Evaluators</button>
                         {this.state.isEmailModalDisplayed ? <EmailModal close={this.toggleEmailModal}></EmailModal> : <div/>}
-                    </div>
+                </div> : <div/> }
                     
                     <ProgramTable 
                         programs={this.state.programs}
                         setCurrentProgram={this.props.setCurrentProgram}
                         changeMode={this.props.changeMode}
                         menuOpen={this.props.menuOpen} /> 
+
+                    {this.props.userObj.accountType == "College Admin" ? 
+                    
                     <FloatingButton
                         id={"create-program-floating-button"}
                         handleClick={() => 
                         this.props.changeMode(AppMode.PROGRAMS_LOGPROGRAM)}
                         menuOpen={this.props.menuOpen}
-                        icon={"fa fa-plus"} />
+                        icon={"fa fa-plus"} /> : <div/> }
+
                     </>
                 );
             case AppMode.PROGRAMS_LOGPROGRAM:
