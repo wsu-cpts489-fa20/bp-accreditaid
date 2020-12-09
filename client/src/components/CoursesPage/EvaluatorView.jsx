@@ -62,28 +62,30 @@ class EvaluatorView extends React.Component {
         }
     }
 
+    buildTable = () => {
+        let table = [];
+        for (let p = 0; p < this.props.courses.length; ++p) {
+            let syllabusLink = this.props.courses[p].courseSyllabus != null ? ( "/api/s3?id=" + this.props.courses[p].courseSyllabus.id + "&name=" + this.props.courses[p].courseSyllabus.name) : ""
+            table.push(
+                <tr key={p}>
+                    <td>{this.props.courses[p].coursePrefix + this.props.courses[p].courseNumber }</td>
+                    <td>{this.props.courses[p].courseName}</td>
+                    <td>{this.props.courses[p].courseEmail}</td>
+                    <td><a href={syllabusLink}>Syllabus</a></td>
+                </tr> 
+            );
+        }
+        return table;
+    }
+
     render() {
 
         const divStyle={
             overflowX: 'scroll'
           };
 
-        let table = [];
-        //let syllabus = this.props.courses[p].courseSyllabus != null ? ("/api/s3/" + this.props.courses[p].courseSyllabus) : ""
 
         let SOHeaders = <div></div>
-
-        // for (let p = 0; p < this.props.courses.length; ++p) {
-        //     table.push(
-        //         <tr key={p}>
-        //             <td>{this.props.courses[p].coursePrefix + this.props.courses[p].courseNumber }</td>
-        //             <td>{this.props.courses[p].courseName}</td>
-        //             <td>{this.props.courses[p].courseEmail}</td>
-        //             <td><a href={syllabus}>Syllabus</a></td>
-                    
-        //         </tr>
-        //     )
-        // }
         return (
         <div style={divStyle}>
             <table id="courses-table" className="table table-hover">
@@ -100,9 +102,9 @@ class EvaluatorView extends React.Component {
                         {this.buildSubHeaders()}
                     </tr>
                 </thead>
-                <tr>
-
-                </tr>
+                <tbody>
+                    {this.buildTable()}
+                </tbody>
             </table>
         </div>
         )
