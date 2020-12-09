@@ -8,8 +8,8 @@ class EmailModal extends React.Component {
         
             sendIcon: "",
             sendText: "Send Email",
-            disableSend:false,
-            toList: this.props.toList
+            toList: this.props.toList,
+            disableSend:false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -24,6 +24,14 @@ class EmailModal extends React.Component {
     }
 
     handleSubmit(event) {
+        event.preventDefault();
+        const emailListRegex = /^(([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}),?\s*)+/;
+
+        if(emailListRegex.test(this.state.toList) == false){
+            alert("Your email list must be a comma separated list of valid email addresses!");
+            return
+        }
+
         let data = {
             toList: this.state.toList,
             emailSubject: this.state.subject,
@@ -45,12 +53,12 @@ class EmailModal extends React.Component {
                     },
                     body: JSON.stringify(data) // body data type must match "Content-Type" header
             })
-        event.preventDefault();
         this.props.close();
     }
 
     updateToList = (event) => {
-        this.setState({toList:event.target.value})
+
+        this.setState({toList:event.target.value, disableSend:false})
     }
 
 
@@ -67,16 +75,16 @@ class EmailModal extends React.Component {
                             <center>
                                 <form onSubmit={this.handleSubmit}>
                                     <label>To:</label>
-                                    <input class="form-control" type="text" value={this.state.toList} pattern="^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},?)+$" onChange={this.updateToList}/>
+                                    <input class="form-control" type="text" value={this.state.toList} pattern="^(([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}),?\s*)+" onChange={this.updateToList} required={true}/>
                                     <small id="emailHelp" class="form-text text-muted">Comma separated list of emails. Ex: "abc@wsu.edu,def@wsu.edu,"</small>
                                     <p />
                                     <label for="subjectinput">
                                         Subject
-                                        <input id="subjectinput" className="form-control" type="text" name="subject" value={this.state.subject} onChange={this.handleChange} required />
+                                        <input id="subjectinput" className="form-control" type="text" name="subject" value={this.state.subject} onChange={this.handleChange} required={true}/>
                                     </label>
                                     <p />
                                     <label>Email body</label>
-                                    <textarea rows="8" className="form-control" name="emailBody" value={this.state.emailBody} onChange={this.handleChange} required />
+                                    <textarea rows="8" className="form-control" name="emailBody" value={this.state.emailBody} onChange={this.handleChange} required={true} />
                                     <p />
                                     <div className="input-group">
                                         <button className="btn btn-primary btn-color-theme" type="submit" onClick={this.handleSubmit} disabled={this.state.disableSend} >
