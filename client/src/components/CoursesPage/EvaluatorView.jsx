@@ -79,10 +79,50 @@ class EvaluatorView extends React.Component {
     }
 
     buildTable = () => {
-        
         let table = [];
         for (let p = 0; p < this.props.courses.length; ++p) {
+            let PIPTAs = this.state.SOPIStructure;
             let syllabusLink = this.props.courses[p].courseSyllabus != null ? ( "/api/s3?id=" + this.props.courses[p].courseSyllabus.id + "&name=" + this.props.courses[p].courseSyllabus.name) : ""
+            
+            for (let q = 0; q < this.props.courses[p].courseDeliverables.length; ++q) 
+            {
+                for (let s = 0; s < this.props.courses[p].courseDeliverables[q].SOs.length; ++s) 
+                {
+                    let SOName = this.props.courses[p].courseDeliverables[q].SOs[s][SOName];
+                    for (let t = 0; t < this.props.courses[p].courseDeliverables[q].SOs[s].PIs.length; ++t) 
+                    {
+                        PIName = this.props.courses[p].courseDeliverables[q].SOs[s].PIs[t][PIName];
+                        if(this.props.courses[p].courseDeliverables[q].SOs[s].PIs[t]["PIPrior"])
+                            PIPTAs[SOName][PIName]["PIPrior"] = this.props.courses[p].courseDeliverables[q].SOs[s].PIs[t]["PIPrior"];
+
+                        if(this.props.courses[p].courseDeliverables[q].SOs[s].PIs[t]["PITaught"])    
+                            PIPTAs[SOName][PIName]["PITaught"] = this.props.courses[p].courseDeliverables[q].SOs[s].PIs[t]["PITaught"];
+
+                        if(this.props.courses[p].courseDeliverables[q].SOs[s].PIs[t]["PIAssessed"])
+                            PIPTAs[SOName][PIName]["PIAssessed"] = this.props.courses[p].courseDeliverables[q].SOs[s].PIs[t]["PIAssessed"];
+                    }
+                }
+            }
+
+            let cells = []
+
+            for (let so = 0; so < Object.keys(PIPTAs).length; ++so)
+            {
+                
+                for (let pi = 0; pi < Object.keys(PIPTAs[so]).length; ++pi)
+                {
+                    cells.push(
+                        <td>{PIPTAs[so][pi][["PIPrior"]]}</td>
+                    )
+                    cells.push(
+                        <td>{PIPTAs[so][pi][["PITaught"]]}</td>
+                    )
+                    cells.push(
+                        <td>{PIPTAs[so][pi][["PIAssessed"]]}</td>
+                    )
+                }
+            }
+
             table.push(
                 <tr key={p}>
                     <td>{this.props.courses[p].coursePrefix + this.props.courses[p].courseNumber }</td>
