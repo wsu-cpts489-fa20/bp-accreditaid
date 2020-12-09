@@ -1,6 +1,5 @@
 import React from 'react';
 import ConfirmDeleteAccount from './ConfirmDeleteAccount.js';
-import confirmDeleteAccount from './ConfirmDeleteAccount.js';
 
 class CreateEditAccountDialog extends React.Component {
 
@@ -142,6 +141,9 @@ class CreateEditAccountDialog extends React.Component {
             securityQuestion: this.state.securityQuestion,
             securityAnswer: this.state.securityAnswer
         };
+        if (!this.props.create) {
+            delete userData.accountType;
+        }
         const url = '/api/users/' + this.state.accountName;
         let res;
         if (this.props.create) { //use POST route to create new user account

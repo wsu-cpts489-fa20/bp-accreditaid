@@ -153,20 +153,23 @@ class ProgramForm extends React.Component {
               <button id="edit-courses" type="button" style={{width: "40%",fontSize: "36px"}} 
                 className="btn btn-primary btn-color-theme"
                 onClick={() => this.openCourses()}>
-                  <span className="fa fa-times">Edit Courses</span></button>
+                  <span className="fa fa-list-alt ">&nbsp;Edit Courses</span></button>
               : null}
             <p></p>
-            <button id="submit-changes" type="submit" style={{width: "40%",fontSize: "36px"}} 
-              className="btn btn-primary btn-color-theme">
-                <span className={this.state.faIcon}/>&nbsp;{this.state.btnLabel}
-            </button>
-            {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM ?
-              <button id="delete-program" type="button" style={{width: "40%",fontSize: "36px"}} 
-                className="btn btn-primary btn-color-theme"
-                onClick={this.props.menuOpen ? null : () => 
-                this.confirmDelete(this.state._id)}>
-                  <span className="fa fa-times">Delete Program</span></button>
-              : null}
+            <div style={{display: "flex", justifyContent: "center", paddingBottom: "20px"}}>
+              <button id="submit-changes" type="button" style={{width: "40%",fontSize: "36px"}} 
+                className="btn btn-primary btn-color-theme">
+                  <span className={this.state.faIcon}>&nbsp;{this.state.btnLabel}</span>
+              </button>
+              <p style={{width: "5%"}}></p>
+              {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM ?
+                <button id="delete-program" type="button" style={{width: "40%",fontSize: "36px"}} 
+                  className="btn btn-primary btn-color-theme"
+                  onClick={this.props.menuOpen ? null : () => 
+                  this.confirmDelete(this.state._id)}>
+                    <span className="fa fa-times">&nbsp;Delete Program</span></button>
+                : null}
+            </div>
           </center>
         </form>
         {this.state.showConfirmDelete ?
