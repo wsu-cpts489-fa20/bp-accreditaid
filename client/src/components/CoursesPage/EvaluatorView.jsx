@@ -90,17 +90,21 @@ class EvaluatorView extends React.Component {
     buildTable = () => {
         let table = [];
         for (let p = 0; p < this.props.courses.length; ++p) {
-            let PIPTAs = this.state.SOPIStructure;
+            let PIPTAs =  JSON.parse(JSON.stringify(this.state.SOPIStructure));
+            if(!Object.keys(PIPTAs).length){
+                return (<div> Loading! </div>)
+            }
             let syllabusLink = this.props.courses[p].courseSyllabus != null ? ( "/api/s3?id=" + this.props.courses[p].courseSyllabus.id + "&name=" + this.props.courses[p].courseSyllabus.name) : ""
             
             for (let q = 0; q < this.props.courses[p].courseDeliverables.length; ++q) 
             {
                 for (let s = 0; s < this.props.courses[p].courseDeliverables[q].SOs.length; ++s) 
                 {
-                    let SOName = this.props.courses[p].courseDeliverables[q].SOs[s][SOName];
+                    let SOName = this.props.courses[p].courseDeliverables[q].SOs[s]["SOName"];
                     for (let t = 0; t < this.props.courses[p].courseDeliverables[q].SOs[s].PIs.length; ++t) 
                     {
-                        PIName = this.props.courses[p].courseDeliverables[q].SOs[s].PIs[t][PIName];
+                        let PIName = this.props.courses[p].courseDeliverables[q].SOs[s].PIs[t]["PIName"];
+                        console.log("SONAME - " + SOName + " PINAME - " + PIName);
                         if(this.props.courses[p].courseDeliverables[q].SOs[s].PIs[t]["PIPrior"])
                             PIPTAs[SOName][PIName]["PIPrior"] = this.props.courses[p].courseDeliverables[q].SOs[s].PIs[t]["PIPrior"];
 
@@ -117,17 +121,21 @@ class EvaluatorView extends React.Component {
 
             for (let so = 0; so < Object.keys(PIPTAs).length; ++so)
             {
-                
-                for (let pi = 0; pi < Object.keys(PIPTAs[so]).length; ++pi)
+                let SOName = Object.keys(PIPTAs)[so];
+                for (let pi = 0; pi < Object.keys(PIPTAs[SOName]).length; ++pi)
                 {
+                    let PIName = Object.keys(PIPTAs[SOName])[pi]
+                    let pstyle = {color: PIPTAs[SOName][PIName][["PIPrior"]] ? "green" : "red"}
+                    let tstyle = {color: PIPTAs[SOName][PIName][["PITaught"]] ? "green" : "red"}
+                    let astyle = {color: PIPTAs[SOName][PIName][["PIAssessed"]] ? "green" : "red"}
                     cells.push(
-                        <td>{PIPTAs[so][pi][["PIPrior"]]}</td>
-                    )
-                    cells.push(
-                        <td>{PIPTAs[so][pi][["PITaught"]]}</td>
-                    )
-                    cells.push(
-                        <td>{PIPTAs[so][pi][["PIAssessed"]]}</td>
+                        <td>
+                            <span style={pstyle}>Prior</span>
+                            <br></br>
+                            <span style={tstyle}>Taught</span>
+                            <br></br>
+                            <span style={astyle}>Assessed</span>
+                        </td>
                     )
                 }
             }
@@ -138,7 +146,7 @@ class EvaluatorView extends React.Component {
                     <td>{this.props.courses[p].courseName}</td>
                     <td>{this.props.courses[p].courseEmail}</td>
                     <td><a href={syllabusLink}>Syllabus</a></td>
-
+                    {cells}
                 </tr> 
             );
         }
