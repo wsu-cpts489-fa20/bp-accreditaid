@@ -113,8 +113,8 @@ class ProgramForm extends React.Component {
   
   render() {
     return (
-      <div id="program-div" className="padded-page">
-        <form onSubmit={this.handleSubmit}>
+      <div id="program-div">
+        <form onSubmit={this.handleSubmit} style={{paddingBottom: "20px"}}>
           <center>
             <label>
               Name:
@@ -149,17 +149,10 @@ class ProgramForm extends React.Component {
             <p></p>
             <StudentOutcomesList studentOutcomes={this.state.studentOutcomes} outcomesChanged={this.outcomesChanged}/>
             <p></p>
-            {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM ? 
-              <button id="edit-courses" type="button" style={{width: "40%",fontSize: "36px"}} 
-                className="btn btn-primary btn-color-theme"
-                onClick={() => this.openCourses()}>
-                  <span className="fa fa-list-alt">&nbsp;Edit Courses</span></button>
-              : null}
-            <p></p>
             <div style={{display: "flex", justifyContent: "center", paddingBottom: "20px"}}>
-              <button id="submit-changes" type="button" style={{width: "40%",fontSize: "36px"}} 
+              <button id="submit-changes" type="submit" style={{width: "40%",fontSize: "36px"}} 
                 className="btn btn-primary btn-color-theme">
-                  <span className={this.state.faIcon}>&nbsp;{this.state.btnLabel}</span>
+                  <span className={this.state.faIcon}></span>&nbsp;{this.state.btnLabel}
               </button>
               <p style={{width: "5%"}}></p>
               {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM ?
@@ -167,9 +160,18 @@ class ProgramForm extends React.Component {
                   className="btn btn-primary btn-color-theme"
                   onClick={this.props.menuOpen ? null : () => 
                   this.confirmDelete(this.state._id)}>
-                    <span className="fa fa-times">&nbsp;Delete Program</span></button>
+                    <span className="fa fa-times"></span>&nbsp;Delete Program
+                </button>
                 : null}
             </div>
+            {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM ? 
+              <button id="edit-courses" type="button" style={{width: "40%",fontSize: "36px"}} 
+                className="btn btn-primary btn-color-theme"
+                onClick={() => this.openCourses()}>
+                  <span className="fa fa-list-alt"></span>&nbsp;Edit Courses
+              </button>
+              : null
+            } 
           </center>
         </form>
         {this.state.showConfirmDelete ?

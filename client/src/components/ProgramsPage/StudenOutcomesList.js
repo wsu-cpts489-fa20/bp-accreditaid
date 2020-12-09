@@ -100,7 +100,7 @@ class StudentOutcomesList extends React.Component {
                                     <div className="import-csv">
                                         <CSVReader
                                             cssClass="csv-reader-input"
-                                            label="Select CSV with student outcomes and performance indicators"
+                                            label="Select CSV with student outcomes and performance indicators: "
                                             onFileLoaded={this.prepareFile}
                                             inputId="upload-csv"
                                         />
