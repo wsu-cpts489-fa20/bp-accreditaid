@@ -5,6 +5,7 @@ import CoursesTable from './CoursesTable.js';
 import FloatingButton from '../common/FloatingButton.js';
 import EmailModal from "../EmailModal/EmailModal.jsx"
 import Deliverables from "./Deliverables.js";
+import EvaluatorView from "./EvaluatorView.jsx";
 
 class Courses extends React.Component {
 
@@ -15,7 +16,9 @@ class Courses extends React.Component {
                       editId: "",
                       courses: [],
                       displayEmailModal: false,
-                      toList: []
+                      toList: [],
+                      tabClasses: ["nav-link active", "nav-link", "nav-link", "nav-link", "nav-link"],
+                      activeTab: CoursesTable
                     };    
     }
 
@@ -169,11 +172,21 @@ class Courses extends React.Component {
         this.setState({displayEmailModal: !this.state.displayEmailModal})
     }
 
+    changeTab = (newTab, index) => {
+        let newTabClasses = ["nav-link", "nav-link", "nav-link", "nav-link", "nav-link"]
+        newTabClasses[index] = "nav-link active";
+        this.setState({
+            activeTab: newTab,
+            tabClasses: newTabClasses
+        })
+    }
+
     render() {
         console.log("Start render");
         console.log(JSON.stringify(this.state.courses));
         console.log("End render");
         let toList = this.getEmails(); 
+        var CurrentTab = this.state.activeTab
         switch(this.props.mode) {
             
             case AppMode.COURSES:
@@ -187,12 +200,23 @@ class Courses extends React.Component {
                             }
                             this.toggleEmailModal();}} className="btn btn-primary">Email Instructors</button>
                         {this.state.displayEmailModal ? <EmailModal toList={toList} close={this.toggleEmailModal}></EmailModal> : <div></div>}
-                        <CoursesTable
+
+                        <ul id="tabs-ul" class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a className={this.state.tabClasses[0]}  onClick={()=>{this.changeTab(CoursesTable,0)}} href="#">Admin View</a>
+                            </li>
+                            <li class="nav-item">
+                                <a className={this.state.tabClasses[1]} onClick={()=>{this.changeTab(EvaluatorView,1)}}  href="#">Evaluator View</a>
+                            </li>
+                        </ul>
+
+                        <CurrentTab
                             toggleEmailSelected={this.toggleEmailSelection}
                             courses={this.state.courses}
                             setEditId={this.setEditId}
                             changeMode={this.props.changeMode}
                             menuOpen={this.props.menuOpen}
+                            currentProgram={this.props.currentProgram}
                         />
                         <FloatingButton
                             id="create-course-floating-button"

@@ -51,6 +51,7 @@ class CoursesTable extends React.Component {
     }
 
     render() {
+        console.log("Calling render for coursesTable");
         return (
         <div>
             <table id="courses-table" className="table table-hover">
