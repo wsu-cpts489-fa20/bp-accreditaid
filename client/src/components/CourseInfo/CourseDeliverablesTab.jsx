@@ -63,6 +63,7 @@ class CourseDeliverablesTab extends React.Component {
             {this.state.ViewDeliverable ?  
             <ViewDeliverable 
                 close={() => this.closeDeliverable()}
+                course={this.props.course}
                 deliverable={this.state.deliverableInformation}
                 index={this.state.openDeliverableIndex}
                 deleteFile={this.props.deleteFile}

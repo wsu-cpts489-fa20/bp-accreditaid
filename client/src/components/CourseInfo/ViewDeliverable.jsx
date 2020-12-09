@@ -1,3 +1,4 @@
+import { PI } from 'aws-sdk';
 import React from 'react';
 
 class ViewDeliverable extends React.Component {
@@ -23,8 +24,8 @@ class ViewDeliverable extends React.Component {
 
   retriveSoPis = async () => {
     //This fetches the course that is linked to the deliverable
-    var url = '/api/courses/' + this.state.deliverable.deliverableCourseID;
-    var res = await fetch(url, {
+    let url = '/api/courses/' + this.state.deliverable.deliverableCourseID;
+    let res = await fetch(url, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -58,11 +59,56 @@ class ViewDeliverable extends React.Component {
     }
   }
 
+  togglePI = (SO, PI, type, SOName, PIName) => {
+    console.log(SO)
+    console.log(PI)
+    console.log("Type = " + type)
+    console.log("SOName = " + SOName)
+    console.log("PIName = " + PIName)
+    let localDeliverable = this.state.deliverable;
+    if(!SO)
+    {
+      SO = {SOName: SOName, PIs: []}
+      localDeliverable.SOs.push(SO);
+    }
+    if(!PI)
+    {
+      PI = {PIName: PIName, PIPrior: false, PITaught: false, PIAssessed: false}
+      SO["PIs"].push(PI);
+    }
+    PI[type] = !PI[type];
+
+    let body = {};
+    let deliverables = this.props.course.courseDeliverables;
+    deliverables[this.props.index] = localDeliverable
+    body["courseDeliverables"] = deliverables;
+    
+    console.log(body);
+    fetch("/api/courses/" + this.props.course._id, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+        method: 'PUT',
+        body: JSON.stringify(body)
+    })
+    .then(function(res) {
+        if(res.status == 200){
+            return res.text();
+        }
+        throw res;
+    })
+    .then(json => console.log(json))
+    .catch(err => console.error(err));
+
+    this.setState({deliverable: localDeliverable})
+
+  }
 
   displaySOPIs = () => {
     console.log(this.state.deliverableSOs)
-    var SOPIs = [];
-    var keys = Object.keys(this.state.deliverableSOs);
+    let SOPIs = [];
+    let keys = Object.keys(this.state.deliverableSOs);
     for (let i = 0; i < keys.length; i++) {
       //defines table header from SO
       SOPIs.push(
@@ -75,15 +121,39 @@ class ViewDeliverable extends React.Component {
           </tr>
         </thead>
       );
+      let SO = this.state.deliverable.SOs.find(obj => {
+        return obj.SOName === keys[i]
+      })
+      console.log(SO)
+
       //gets each PI from a given SO
-      var PIs = [];
+      let PIs = [];
       for (let j = 0; j < this.state.deliverableSOs[keys[i]].length; j++) {
+        let PI = null
+        if(SO)
+        {
+          PI = SO.PIs.find(obj => {
+            return obj.PIName === this.state.deliverableSOs[keys[i]][j]
+          })
+        }
+        console.log(PI)
+        let PIPrior = null;
+        let PITaught = null;
+        let PIAssessed = null;
+        if(PI)
+        {
+          PIPrior = PI.PIPrior;
+          PITaught = PI.PITaught;
+          PIAssessed = PI.PIAssessed;
+        }
+
+        console.log(PI)
         PIs.push(
           <tr>
             <td>{this.state.deliverableSOs[keys[i]][j]}</td>
-            <td><input style={{marginRight: 20}} type="checkbox"/></td>
-            <td><input style={{marginRight: 20}} type="checkbox"/></td>
-            <td><input style={{marginRight: 20}} type="checkbox"/></td>
+            <td><input style={{marginRight: 20}} type="checkbox" checked={!!PIPrior} onClick={() => this.togglePI(SO, PI, "PIPrior", keys[i], this.state.deliverableSOs[keys[i]][j])}/></td>
+            <td><input style={{marginRight: 20}} type="checkbox" checked={!!PITaught} onClick={() => this.togglePI(SO, PI, "PITaught", keys[i], this.state.deliverableSOs[keys[i]][j])}/></td>
+            <td><input style={{marginRight: 20}} type="checkbox" checked={!!PIAssessed} onClick={() => this.togglePI(SO, PI, "PIAssessed", keys[i], this.state.deliverableSOs[keys[i]][j])}/></td>
           </tr>
         );
       }
@@ -98,7 +168,7 @@ class ViewDeliverable extends React.Component {
   }
 
   displayNeededWorkSamples = () => {
-    var workSamples = [];
+    let workSamples = [];
     for (let i = 0; i < this.state.deliverable.studentWorkSamples.length; i++) {
       this.refArray.push(React.createRef())
       if(this.state.deliverable.studentWorkSamples[i].file)
@@ -154,7 +224,7 @@ class ViewDeliverable extends React.Component {
     console.log(this.refArray);
     console.log(this.props.index)
     let prompt = this.state.deliverable.prompt
-    var PromptDiv =(<div>
+    let PromptDiv =(<div>
       <h4>Prompt</h4>
       <form onSubmit={e => this.onSubmit(e, this.props.index)}>
           <center><input className="form-control-file"  type="file"  name="file" ></input></center>
@@ -214,12 +284,6 @@ class ViewDeliverable extends React.Component {
                         </tbody>
                       </table>
                     </div>
-                    <button role="submit"
-                      id="Deliverable-submit"
-                      className="btn btn-primary btn-color-theme modal-submit-btn"
-                      style={{ marginTop: "15px", marginBottom: "70px" }}>
-                      <span className="fa fa-user-plus"></span>&nbsp;Update Deliverable
-                        </button>
                   </form>
                 </div>
               </div>
