@@ -162,7 +162,7 @@ class Courses extends React.Component {
             console.log(emailList)
         }
 
-        return emailList;
+        return emailList.substring(0, emailList.length - 2);
     }
 
     toggleEmailModal = () =>{
@@ -180,12 +180,6 @@ class Courses extends React.Component {
                 
                 return (
                     <>
-                        <button onClick={()=>{
-                            if(toList == 0){
-                                alert("You must select a non-zero amount of instructors first!");
-                                return;
-                            }
-                            this.toggleEmailModal();}} className="btn btn-primary">Email Instructors</button>
                         {this.state.displayEmailModal ? <EmailModal toList={toList} close={this.toggleEmailModal}></EmailModal> : <div></div>}
                         <CoursesTable
                             toggleEmailSelected={this.toggleEmailSelection}
@@ -194,13 +188,23 @@ class Courses extends React.Component {
                             changeMode={this.props.changeMode}
                             menuOpen={this.props.menuOpen}
                         />
-                        <FloatingButton
-                            id="create-course-floating-button"
-                            handleClick={() => 
-                                this.props.changeMode(AppMode.COURSES_LOGCOURSE)}
-                            menuOpen={this.props.menuOpen}
-                            icon={"fa fa-plus"}
-                        />
+                            <button id="select-instructors" type="button" style={{width: "20%",fontSize: "28px"}} 
+                                className="btn btn-primary btn-color-theme"
+                                onClick={()=>{
+                                    if(toList == 0){
+                                        alert("You must select a non-zero amount of instructors first!");
+                                        return;
+                                    }
+                                    this.toggleEmailModal();}}>
+                                <span className="fa fa-envelope-o"></span>&nbsp;Email Instructors
+                            </button>
+                            <FloatingButton
+                                id="create-course-floating-button"
+                                handleClick={() => 
+                                    this.props.changeMode(AppMode.COURSES_LOGCOURSE)}
+                                menuOpen={this.props.menuOpen}
+                                icon={"fa fa-plus"}
+                            />
                     </>
                 );
             case AppMode.COURSES_LOGCOURSE:
