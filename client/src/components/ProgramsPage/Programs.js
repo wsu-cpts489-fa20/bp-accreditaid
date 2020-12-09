@@ -152,7 +152,7 @@ class Programs extends React.Component {
                           <span className="fa fa-times"></span>
                         </button></div>: null}
                     <div>
-                        <button className="btn-primary" onClick={this.toggleEmailModal} >Invite Evaluators</button>
+                        <button className="btn-primary" onClick={this.toggleEmailModal} disabled={this.props.userObj.accountType == "ABET Evaluator"}>Invite Evaluators</button>
                         {this.state.isEmailModalDisplayed ? <EmailModal close={this.toggleEmailModal}></EmailModal> : <div/>}
                     </div>
                     
@@ -176,6 +176,7 @@ class Programs extends React.Component {
                         startData={""} 
                         saveProgram={this.addProgram} 
                         setDeleteId={this.setDeleteId}
+                        userObj={this.props.userObj}
                         deleteProgram={this.deleteProgram}/>
                 );
             case AppMode.PROGRAMS_EDITPROGRAM:
