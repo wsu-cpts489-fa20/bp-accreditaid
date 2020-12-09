@@ -25,28 +25,34 @@ class CourseFiles extends React.Component {
 
         var SyllabusDiv =(<div>
             <h4>Course Syllabus</h4>
-            <form onSubmit={e => this.onSubmit(e, "courseSyllabus")}>
-                <input className="form-control-file"  type="file"  name="file" ></input>
-                <button  className="btn btn-success" name="courseSyllabus" type="submit">Upload</button> 
-            </form>
+            {this.props.userObj.accountType != "ABET Evaluator" ?
+                <form onSubmit={e => this.onSubmit(e, "courseSyllabus")}>
+                    <input className="form-control-file"  type="file"  name="file" ></input>
+                    <button  className="btn btn-success" name="courseSyllabus" type="submit">Upload</button> 
+                </form>
+            : null }
             
         </div>)  
 
         var ScheduleDiv =(<div>
             <h4>Course Schedule</h4>
-            <form onSubmit={e => this.onSubmit(e, "courseSchedule")}>
-                <input className="form-control-file"  type="file"  name="file" ></input>
-                <button className="btn btn-success" name="courseSchedule" type="submit">Upload</button> 
-            </form>
+            {this.props.userObj.accountType != "ABET Evaluator" ?
+                <form onSubmit={e => this.onSubmit(e, "courseSchedule")}>
+                    <input className="form-control-file"  type="file"  name="file" ></input>
+                    <button className="btn btn-success" name="courseSchedule" type="submit">Upload</button> 
+                </form>
+            : null }
             
         </div>) 
 
         var RosterDiv =(<div>
             <h4>Course Roster</h4>
-            <form onSubmit={e => this.onSubmit(e, "courseRoster")}>
-                <input className="form-control-file" type="file"  name="file" ></input>
-                <button className="btn btn-success" name="courseRoster" type="submit">Upload</button> 
-            </form>
+            {this.props.userObj.accountType != "ABET Evaluator" ?
+                <form onSubmit={e => this.onSubmit(e, "courseRoster")}>
+                    <input className="form-control-file" type="file"  name="file" ></input>
+                    <button className="btn btn-success" name="courseRoster" type="submit">Upload</button> 
+                </form>
+            : null }
             
         </div>)       
 
@@ -54,24 +60,29 @@ class CourseFiles extends React.Component {
             SyllabusDiv = (<div>
                 <h4> Course Syllabus</h4>
                     <a href={"/api/s3?id=" + courseSyllabus.id + "&name=" + courseSyllabus.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
-                    <button onClick={()=>{this.props.deleteFile(courseSyllabus.id, courseSyllabus.name, this.props.deleteInDatabase_single, "courseSyllabus")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
-                    
+                    {this.props.userObj.accountType != "ABET Evaluator" ?
+                        <button onClick={()=>{this.props.deleteFile(courseSyllabus.id, courseSyllabus.name, this.props.deleteInDatabase_single, "courseSyllabus")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+                    : null }
             </div>)
         }
 
         if(courseSchedule != null){
             ScheduleDiv =  (<div>
                 <h4> Course Schedule</h4>
-                <a href={"/api/s3?id=" + courseSchedule.id + "&name=" + courseSchedule.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
-                    <button onClick={()=>{this.props.deleteFile(courseSchedule.id, courseSchedule.name, this.props.deleteInDatabase_single, "courseSchedule")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+                    <a href={"/api/s3?id=" + courseSchedule.id + "&name=" + courseSchedule.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
+                    {this.props.userObj.accountType != "ABET Evaluator" ?
+                        <button onClick={()=>{this.props.deleteFile(courseSchedule.id, courseSchedule.name, this.props.deleteInDatabase_single, "courseSchedule")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+                    : null }
             </div>)
         }
 
         if(courseRoster != null){
             RosterDiv = (<div>
                 <h4> Course Roster</h4>
-                <a href={"/api/s3?id=" + courseRoster.id + "&name=" + courseRoster.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
-                    <button onClick={()=>{this.props.deleteFile(courseRoster.id, courseRoster.name, this.props.deleteInDatabase_single, "courseRoster")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+                    <a href={"/api/s3?id=" + courseRoster.id + "&name=" + courseRoster.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
+                    {this.props.userObj.accountType != "ABET Evaluator" ?
+                        <button onClick={()=>{this.props.deleteFile(courseRoster.id, courseRoster.name, this.props.deleteInDatabase_single, "courseRoster")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+                    : null }
             </div>)   
         }
         return(

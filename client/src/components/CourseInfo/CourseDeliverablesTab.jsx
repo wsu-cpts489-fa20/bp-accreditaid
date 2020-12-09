@@ -62,6 +62,7 @@ class CourseDeliverablesTab extends React.Component {
             </table>
             {this.state.ViewDeliverable ?  
             <ViewDeliverable 
+                userObj={this.props.userObj}
                 close={() => this.closeDeliverable()}
                 course={this.props.course}
                 deliverable={this.state.deliverableInformation}

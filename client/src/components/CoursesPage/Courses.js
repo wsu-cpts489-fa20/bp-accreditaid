@@ -209,7 +209,7 @@ class Courses extends React.Component {
                         <ul id="tabs-ul" class="nav nav-tabs">
                             
                             <li class="nav-item">
-                                <a className={this.state.tabClasses[0]}  onClick={()=>{this.changeTab(CoursesTable,0)}} href="#">Admin View</a>
+                                <a className={this.state.tabClasses[0]}  onClick={()=>{this.changeTab(CoursesTable,0)}} href="#">Management View</a>
                             </li> 
                             <li class="nav-item">
                                 <a className={this.state.tabClasses[1]} onClick={()=>{this.changeTab(EvaluatorView,1)}}  href="#">Evaluator View</a>
@@ -223,6 +223,7 @@ class Courses extends React.Component {
                             changeMode={this.props.changeMode}
                             menuOpen={this.props.menuOpen}
                             currentProgram={this.props.currentProgram}
+                            userObj={this.props.userObj}
                         />
 
                         {this.props.userObj.accountType == "College Admin" ?  

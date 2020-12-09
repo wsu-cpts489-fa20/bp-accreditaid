@@ -60,6 +60,11 @@ class ViewDeliverable extends React.Component {
   }
 
   togglePI = (SO, PI, type, SOName, PIName) => {
+    if(this.props.userObj.accountType == "ABET Evaluator")
+    {
+      return;
+    }
+
     console.log(SO)
     console.log(PI)
     console.log("Type = " + type)
@@ -177,19 +182,30 @@ class ViewDeliverable extends React.Component {
             <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
             <td>{this.state.deliverable.studentWorkSamples[i].file.name}</td>
             <td><a href={"/api/s3?id=" + this.state.deliverable.studentWorkSamples[i].file.id + "&name=" + this.state.deliverable.studentWorkSamples[i].file.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a></td>
-            <button onClick={()=>{this.props.deleteFile(this.state.deliverable.studentWorkSamples[i].file.id, this.state.deliverable.studentWorkSamples[i].file.name, this.props.deleteInDatabase_workSample, this.props.index, i)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
-          </tr>
+            {this.props.userObj.accountType != "ABET Evaluator" ?
+              <button onClick={()=>{this.props.deleteFile(this.state.deliverable.studentWorkSamples[i].file.id, this.state.deliverable.studentWorkSamples[i].file.name, this.props.deleteInDatabase_workSample, this.props.index, i)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+            : null }
+            </tr>
         );
         else
         {
-          workSamples.push(
-            <tr>
-              <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
-              <td><input ref={this.refArray[i]} id={"workSampleFile-" + i} className="form-control-file" type="file"  name="file"></input></td>
-              <td><button className="btn btn-success" name="studentWorkSamples" type="button" 
-                onClick={() => this.props.uploadFile(this.refArray[i].current.files[0], this.props.upload_workSample, this.props.index, i)}>Upload</button></td>
-            </tr>
-          );
+          if(this.props.userObj.accountType != "ABET Evaluator")
+            workSamples.push(
+              <tr>
+                <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
+                <td><input ref={this.refArray[i]} id={"workSampleFile-" + i} className="form-control-file" type="file"  name="file"></input></td>
+                <td><button className="btn btn-success" name="studentWorkSamples" type="button" 
+                  onClick={() => this.props.uploadFile(this.refArray[i].current.files[0], this.props.upload_workSample, this.props.index, i)}>Upload</button></td>
+              </tr>
+            );
+          else
+            workSamples.push(
+              <tr>
+                <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
+                <td>No file chosen</td>
+                <td></td>
+              </tr>
+            );
         }
       }
 
@@ -226,10 +242,12 @@ class ViewDeliverable extends React.Component {
     let prompt = this.state.deliverable.prompt
     let PromptDiv =(<div>
       <h4>Prompt</h4>
-      <form onSubmit={e => this.onSubmit(e, this.props.index)}>
-          <center><input className="form-control-file"  type="file"  name="file" ></input></center>
-          <button  className="btn btn-success" name="prompt" type="submit">Upload</button> 
-      </form>
+      {this.props.userObj.accountType != "ABET Evaluator" ?
+        <form onSubmit={e => this.onSubmit(e, this.props.index)}>
+            <center><input className="form-control-file"  type="file"  name="file" ></input></center>
+            <button  className="btn btn-success" name="prompt" type="submit">Upload</button> 
+        </form>
+      : null }
       
     </div>)  
 
@@ -237,8 +255,9 @@ class ViewDeliverable extends React.Component {
     PromptDiv = (<div>
         <h4>Prompt</h4>
             <a href={"/api/s3?id=" + prompt.id + "&name=" + prompt.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
-            <button onClick={()=>{this.props.deleteFile(prompt.id, prompt.name, this.props.deleteInDatabase_prompt, this.props.index)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
-            
+            {this.props.userObj.accountType != "ABET Evaluator" ?
+              <button onClick={()=>{this.props.deleteFile(prompt.id, prompt.name, this.props.deleteInDatabase_prompt, this.props.index)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+            : null }
     </div>)
     }
     return (
