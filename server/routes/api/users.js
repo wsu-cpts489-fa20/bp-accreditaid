@@ -34,12 +34,13 @@ router.get('/:userId', async(req, res, next) => {
     if (req.body === undefined ||
         !req.body.hasOwnProperty("password") || 
         !req.body.hasOwnProperty("displayName") ||
+        !req.body.hasOwnProperty("profilePicURL") ||
         !req.body.hasOwnProperty("securityQuestion") ||
         !req.body.hasOwnProperty("securityAnswer") ||
         !req.body.hasOwnProperty("accountType") ){
       //Body does not contain correct properties
       return res.status(400).send("/users POST request formulated incorrectly. " + 
-        "It must contain 'password','displayName','securityQuestion' and 'securityAnswer fields in message body.")
+        "It must contain 'password', 'displayName', 'profilePicURL', 'securityQuestion' and 'securityAnswer fields in message body.")
     }
     try {
       let thisUser = await User.findOne({id: req.params.userId});
@@ -51,6 +52,7 @@ router.get('/:userId', async(req, res, next) => {
           id: req.params.userId,
           password: req.body.password,
           displayName: req.body.displayName,
+          profilePicURL: req.body.profilePicURL,
           authStrategy: 'local',
           accountType: req.body.accountType,
           securityQuestion: req.body.securityQuestion,
