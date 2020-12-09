@@ -153,7 +153,7 @@ class ProgramForm extends React.Component {
               <button id="edit-courses" type="button" style={{width: "40%",fontSize: "36px"}} 
                 className="btn btn-primary btn-color-theme"
                 onClick={() => this.openCourses()}>
-                  <span className="fa fa-list-alt ">&nbsp;Edit Courses</span></button>
+                  <span className="fa fa-list-alt">&nbsp;Edit Courses</span></button>
               : null}
             <p></p>
             <div style={{display: "flex", justifyContent: "center", paddingBottom: "20px"}}>

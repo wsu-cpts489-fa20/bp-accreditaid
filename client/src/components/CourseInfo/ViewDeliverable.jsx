@@ -182,7 +182,7 @@ class ViewDeliverable extends React.Component {
                     <h4>Description</h4>
                     <p>{this.state.deliverable.description}</p>
                     {PromptDiv}
-                    <h4>Student Outcomes and Preformace Indicators</h4>
+                    <h4>Student Outcomes and Performance Indicators</h4>
                     <p>{this.displaySOPIs()}</p>
                     <div>
                       <h4>Upload student work samples</h4>

@@ -20,7 +20,7 @@ var transporter = nodemailer.createTransport({
 router.post("/", async (req, res, next) =>{
     console.log("/email/ route reached");
     var mailOptions = {
-        from: 'acreditaid@gmail.com',
+        from: 'accreditaid@gmail.com',
         to: req.body.toList,
         subject: req.body.emailSubject,
         text: req.body.emailBody,
