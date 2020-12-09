@@ -6,7 +6,8 @@ class EvaluatorView extends React.Component {
         super(props)
         this.fetchData();
         this.state = {
-            program: {}
+            program: {},
+            SOPIStructure: {}
         }
     }
 
@@ -35,34 +36,50 @@ class EvaluatorView extends React.Component {
         }
     }
 
+
+
     buildSubHeaders = () => {
+        let SOPIStructure = this.state.SOPIStructure
         if(this.state.program.studentOutcomes){
             let header = Object.keys(this.state.program.studentOutcomes)
             return header.map((key, index) => {
                 return this.state.program.studentOutcomes[key].map( (pi, subIndex) => {
+                    SOPIStructure[key][pi] = {PIPrior: false, PITaught: false, PIAssessed: false}
+                    this.setState({SOPIStructure: SOPIStructure})
                     return <th key={"SO" + index + "pi-" + subIndex}>{pi}</th>
                 })
                
             })
+            
         }
         else{
             return (<div/>)
         }
+        
     }
 
     buildSOHeaders = () => {
+        let SOPIStructure = this.state.SOPIStructure
         if(this.state.program.studentOutcomes){
             let header = Object.keys(this.state.program.studentOutcomes)
             return header.map((key, index) => {
-               return <th colSpan={this.state.program.studentOutcomes[key].length} key={"SO-" +index}>{key}</th>
+                SOPIStructure[key] = {}
+                this.setState({SOPIStructure: SOPIStructure})
+                return <th colSpan={this.state.program.studentOutcomes[key].length} key={"SO-" +index}>{key}</th>
             })
         }
         else{
             return (<div/>)
         }
+        
+    }
+
+    getPerformanceIndicators = () => {
+
     }
 
     buildTable = () => {
+        
         let table = [];
         for (let p = 0; p < this.props.courses.length; ++p) {
             let syllabusLink = this.props.courses[p].courseSyllabus != null ? ( "/api/s3?id=" + this.props.courses[p].courseSyllabus.id + "&name=" + this.props.courses[p].courseSyllabus.name) : ""
@@ -72,6 +89,7 @@ class EvaluatorView extends React.Component {
                     <td>{this.props.courses[p].courseName}</td>
                     <td>{this.props.courses[p].courseEmail}</td>
                     <td><a href={syllabusLink}>Syllabus</a></td>
+
                 </tr> 
             );
         }
