@@ -9,10 +9,13 @@ class EvaluatorView extends React.Component {
             program: {},
             SOPIStructure: {}
         }
+        
+        
     }
 
     componentDidMount(){
-        
+        this.getSOPIsStructure()
+
     }
 
     fetchData = async () => {
@@ -32,20 +35,19 @@ class EvaluatorView extends React.Component {
             let program = JSON.parse(msg);
             console.log(program)
             this.setState({program:program});
-
+            this.getSOPIsStructure()
+            console.log("SOPI STRUCTURE ");
+            console.log(this.state.SOPIStructure);
         }
     }
 
 
 
     buildSubHeaders = () => {
-        let SOPIStructure = this.state.SOPIStructure
         if(this.state.program.studentOutcomes){
             let header = Object.keys(this.state.program.studentOutcomes)
             return header.map((key, index) => {
                 return this.state.program.studentOutcomes[key].map( (pi, subIndex) => {
-                    SOPIStructure[key][pi] = {PIPrior: false, PITaught: false, PIAssessed: false}
-                    this.setState({SOPIStructure: SOPIStructure})
                     return <th key={"SO" + index + "pi-" + subIndex}>{pi}</th>
                 })
                
@@ -58,13 +60,24 @@ class EvaluatorView extends React.Component {
         
     }
 
+    getSOPIsStructure = () => {
+        let localSOPIStructure = this.state.SOPIStructure
+        if(this.state.program.studentOutcomes){
+            let header = Object.keys(this.state.program.studentOutcomes)
+            header.map((key, index) => {
+                localSOPIStructure[key] = {}
+                this.state.program.studentOutcomes[key].map( (pi, subIndex) => {
+                    localSOPIStructure[key][pi] = {PIPrior: false, PITaught: false, PIAssessed: false}
+                })
+            })
+        }
+        this.setState({SOPIStructure: localSOPIStructure})
+    }
+
     buildSOHeaders = () => {
-        let SOPIStructure = this.state.SOPIStructure
         if(this.state.program.studentOutcomes){
             let header = Object.keys(this.state.program.studentOutcomes)
             return header.map((key, index) => {
-                SOPIStructure[key] = {}
-                this.setState({SOPIStructure: SOPIStructure})
                 return <th colSpan={this.state.program.studentOutcomes[key].length} key={"SO-" +index}>{key}</th>
             })
         }
@@ -72,10 +85,6 @@ class EvaluatorView extends React.Component {
             return (<div/>)
         }
         
-    }
-
-    getPerformanceIndicators = () => {
-
     }
 
     buildTable = () => {
