@@ -13,6 +13,7 @@ import Programs from './ProgramsPage/Programs.js'
 import AboutBox from './common/AboutBox.js';
 import InstructorPage from "./InstructorPage/InstructorPage.jsx"
 import CourseInfoPage from "./CourseInfo/CourseInfo.jsx"
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const modeTitle = {};
 modeTitle[AppMode.LOGIN] = "Welcome to AcreditAid";
@@ -53,22 +54,23 @@ class App extends React.Component {
 
   constructor() {
     super();
-    this.state = {mode: AppMode.LOGIN,
-                  menuOpen: false,
-                  authenticated: false,
-                  userObj: {displayName: "", profilePicURL: ""},
-                  editAccount: false,
-                  showEditAccountDialog: false,
-                  statusMsg: "",
-                  showAboutDialog: false,
-                  currentProgram: "",
-                  currentProgramId: 0
-                 };
+    this.state = {
+      mode: AppMode.LOGIN,
+      menuOpen: false,
+      authenticated: false,
+      userObj: { displayName: "", profilePicURL: "" },
+      editAccount: false,
+      showEditAccountDialog: false,
+      statusMsg: "",
+      showAboutDialog: false,
+      currentProgram: "",
+      currentProgramId: 0
+    };
   }
 
   //componentDidMount
   componentDidMount() {
-    if (!this.state.authenticated) { 
+    if (!this.state.authenticated) {
       //Use /auth/test route to (re)-test authentication and obtain user data
       fetch("/auth/test")
         .then((response) => response.json())
@@ -76,7 +78,7 @@ class App extends React.Component {
           if (obj.isAuthenticated) {
 
             let usermode = AppMode.PROGRAMS;
-            switch(obj.user.accountType){
+            switch (obj.user.accountType) {
               case "Instructor":
                 usermode = AppMode.INSTRUCTOR_DASHBOARD
                 break
@@ -86,7 +88,7 @@ class App extends React.Component {
               default:
                 usermode = AppMode.INSTRUCTOR_DASHBOARD
             }
-            
+
             this.setState({
               userObj: obj.user,
               authenticated: true,
@@ -94,8 +96,8 @@ class App extends React.Component {
             });
           }
         }
-      )
-    } 
+        )
+    }
   }
 
   handleChangeMode = (newMode, modeParams) => {
@@ -107,29 +109,31 @@ class App extends React.Component {
   }
 
   openMenu = () => {
-    this.setState({menuOpen : true});
+    this.setState({ menuOpen: true });
   }
-  
+
   closeMenu = () => {
-    this.setState({menuOpen : false});
+    this.setState({ menuOpen: false });
   }
 
   toggleMenuOpen = () => {
-    this.setState(prevState => ({menuOpen: !prevState.menuOpen}));
+    this.setState(prevState => ({ menuOpen: !prevState.menuOpen }));
   }
 
   setUserId = (Id) => {
-    this.setState({userId: Id,
-                   authenticated: true});
+    this.setState({
+      userId: Id,
+      authenticated: true
+    });
   }
 
   showEditAccount = () => {
-    this.setState({showEditAccountDialog: true});
+    this.setState({ showEditAccountDialog: true });
 
   }
 
   cancelEditAccount = () => {
-    this.setState({showEditAccountDialog: false});
+    this.setState({ showEditAccountDialog: false });
   }
 
   //editAccountDone -- called after successful edit or
@@ -138,47 +142,57 @@ class App extends React.Component {
   //edited (deleted == false) or deleted (deleted == true)
   editAccountDone = (msg, deleted) => {
     if (deleted) {
-      this.setState({showEditAccountDialog: false,
-                     statusMsg: msg,
-                     mode: AppMode.LOGIN});
-      } else {
-        this.setState({showEditAccountDialog: false,
-          statusMsg: msg});
-      }
+      this.setState({
+        showEditAccountDialog: false,
+        statusMsg: msg,
+        mode: AppMode.LOGIN
+      });
+    } else {
+      this.setState({
+        showEditAccountDialog: false,
+        statusMsg: msg
+      });
+    }
   }
 
   closeStatusMsg = () => {
-    this.setState({statusMsg: ""});
+    this.setState({ statusMsg: "" });
   }
 
   setCurrentProgram = (newProgram, Id) => {
-    this.setState({currentProgram: newProgram, currentProgramId: Id});
+    this.setState({ currentProgram: newProgram, currentProgramId: Id });
   }
 
   render() {
     const ModePage = modeToPage[this.state.mode];
     return (
-      <div className="padded-page">
-        {this.state.showAboutDialog ? 
-          <AboutBox close={() => this.setState({showAboutDialog: false})}/> : null}
-        {this.state.statusMsg != "" ? <div className="status-msg">
-              <span>{this.state.statusMsg}</span>
-              <button className="modal-close" onClick={this.closeStatusMsg}>
-                  <span className="fa fa-times"></span></button></div> : null}
-        {this.state.showEditAccountDialog ? 
-            <CreateEditAccountDialog 
-              create={false} 
-              userId={this.state.userObj.id} 
-              done={this.editAccountDone} 
-              cancel={this.cancelEditAccount}/> : null}
-        <NavBar 
-          title={modeTitle[this.state.mode]} 
-          mode={this.state.mode}
-          changeMode={this.handleChangeMode}
-          menuOpen={this.state.menuOpen}
-          toggleMenuOpen={this.toggleMenuOpen}/>
-          <SideMenu 
-            menuOpen = {this.state.menuOpen}
+      <CSSTransition
+        in={true}
+        appear={true}
+        timeout={1200}
+        classNames="fade"
+      >
+        <div className="padded-page">
+          {this.state.showAboutDialog ?
+            <AboutBox close={() => this.setState({ showAboutDialog: false })} /> : null}
+          {this.state.statusMsg != "" ? <div className="status-msg">
+            <span>{this.state.statusMsg}</span>
+            <button className="modal-close" onClick={this.closeStatusMsg}>
+              <span className="fa fa-times"></span></button></div> : null}
+          {this.state.showEditAccountDialog ?
+            <CreateEditAccountDialog
+              create={false}
+              userId={this.state.userObj.id}
+              done={this.editAccountDone}
+              cancel={this.cancelEditAccount} /> : null}
+          <NavBar
+            title={modeTitle[this.state.mode]}
+            mode={this.state.mode}
+            changeMode={this.handleChangeMode}
+            menuOpen={this.state.menuOpen}
+            toggleMenuOpen={this.toggleMenuOpen} />
+          <SideMenu
+            menuOpen={this.state.menuOpen}
             mode={this.state.mode}
             toggleMenuOpen={this.toggleMenuOpen}
             changeMode={this.handleChangeMode}
@@ -187,9 +201,9 @@ class App extends React.Component {
             localAccount={this.state.userObj.authStrategy === "local"}
             editAccount={this.showEditAccount}
             logOut={() => this.handleChangeMode(AppMode.LOGIN)}
-            showAbout={() => {this.setState({showAboutDialog: true})}}
-            userType={this.state.userObj.accountType}/>
-          <ModePage 
+            showAbout={() => { this.setState({ showAboutDialog: true }) }}
+            userType={this.state.userObj.accountType} />
+          <ModePage
             menuOpen={this.state.menuOpen}
             mode={this.state.mode}
             modeParams={this.state.modeParams}
@@ -198,9 +212,10 @@ class App extends React.Component {
             refreshOnUpdate={this.refreshOnUpdate}
             setCurrentProgram={this.setCurrentProgram}
             currentProgram={this.state.currentProgram}
-            currentProgramId={this.state.currentProgramId}/>
-      </div>
-    );  
+            currentProgramId={this.state.currentProgramId} />
+        </div>
+      </CSSTransition>
+    );
   }
 }
 

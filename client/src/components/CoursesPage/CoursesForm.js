@@ -8,19 +8,19 @@ class CoursesForm extends React.Component {
         super(props);
         if (this.props.mode === AppMode.COURSES_LOGCOURSE) {
             this.state = {
-                        courseName: "",
-                        courseNumber: "",
-                        coursePrefix: "",
-                        courseCredits: "",
-                        coursePrerequisites: "",
-                        courseInstructor: "",
-                        courseEmail: "",
-                        courseProgram: this.props.currentProgram,
-                        faIcon: "fa fa-save",
-                        btnLabel: "Save Course"
-                        };
+                courseName: "",
+                courseNumber: "",
+                coursePrefix: "",
+                courseCredits: "",
+                coursePrerequisites: "",
+                courseInstructor: "",
+                courseEmail: "",
+                courseProgram: this.props.currentProgram,
+                faIcon: "fa fa-save",
+                btnLabel: "Save Course"
+            };
         } else {
-            let existingCourse = {...this.props.startData};
+            let existingCourse = { ...this.props.startData };
             existingCourse.faIcon = "fa fa-edit";
             existingCourse.btnLabel = "Update Course";
             this.state = existingCourse;
@@ -28,34 +28,38 @@ class CoursesForm extends React.Component {
     }
 
     handleSubmit = (event) => {
-        this.setState({faIcon: "fa fa-spin fa-spinner",
-                btnLabel: (this.props.mode === AppMode.COURSES_LOGCOURSE ? 
-                    "Saving..." : "Updating...")});
+        this.setState({
+            faIcon: "fa fa-spin fa-spinner",
+            btnLabel: (this.props.mode === AppMode.COURSES_LOGCOURSE ?
+                "Saving..." : "Updating...")
+        });
         let courseData = this.state;
         delete courseData.faIcon;
         delete courseData.btnLabel;
         console.log(courseData);
-        setTimeout(this.props.saveCourse, 1000, courseData); 
+        setTimeout(this.props.saveCourse, 1000, courseData);
         event.preventDefault();
 
-        setTimeout(()=>{
-            this.setState({faIcon: "fa fa-edit",
-        btnLabel: "Update Course"});
+        setTimeout(() => {
+            this.setState({
+                faIcon: "fa fa-edit",
+                btnLabel: "Update Course"
+            });
 
-        }, 1000); 
+        }, 1000);
     }
 
     handleNewCourseChange = (event) => {
         const name = event.target.name;
-        this.setState({[name]: event.target.value}); 
-    } 
+        this.setState({ [name]: event.target.value });
+    }
 
     //deleteProgram -- Triggered when the user clicks on the "Yes, Delete"
     //button in the Confirm Delete dialog box. It executes the deletion and
     //closes the dialog box.
     deleteCourse = () => {
         this.props.deleteCourse();
-        this.setState({showConfirmDelete: false});
+        this.setState({ showConfirmDelete: false });
     }
 
 
@@ -66,8 +70,8 @@ class CoursesForm extends React.Component {
     //the user to confirm the deletion.
     confirmDelete = (id) => {
         this.props.setDeleteId(id);
-        this.setState({showConfirmDelete: true});
-    }  
+        this.setState({ showConfirmDelete: true });
+    }
 
     render() {
         console.log(this.state)
@@ -86,7 +90,7 @@ class CoursesForm extends React.Component {
                                 type="text"
                                 placeholder="Name"
                                 required={true}
-                                size="50" 
+                                size="50"
                                 maxLength="50"
                                 onChange={this.handleNewCourseChange}
                             />
@@ -95,7 +99,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Number:
                             <input
-                            disabled={this.props.instructor}
+                                disabled={this.props.instructor}
                                 id="course-number"
                                 className="form-control form-text form-center"
                                 name="courseNumber"
@@ -104,7 +108,7 @@ class CoursesForm extends React.Component {
                                 placeholder="Number"
                                 required={true}
                                 onChange={this.handleNewCourseChange}
-                                min="0" 
+                                min="0"
                                 max="999"
                             />
                         </label>
@@ -112,7 +116,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Prefix:
                             <input
-                            disabled={this.props.instructor}
+                                disabled={this.props.instructor}
                                 id="course-prefix"
                                 className="form-control form-text form-center"
                                 name="coursePrefix"
@@ -120,7 +124,7 @@ class CoursesForm extends React.Component {
                                 type="text"
                                 placeholder="Prefix"
                                 required={true}
-                                size="10" 
+                                size="10"
                                 maxLength="10"
                                 onChange={this.handleNewCourseChange}
                             />
@@ -129,7 +133,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Number of Credits:
                             <input
-                            disabled={this.props.instructor}
+                                disabled={this.props.instructor}
                                 id="course-credits"
                                 className="form-control form-text form-center"
                                 name="courseCredits"
@@ -137,7 +141,7 @@ class CoursesForm extends React.Component {
                                 type="number"
                                 placeholder="Credits"
                                 required={true}
-                                min="1" 
+                                min="1"
                                 max="9"
                                 onChange={this.handleNewCourseChange}
                             />
@@ -146,7 +150,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Prerequisites:
                             <input
-                            disabled={this.props.instructor}
+                                disabled={this.props.instructor}
                                 id="course-prereqs"
                                 className="form-control form-text form-center"
                                 name="coursePrerequisites"
@@ -154,7 +158,7 @@ class CoursesForm extends React.Component {
                                 type="text"
                                 placeholder="Prerequisites"
                                 required={true}
-                                size="100" 
+                                size="100"
                                 maxLength="100"
                                 onChange={this.handleNewCourseChange}
                             />
@@ -163,7 +167,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Instructor Name:
                             <input
-                            disabled={this.props.instructor}
+                                disabled={this.props.instructor}
                                 id="course-instructorname"
                                 className="form-control form-text form-center"
                                 name="courseInstructor"
@@ -171,7 +175,7 @@ class CoursesForm extends React.Component {
                                 type="text"
                                 placeholder="Instructor"
                                 required={true}
-                                size="50" 
+                                size="50"
                                 maxLength="50"
                                 onChange={this.handleNewCourseChange}
                             />
@@ -180,7 +184,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Instructor Email:
                             <input
-                            disabled={this.props.instructor}
+                                disabled={this.props.instructor}
                                 id="course-instructoremail"
                                 className="form-control form-text form-center"
                                 name="courseEmail"
@@ -198,17 +202,17 @@ class CoursesForm extends React.Component {
                         <label>
                             Semester:
                             <select name="courseSemester" id="select-semester"
-                            className="form-control"
-                            value={this.state.courseSemester}
-                            required={false}
-                            onChange={this.handleNewCourseChange}>
+                                className="form-control"
+                                value={this.state.courseSemester}
+                                required={false}
+                                onChange={this.handleNewCourseChange}>
                                 <option value="Fall">Fall</option>
                                 <option value="Spring">Spring</option>
                                 <option value="Summer">Summer</option>
                                 <option value="Winter">Winter</option>
                             </select>
                         </label>
-                        
+
                         <p></p>
                         <label>
                             Year:
@@ -244,17 +248,17 @@ class CoursesForm extends React.Component {
                             <span className={this.state.faIcon}></span>&nbsp;{this.state.btnLabel}
                         </button>
                         {this.props.mode === AppMode.COURSES_EDITCOURSE ?
-                            <button id="delete-course" type="button" style={{width: "40%",fontSize: "36px"}} 
+                            <button id="delete-course" type="button" style={{ width: "40%", fontSize: "36px" }}
                                 className="btn btn-primary btn-color-theme"
-                                onClick={this.props.menuOpen ? null : () => 
-                                this.confirmDelete(this.state._id)}>
-                                    <span className="fa fa-times">Delete Course</span></button>
+                                onClick={this.props.menuOpen ? null : () =>
+                                    this.confirmDelete(this.state._id)}>
+                                <span className="fa fa-times">Delete Course</span></button>
                             : null}
                     </center>
                 </form>
                 {this.state.showConfirmDelete ?
-                    <ConfirmDeleteCourse 
-                        close={() => this.setState({showConfirmCourse: false})} 
+                    <ConfirmDeleteCourse
+                        close={() => this.setState({ showConfirmCourse: false })}
                         deleteCourse={this.deleteCourse} /> : null}
             </div>
         );
