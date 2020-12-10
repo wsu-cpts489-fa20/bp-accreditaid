@@ -4,12 +4,7 @@ import React, { Component } from 'react'
 class DragAndDrop extends Component {
     constructor(props) {
         super(props);
-        var buttonText = "Upload";
-        if (props.buttonText != null)
-        {
-            buttonText = props.buttonText;
-        }
-        this.state = {drag: false, buttonText: buttonText, counter: 0, errorMessage: ""};
+        this.state = {drag: false, counter: 0, errorMessage: ""};
         this.inputRef = React.createRef();
     }
 
