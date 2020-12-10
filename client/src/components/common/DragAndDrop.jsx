@@ -46,7 +46,7 @@ class DragAndDrop extends Component {
         this.setState({drag: false})
         if (e.dataTransfer.files && e.dataTransfer.files.length == 1) {
             this.inputRef.current.files = e.dataTransfer.files;
-            this.props.UploadFiles(this.inputRef.current.files);
+            this.props.UploadFile(this.inputRef.current.files);
             e.dataTransfer.clearData();
             this.setState({counter: 0});
         }
@@ -86,7 +86,7 @@ class DragAndDrop extends Component {
                         <path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"></path>
                     </svg>
                     {this.renderMessage()}
-                    <input id="file" ref={this.inputRef} className="form-control-file" type="file" name="file" style={{display: "none"}} ></input>
+                    <input id="file" ref={this.inputRef} onChange={(e) =>this.props.UploadFile(this.inputRef.current.files)} className="form-control-file" type="file" name="file" style={{display: "none"}} ></input>
                 </div>
             </div>
         </div>
