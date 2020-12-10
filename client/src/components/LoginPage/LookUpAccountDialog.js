@@ -15,7 +15,13 @@ class LookUpAccountDialog extends React.Component {
     //and showing the security question dialog box.
     handleLookUpAccount = async(event) => {
         event.preventDefault();
-        let response = await fetch("/users/" + this.emailRef.current.value);
+        const url = "/api/users/" + this.emailRef.current.value;
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            method: 'GET'}); 
         if (response.status == 200) {
             const json = await response.json();
             const obj = JSON.parse(json);
@@ -58,6 +64,7 @@ class LookUpAccountDialog extends React.Component {
                         required={true}
                         />
                     </label>
+                    <br/>
                     <button type="submit" 
                         className="btn btn-primary btn-color-theme form-submit-btn">
                         <span className="fa fa-search"></span>&nbsp;Look Up Account

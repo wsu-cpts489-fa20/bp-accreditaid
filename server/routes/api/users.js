@@ -7,7 +7,6 @@ const User = require("./../../schemas/User.js")
 //USER ACCOUNT MANAGEMENT ROUTES
 ////////////////////////////////
 
-
 //READ user route: Retrieves the user with the specified userId from users collection (GET)
 router.get('/:userId', async(req, res, next) => {
     console.log("in /users route (GET) with userId = " + 

@@ -337,9 +337,7 @@ class CourseInfo extends React.Component {
         const ActiveTab = this.state.activeTab;
         return(
         <div>
-            <div id="navigation-div">
-                <button className="btn btn-link" onClick={()=>{this.props.changeMode(this.props.modeParams.prevMode)}} ><span className="fa fa-arrow-left"></span> Back </button>
-                
+            <div id="navigation-div"> 
                 <h2>{this.props.modeParams.course.courseName}</h2>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
