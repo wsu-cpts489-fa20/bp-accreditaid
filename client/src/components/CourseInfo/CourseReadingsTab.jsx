@@ -16,10 +16,12 @@ class CourseReadingsTab extends React.Component {
                     <a href={"/api/s3?id=" + this.props.course.courseReadings[p].id + "&name=" + this.props.course.courseReadings[p].name} className="btn btn-primary" > 
                         <i className="fa fa-download"></i> Download</a>
                     </td>
-                    <td>
-                    <button onClick={()=>{this.props.deleteFile(this.props.course.courseReadings[p].id, this.props.course.courseReadings[p].name, 
-                        this.props.deleteInDatabase_array, "courseReadings", p)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
-                    </td>
+                    {this.props.userObj.accountType != "ABET Evaluator" ?
+                        <td>
+                        <button onClick={()=>{this.props.deleteFile(this.props.course.courseReadings[p].id, this.props.course.courseReadings[p].name, 
+                            this.props.deleteInDatabase_array, "courseReadings", p)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+                        </td>
+                    : null }
                 </tr> 
             );
         }
@@ -37,16 +39,20 @@ class CourseReadingsTab extends React.Component {
     render() {
         return (
         <div>
-            <form onSubmit={e => this.onSubmit(e, "courseReadings")}>
-                <input className="form-control-file" type="file"  name="file" ></input>
-                <button className="btn btn-success" name="courseReadings" type="submit">Upload</button> 
-            </form>
+            {this.props.userObj.accountType != "ABET Evaluator" ?
+                <form onSubmit={e => this.onSubmit(e, "courseReadings")}>
+                    <input className="form-control-file" type="file"  name="file" ></input>
+                    <button className="btn btn-success" name="courseReadings" type="submit">Upload</button> 
+                </form>
+            : null }
             <table id="courses-table" className="table table-hover">
                 <thead className="thead-dark">
-                    <tr>
+                <tr>
                     <th>Material Name</th>
                     <th>Download</th>
-                    <th>Delete</th>
+                    {this.props.userObj.accountType != "ABET Evaluator" ?
+                        <th>Delete</th>
+                    : null }
                     </tr>
                 </thead>
                 <tbody>

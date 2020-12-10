@@ -333,7 +333,6 @@ class CourseInfo extends React.Component {
     }
 
     render() {
-
         const ActiveTab = this.state.activeTab;
         return(
         <div>
@@ -364,7 +363,7 @@ class CourseInfo extends React.Component {
                             course={this.state.course}
                             startData={this.state.course} 
                             saveCourse={this.editCourse}
-                            instructor={true}
+                            userObj={this.props.userObj}
                             updateCourseState={this.updateCourseState}
                             deleteFile={this.deleteFile}
                             deleteInDatabase_single={this.deleteInDatabase_single}

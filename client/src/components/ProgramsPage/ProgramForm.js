@@ -120,7 +120,8 @@ class ProgramForm extends React.Component {
               Name:
               <input id="program-name" name="name" className="form-control form-center" type="text"
                 value={this.state.name} onChange={this.handleChange} required={true}
-                placeholder="Program name" size="50" maxLength="50" />
+                placeholder="Program name" size="50" maxLength="50"
+                disabled={this.props.userObj.accountType != "College Admin"} />
             </label>
             <p></p>
 
@@ -128,7 +129,8 @@ class ProgramForm extends React.Component {
               Department:
               <input id="program-department" name="department" className="form-control form-center" type="text"
                 value={this.state.department} onChange={this.handleChange} required={true}
-                placeholder="Program department" size="50" maxLength="50" />
+                placeholder="Program department" size="50" maxLength="50"
+                disabled={this.props.userObj.accountType != "College Admin"} />
             </label>
             <p></p>
 
@@ -136,7 +138,8 @@ class ProgramForm extends React.Component {
               College:
               <input id="program-college" name="college" className="form-control form-center" type="text"
                 value={this.state.college} onChange={this.handleChange} required={true}
-                placeholder="Program college" size="50" maxLength="50" />
+                placeholder="Program college" size="50" maxLength="50"
+                disabled={this.props.userObj.accountType != "College Admin"} />
             </label>
             <p></p>
 
@@ -144,10 +147,11 @@ class ProgramForm extends React.Component {
               # Credits:
               <input id="program-credits" name="credits" className="form-control form-center" type="number"
                 value={this.state.credits} onChange={this.handleChange} required={true}
-                placeholder="0" min="0" max="999" />
+                placeholder="0" min="0" max="999"
+                disabled={this.props.userObj.accountType != "College Admin"} />
             </label>
             <p></p>
-            <StudentOutcomesList studentOutcomes={this.state.studentOutcomes} outcomesChanged={this.outcomesChanged}/>
+            <StudentOutcomesList studentOutcomes={this.state.studentOutcomes} userObj={this.props.userObj} outcomesChanged={this.outcomesChanged}/>
             <p></p>
             <div style={{display: "flex", justifyContent: "center", paddingBottom: "20px"}}>
               <button id="submit-changes" type="submit" style={{width: "40%",fontSize: "36px"}} 
@@ -168,10 +172,22 @@ class ProgramForm extends React.Component {
               <button id="edit-courses" type="button" style={{width: "40%",fontSize: "36px"}} 
                 className="btn btn-primary btn-color-theme"
                 onClick={() => this.openCourses()}>
-                  <span className="fa fa-list-alt"></span>&nbsp;Edit Courses
+                  <span className="fa fa-door-open">View Courses</span></button>
+              : null}
+            <p></p>
+            {this.props.userObj.accountType == "College Admin"?
+              <button id="submit-changes" type="submit" style={{width: "40%",fontSize: "36px"}} 
+                className="btn btn-primary btn-color-theme">
+                  <span className={this.state.faIcon}/>&nbsp;{this.state.btnLabel}
               </button>
-              : null
-            } 
+             : null}
+            {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM && this.props.userObj.accountType == "College Admin"?
+              <button id="delete-program" type="button" style={{width: "40%",fontSize: "36px"}} 
+                className="btn btn-primary btn-color-theme"
+                onClick={this.props.menuOpen ? null : () => 
+                this.confirmDelete(this.state._id)}>
+                  <span className="fa fa-times">Delete Program</span></button>
+              : null}
           </center>
         </form>
         {this.state.showConfirmDelete ?

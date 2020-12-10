@@ -5,6 +5,7 @@ import CoursesTable from './CoursesTable.js';
 import FloatingButton from '../common/FloatingButton.js';
 import EmailModal from "../EmailModal/EmailModal.jsx"
 import Deliverables from "./Deliverables.js";
+import EvaluatorView from "./EvaluatorView.jsx";
 
 class Courses extends React.Component {
 
@@ -15,7 +16,9 @@ class Courses extends React.Component {
                       editId: "",
                       courses: [],
                       displayEmailModal: false,
-                      toList: []
+                      toList: [],
+                      tabClasses: ["nav-link active", "nav-link", "nav-link", "nav-link", "nav-link"],
+                      activeTab:  CoursesTable
                     };    
     }
 
@@ -169,42 +172,71 @@ class Courses extends React.Component {
         this.setState({displayEmailModal: !this.state.displayEmailModal})
     }
 
+    changeTab = (newTab, index) => {
+        let newTabClasses = ["nav-link", "nav-link", "nav-link", "nav-link", "nav-link"]
+        newTabClasses[index] = "nav-link active";
+        this.setState({
+            activeTab: newTab,
+            tabClasses: newTabClasses
+        })
+    }
+
     render() {
         console.log("Start render");
         console.log(JSON.stringify(this.state.courses));
         console.log("End render");
         let toList = this.getEmails(); 
+        var CurrentTab = this.state.activeTab
         switch(this.props.mode) {
             
             case AppMode.COURSES:
                 
                 return (
                     <>
+
+                        {this.props.userObj.accountType == "College Admin" ? <div>
+                        <button onClick={()=>{
+                            if(toList == 0){
+                                alert("You must select a non-zero amount of instructors first!");
+                                return;
+                            }
+                            this.toggleEmailModal();}} className="btn btn-primary">Email Instructors</button>
+
+                        </div> :<div></div>}
+
                         {this.state.displayEmailModal ? <EmailModal toList={toList} close={this.toggleEmailModal}></EmailModal> : <div></div>}
-                        <CoursesTable
+
+                        <ul id="tabs-ul" class="nav nav-tabs">
+                            
+                            <li class="nav-item">
+                                <a className={this.state.tabClasses[0]}  onClick={()=>{this.changeTab(CoursesTable,0)}} id="management-tab" href="#">Management View</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a className={this.state.tabClasses[1]} onClick={()=>{this.changeTab(EvaluatorView,1)}} id="eval-tab" href="#">Evaluator View</a>
+                            </li>
+                        </ul>
+
+                        <CurrentTab
                             toggleEmailSelected={this.toggleEmailSelection}
                             courses={this.state.courses}
                             setEditId={this.setEditId}
                             changeMode={this.props.changeMode}
                             menuOpen={this.props.menuOpen}
+                            currentProgram={this.props.currentProgram}
+                            userObj={this.props.userObj}
                         />
-                            <button id="select-instructors" type="button" style={{width: "20%",fontSize: "28px"}} 
-                                className="btn btn-primary btn-color-theme"
-                                onClick={()=>{
-                                    if(toList == 0){
-                                        alert("You must select a non-zero amount of instructors first!");
-                                        return;
-                                    }
-                                    this.toggleEmailModal();}}>
-                                <span className="fa fa-envelope-o"></span>&nbsp;Email Instructors
-                            </button>
-                            <FloatingButton
-                                id="create-course-floating-button"
-                                handleClick={() => 
-                                    this.props.changeMode(AppMode.COURSES_LOGCOURSE)}
-                                menuOpen={this.props.menuOpen}
-                                icon={"fa fa-plus"}
-                            />
+
+                        {this.props.userObj.accountType == "College Admin" ?  
+                        
+                        <FloatingButton
+                            id="create-course-floating-button"
+                            handleClick={() => 
+                                this.props.changeMode(AppMode.COURSES_LOGCOURSE)}
+                            menuOpen={this.props.menuOpen}
+                            icon={"fa fa-plus"}
+                        /> 
+                        :<div></div>}
+
                     </>
                 );
             case AppMode.COURSES_LOGCOURSE:
