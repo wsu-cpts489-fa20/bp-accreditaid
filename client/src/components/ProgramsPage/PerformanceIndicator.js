@@ -40,17 +40,21 @@ class PerformanceIndicator extends React.Component {
                         <div className="col-md-12">
                             <div className="card px-3">
                                 <div>
-                                    <div className="d-flex">
-                                        <input id={"outcome-" + this.props.id + "-indicator-input"} value={this.state.indicator} name="indicator" onChange={this.handleChange} type="text" className="form-control todo-list-input" placeholder="Add a performance indicator"/>
-                                        <button id={"add-" + this.props.id + "-indicator"} type="button" className="btn btn-alt-color-theme" onClick={this.addIndicator}>Add</button>
-                                    </div>
+                                    {this.props.userObj.accountType == "College Admin" ?
+                                        <div className="d-flex">
+                                            <input id={"outcome-" + this.props.id + "-indicator-input"} value={this.state.indicator} name="indicator" onChange={this.handleChange} type="text" className="form-control todo-list-input" placeholder="Add a performance indicator"/>
+                                            <button id={"add-" + this.props.id + "-indicator"} type="button" className="btn btn-alt-color-theme" onClick={this.addIndicator}>Add</button>
+                                        </div>
+                                    : null}
                                     <div>
                                         <ol className="indicators-list">
                                         {this.props.performanceIndicators.map((value, index) => {
                                             return <li key={index}>
                                                         <div className="indicator-element-div">
                                                             <div className="indicators-div" id={"outcome-" + this.props.id + "-indicator-" + index}>{value}</div>
-                                                            <i id={"outcome-" + this.props.id + "-indicator-" + index + "-delete"} className="fa fa-minus fa-lg" onClick={() => this.removeIndicator(value)}></i>
+                                                            {this.props.userObj.accountType == "College Admin" ?
+                                                                <i id={"outcome-" + this.props.id + "-indicator-" + index + "-delete"} className="fa fa-minus fa-lg" onClick={() => this.removeIndicator(value)}></i>
+                                                            : null}
                                                         </div>
                                                     </li>
                                         })}

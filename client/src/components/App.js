@@ -5,7 +5,6 @@ import ModeBar from './common/ModeBar.js';
 import CreateEditAccountDialog from './LoginPage/CreateEditAccountDialog.js'
 import LoginPage from './LoginPage/LoginPage.js';
 import AppMode from "./../AppMode.js"
-import FeedPage from './FeedPage/FeedPage.js';
 import Rounds from './RoundsPage/Rounds.js';
 import Courses from './CoursesPage/Courses.js';
 import Deliverables from './CoursesPage/Deliverables.js';
@@ -16,7 +15,6 @@ import CourseInfoPage from "./CourseInfo/CourseInfo.jsx"
 
 const modeTitle = {};
 modeTitle[AppMode.LOGIN] = "Welcome to AcreditAid";
-modeTitle[AppMode.FEED] = "Activity Feed";
 modeTitle[AppMode.ROUNDS] = "My Rounds";
 modeTitle[AppMode.ROUNDS_LOGROUND] = "Log New Round";
 modeTitle[AppMode.ROUNDS_EDITROUND] = "Edit Round";
@@ -32,7 +30,6 @@ modeTitle[AppMode.DELIVERABLES_LOGDELIVERABLE] = "Create New Deliverable";
 
 const modeToPage = {};
 modeToPage[AppMode.LOGIN] = LoginPage;
-modeToPage[AppMode.FEED] = FeedPage;
 modeToPage[AppMode.ROUNDS] = Rounds;
 modeToPage[AppMode.ROUNDS_LOGROUND] = Rounds;
 modeToPage[AppMode.ROUNDS_EDITROUND] = Rounds;
@@ -83,6 +80,10 @@ class App extends React.Component {
               case "College Admin":
                 usermode = AppMode.PROGRAMS
                 break
+              case "ABET Evaluator":
+                usermode = AppMode.PROGRAMS
+                break
+
               default:
                 usermode = AppMode.INSTRUCTOR_DASHBOARD
             }

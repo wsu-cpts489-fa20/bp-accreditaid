@@ -10,7 +10,7 @@ class CoursesTable extends React.Component {
 
     editCourse = (id) => {
         this.props.setEditId(id);
-        this.props.changeMode(AppMode.COURSES_EDITCOURSE);
+        this.props.changeMode(AppMode.COURSE_INFO, {course: this.props.courses[id], prevMode: AppMode.COURSES});
     }
 
     renderTable = () => {
@@ -24,18 +24,22 @@ class CoursesTable extends React.Component {
                     <td>{this.props.courses[p].courseCredits}</td>
                     <td>{this.props.courses[p].coursePrerequisites}</td>
                     <td>{this.props.courses[p].sos}</td>
-                    <td>
-                        <button 
-                            id={"deliverables-" + p}
-                            onClick={this.props.menuOpen ? null : () => 
-                                this.props.changeMode(AppMode.DELIVERABLES, {course: this.props.courses[p], prevMode: AppMode.COURSES})}>
-                            <span className="fa fa-files-o"></span>
-                        </button>
-                    </td>
+                    {this.props.userObj.accountType != "ABET Evaluator" ?
+                        <td>
+                            <button 
+                                id={"deliverables-" + p}
+                                onClick={this.props.menuOpen ? null : () => 
+                                    this.props.changeMode(AppMode.DELIVERABLES, {course: this.props.courses[p], prevMode: AppMode.COURSES})}>
+                                <span className="fa fa-files-o"></span>
+                            </button>
+                        </td>
+                    : null}
                     <td>{this.props.courses[p].completion} %</td>
                     <td>{this.props.courses[p].courseInstructor}</td>
                     <td>{this.props.courses[p].courseEmail}</td>
-                    <td><input type={"checkbox"} onClick={()=>{console.log("Toggled a checkbox!"); this.props.toggleEmailSelected(p)} } /></td>
+                    {this.props.userObj.accountType != "ABET Evaluator" ?
+                        <td><input type={"checkbox"} onClick={()=>{console.log("Toggled a checkbox!"); this.props.toggleEmailSelected(p)} } /></td>
+                    : null}
                     <td>
                         <button 
                             id={"course-edit-" + p}
@@ -51,6 +55,7 @@ class CoursesTable extends React.Component {
     }
 
     render() {
+        console.log("Calling render for coursesTable");
         return (
         <div>
             <table id="courses-table" className="table table-hover">
@@ -62,11 +67,15 @@ class CoursesTable extends React.Component {
                     <th>Credits</th>
                     <th>Prerequisites</th>
                     <th>SOs</th>
-                    <th>Deliverables</th>
+                    {this.props.userObj.accountType != "ABET Evaluator" ?
+                        <th>Deliverables</th>
+                    : null}
                     <th>Completion</th>
                     <th>Instructor</th>
                     <th>Email</th>
-                    <th>Invite?</th>
+                    {this.props.userObj.accountType != "ABET Evaluator" ?
+                        <th>Invite?</th>
+                    : null}
                     <th>View/Edit...</th>
                     </tr>
                 </thead>

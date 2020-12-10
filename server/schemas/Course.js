@@ -12,12 +12,13 @@ const workSample = new mongoose.Schema({
 
 const PIInformation = new mongoose.Schema({
     PIName: String,
-    PIStatus: Boolean
+    PIPrior: Boolean,
+    PITaught: Boolean,
+    PIAssessed: Boolean
 });
 
 const SOInformation = new mongoose.Schema({
     SOName: String,
-    SOStatus: Boolean,
     PIs: [PIInformation]
 });
 
@@ -26,7 +27,6 @@ const deliverable = new mongoose.Schema({
     deliverableName: String,
     prompt: tupleSchema,
     description: String,
-    labels: [String],
     SOs: [SOInformation],
     studentWorkSamples: [workSample]
 });
