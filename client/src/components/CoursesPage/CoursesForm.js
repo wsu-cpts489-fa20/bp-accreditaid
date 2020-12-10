@@ -82,7 +82,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Name:
                             <input
-                                disabled={this.props.instructor}
+                                disabled={this.props.userObj.accountType != "College Admin"}
                                 id="course-name"
                                 className="form-control form-text form-center"
                                 name="courseName"
@@ -99,7 +99,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Number:
                             <input
-                                disabled={this.props.instructor}
+                            disabled={this.props.userObj.accountType != "College Admin"}
                                 id="course-number"
                                 className="form-control form-text form-center"
                                 name="courseNumber"
@@ -116,7 +116,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Prefix:
                             <input
-                                disabled={this.props.instructor}
+                            disabled={this.props.userObj.accountType != "College Admin"}
                                 id="course-prefix"
                                 className="form-control form-text form-center"
                                 name="coursePrefix"
@@ -133,7 +133,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Number of Credits:
                             <input
-                                disabled={this.props.instructor}
+                                disabled={this.props.userObj.accountType != "College Admin"}
                                 id="course-credits"
                                 className="form-control form-text form-center"
                                 name="courseCredits"
@@ -150,7 +150,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Course Prerequisites:
                             <input
-                                disabled={this.props.instructor}
+                                disabled={this.props.userObj.accountType != "College Admin"}
                                 id="course-prereqs"
                                 className="form-control form-text form-center"
                                 name="coursePrerequisites"
@@ -167,7 +167,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Instructor Name:
                             <input
-                                disabled={this.props.instructor}
+                                disabled={this.props.userObj.accountType != "College Admin"}
                                 id="course-instructorname"
                                 className="form-control form-text form-center"
                                 name="courseInstructor"
@@ -184,7 +184,7 @@ class CoursesForm extends React.Component {
                         <label>
                             Instructor Email:
                             <input
-                                disabled={this.props.instructor}
+                                disabled={this.props.userObj.accountType != "College Admin"}
                                 id="course-instructoremail"
                                 className="form-control form-text form-center"
                                 name="courseEmail"
@@ -202,10 +202,11 @@ class CoursesForm extends React.Component {
                         <label>
                             Semester:
                             <select name="courseSemester" id="select-semester"
-                                className="form-control"
-                                value={this.state.courseSemester}
-                                required={false}
-                                onChange={this.handleNewCourseChange}>
+                            className="form-control"
+                            disabled={this.props.userObj.accountType == "ABET Evaluator"}
+                            value={this.state.courseSemester}
+                            required={false}
+                            onChange={this.handleNewCourseChange}>
                                 <option value="Fall">Fall</option>
                                 <option value="Spring">Spring</option>
                                 <option value="Summer">Summer</option>
@@ -218,6 +219,7 @@ class CoursesForm extends React.Component {
                             Year:
                             <input
                                 id="course-year"
+                                disabled={this.props.userObj.accountType == "ABET Evaluator"}
                                 className="form-control form-text form-center"
                                 name="courseYear"
                                 value={this.state.courseYear}
@@ -231,6 +233,7 @@ class CoursesForm extends React.Component {
                             Students:
                             <input
                                 id="course-students"
+                                disabled={this.props.userObj.accountType == "ABET Evaluator"}
                                 className="form-control form-text form-center"
                                 name="courseStudents"
                                 value={this.state.courseStudents}
@@ -241,12 +244,14 @@ class CoursesForm extends React.Component {
                             />
                         </label>
                         <br />
-                        <button role="submit"
-                            id="course-submit"
-                            className="btn btn-primary btn-color-theme modal-submit-btn"
-                            style={{ marginTop: "15px", marginBottom: "70px" }}>
-                            <span className={this.state.faIcon}></span>&nbsp;{this.state.btnLabel}
-                        </button>
+                        {this.props.userObj.accountType != "ABET Evaluator" ?
+                            <button role="submit"
+                                id="course-submit"
+                                className="btn btn-primary btn-color-theme modal-submit-btn"
+                                style={{ marginTop: "15px", marginBottom: "70px" }}>
+                                <span className={this.state.faIcon}></span>&nbsp;{this.state.btnLabel}
+                            </button>
+                        : null}
                         {this.props.mode === AppMode.COURSES_EDITCOURSE ?
                             <button id="delete-course" type="button" style={{ width: "40%", fontSize: "36px" }}
                                 className="btn btn-primary btn-color-theme"
