@@ -9,7 +9,7 @@ class DragAndDrop extends Component {
         {
             buttonText = props.buttonText;
         }
-        this.state = {drag: false, buttonText: buttonText};
+        this.state = {drag: false, buttonText: buttonText, counter: 0};
         this.dropRef = React.createRef();
         this.inputRef = React.createRef();
     }
@@ -20,14 +20,26 @@ class DragAndDrop extends Component {
     }
 
     handleDragIn = (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        this.setState({drag: true})
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+            this.setState({drag: true, counter: this.state.counter + 1});
+        }
+        else {
+            this.setState({counter: this.state.counter + 1});
+        }
     }
+
     handleDragOut = (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        this.setState({drag: false})
+        e.preventDefault();
+        e.stopPropagation();
+        var counter = this.state.counter - 1;
+        if (counter === 0) {
+            this.setState({drag: false, counter: counter});
+        }
+        else {
+            this.setState({counter: counter});
+        }
     }
 
     handleDrop = (e) => {
@@ -35,8 +47,9 @@ class DragAndDrop extends Component {
         e.stopPropagation();
         this.setState({drag: false})
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-            this.inputRef.dataTransfer.files = e.dataTransfer.files;
+            this.inputRef.current.dataTransfer.files = e.dataTransfer.files;
             e.dataTransfer.clearData();
+            this.setState({counter: 0});
         }
     }
 
@@ -52,17 +65,23 @@ class DragAndDrop extends Component {
 
     Upload = (e) => {
         e.preventDefault();
-        this.props.Upload(this.inputRef.dataTransfer.files);
+        this.props.Upload(this.inputRef.current.dataTransfer.files);
+    }
+
+    onTargetClick = () => {
+        this.inputRef.current.click();
     }
 
     render() {
         return (
         <div>
-            <div onDrop={this.handleDrop} onDragStart={this.handleDragIn} onDragEnd={this.handleDragOut} onClick={this.inputRef.onClick}
-                style={{display: 'inline-block', position: 'relative', height: 300, width: 300 }}
+            <div className="drag-and-drop-outer" draggable={true} onDragOver={this.handleDrag} onDrop={this.handleDrop}
+                 onDragEnter={this.handleDragIn} onDragLeave={this.handleDragOut} onClick={this.onTargetClick}
+                style={{display: 'inline-block', position: 'relative', height: 300, width: 300, cursor: "pointer", border: 'solid black 1px'}}
                 ref={this.dropRef}>
                 <input ref={this.inputRef} className="form-control-file" type="file"  name="file" style={{display: "none"}} ></input>
-                {this.state.dragging &&
+                <div>Drag and drop file here or click to browse for it.</div>
+                {this.state.drag &&
                     <div 
                         style={{
                         border: 'dashed grey 4px',
@@ -72,7 +91,9 @@ class DragAndDrop extends Component {
                         bottom: 0,
                         left: 0, 
                         right: 0,
-                        zIndex: 9999
+                        zIndex: 9999,
+                        height: "inherit",
+                        width: "inherit"
                         }}
                     >
                         <div 
@@ -86,7 +107,6 @@ class DragAndDrop extends Component {
                             fontSize: 36
                         }}
                         >
-                        <div>Drag and drop file here or click to browse for it.</div>
                         </div>
                     </div>
                 }
