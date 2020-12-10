@@ -142,7 +142,7 @@ class EvaluatorView extends React.Component {
 
             table.push(
                 <tr key={p}>
-                    <td>{this.props.courses[p].coursePrefix + this.props.courses[p].courseNumber }</td>
+                    <td id={"prefix-" +p}>{this.props.courses[p].coursePrefix + this.props.courses[p].courseNumber }</td>
                     <td>{this.props.courses[p].courseName}</td>
                     <td>{this.props.courses[p].courseEmail}</td>
                     <td><a href={syllabusLink}>Syllabus</a></td>
@@ -163,7 +163,7 @@ class EvaluatorView extends React.Component {
         let SOHeaders = <div></div>
         return (
         <div style={divStyle}>
-            <table id="courses-table" className="table table-hover">
+            <table id="eval-table" className="table table-hover">
                 <thead className="thead-dark">
                     <tr>
                         <th colSpan="4">Course Information</th>

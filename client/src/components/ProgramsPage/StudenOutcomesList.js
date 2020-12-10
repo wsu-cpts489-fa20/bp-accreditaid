@@ -73,7 +73,7 @@ class StudentOutcomesList extends React.Component {
 
     render() {
         return (
-            <div className="page-content page-container">
+            <div className="page-content page-container" id="StudentOutcomesList">
                 <div className="padding">
                     <div className="row container d-flex justify-content-center">
                         <div className="col-md-12">

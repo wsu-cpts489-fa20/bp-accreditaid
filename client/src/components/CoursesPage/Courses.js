@@ -209,10 +209,10 @@ class Courses extends React.Component {
                         <ul id="tabs-ul" class="nav nav-tabs">
                             
                             <li class="nav-item">
-                                <a className={this.state.tabClasses[0]}  onClick={()=>{this.changeTab(CoursesTable,0)}} href="#">Management View</a>
+                                <a className={this.state.tabClasses[0]}  onClick={()=>{this.changeTab(CoursesTable,0)}} id="management-tab" href="#">Management View</a>
                             </li> 
                             <li class="nav-item">
-                                <a className={this.state.tabClasses[1]} onClick={()=>{this.changeTab(EvaluatorView,1)}}  href="#">Evaluator View</a>
+                                <a className={this.state.tabClasses[1]} onClick={()=>{this.changeTab(EvaluatorView,1)}} id="eval-tab" href="#">Evaluator View</a>
                             </li>
                         </ul>
 
