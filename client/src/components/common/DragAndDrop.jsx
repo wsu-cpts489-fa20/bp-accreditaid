@@ -9,16 +9,17 @@ class DragAndDrop extends Component {
         {
             buttonText = props.buttonText;
         }
-        this.state = {drag: false, buttonText: buttonText, counter: 0};
-        this.dropRef = React.createRef();
+        this.state = {drag: false, buttonText: buttonText, counter: 0, errorMessage: ""};
         this.inputRef = React.createRef();
     }
 
+    // Handle Drag event. Blank
     handleDrag = (e) => {
         e.preventDefault();
         e.stopPropagation();
     }
 
+    // Handle DragEnter event of when file entered the box.
     handleDragIn = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -30,6 +31,7 @@ class DragAndDrop extends Component {
         }
     }
 
+    // Handle DragLeave event of when file exited the box.
     handleDragOut = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -42,76 +44,56 @@ class DragAndDrop extends Component {
         }
     }
 
+    // Handle when file was dropped onto the box. Call parent Upload.
     handleDrop = (e) => {
         e.preventDefault();
         e.stopPropagation();
         this.setState({drag: false})
-        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-            this.inputRef.current.dataTransfer.files = e.dataTransfer.files;
+        if (e.dataTransfer.files && e.dataTransfer.files.length == 1) {
+            this.inputRef.current.files = e.dataTransfer.files;
+            this.props.UploadFiles(this.inputRef.current.files);
             e.dataTransfer.clearData();
             this.setState({counter: 0});
         }
+        else if(e.dataTransfer.files.length > 1) {
+            this.setState({errorMessage: "You can only upload one file at a time!"});
+            setTimeout(() => this.setState({errorMessage: ""}), 2000);
+        }
     }
 
-    componentDidMount() {
-        let div = this.dropRef.current;
-        div.addEventListener('drop', this.handleDrop)
-    }
-
-    componentWillUnmount() {
-        let div = this.dropRef.current;
-        div.removeEventListener('drop', this.handleDrop)
-    }
-
-    Upload = (e) => {
-        e.preventDefault();
-        this.props.Upload(this.inputRef.current.dataTransfer.files);
-    }
-
-    onTargetClick = () => {
-        this.inputRef.current.click();
+    renderMessage = () => {
+        if (this.state.errorMessage) {
+            return (<span>{this.state.errorMessage} </span>);
+        }
+        else 
+        {
+            return(<label for="file"><strong>Choose a file</strong><span class="drag-and-drop-box_dragndrop"> or drag it here</span>.</label>);
+        }
     }
 
     render() {
+        var outerClass = "drag-and-drop-outer";
+        if (this.state.drag)
+        {
+            outerClass = "drag-and-drop-outer drag-and-drop-box-dragged";
+        }
+
+        if (this.state.errorMessage !== "")
+        {
+            outerClass = "drag-and-drop-outer drag-and-drop-outer-error"
+        }
         return (
-        <div>
-            <div className="drag-and-drop-outer" draggable={true} onDragOver={this.handleDrag} onDrop={this.handleDrop}
-                 onDragEnter={this.handleDragIn} onDragLeave={this.handleDragOut} onClick={this.onTargetClick}
-                style={{display: 'inline-block', position: 'relative', height: 300, width: 300, cursor: "pointer", border: 'solid black 1px'}}
-                ref={this.dropRef}>
-                <input ref={this.inputRef} className="form-control-file" type="file"  name="file" style={{display: "none"}} ></input>
-                <div>Drag and drop file here or click to browse for it.</div>
-                {this.state.drag &&
-                    <div 
-                        style={{
-                        border: 'dashed grey 4px',
-                        backgroundColor: 'rgba(255,255,255,.8)',
-                        position: 'absolute',
-                        top: 0,
-                        bottom: 0,
-                        left: 0, 
-                        right: 0,
-                        zIndex: 9999,
-                        height: "inherit",
-                        width: "inherit"
-                        }}
-                    >
-                        <div 
-                        style={{
-                            position: 'absolute',
-                            top: '50%',
-                            right: 0,
-                            left: 0,
-                            textAlign: 'center',
-                            color: 'grey',
-                            fontSize: 36
-                        }}
-                        >
-                        </div>
-                    </div>
-                }
+        <div className={this.props.className}>
+            <div className={outerClass} draggable={true} onDragOver={this.handleDrag} onDrop={this.handleDrop}
+                 onDragEnter={this.handleDragIn} onDragLeave={this.handleDragOut}>
+                <div className="drag-and-drop-box-input">
+                    <svg className="drag-and-drop-box-icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43">
+                        <path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"></path>
+                    </svg>
+                    {this.renderMessage()}
+                    <input id="file" ref={this.inputRef} className="form-control-file" type="file" name="file" style={{display: "none"}} ></input>
+                </div>
             </div>
-            <button  className="btn btn-color-theme" name="courseSyllabus" type="button" onClick={this.Upload}>{this.state.buttonText}</button> 
         </div>
         )
     }
