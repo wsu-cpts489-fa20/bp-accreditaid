@@ -1,4 +1,5 @@
 import React from 'react';
+import DragAndDrop from '../common/DragAndDrop';
 
 class CourseFiles extends React.Component {
 
@@ -6,14 +7,12 @@ class CourseFiles extends React.Component {
         super(props);
     }
 
-    onSubmit = (event,type) =>{
+    onSubmit = (files, type) =>{
         console.log("on sumbit!")
-        event.preventDefault()
-        console.log("file");
-        console.log("files array" + event.target.files);
-        this.props.uploadFile(event.target['file'].files[0], this.props.upload_single, type)
+        console.log("files array" + files);
+        this.props.uploadFile(files[0], this.props.upload_single, type)
         alert(
-            `Selected file - ${event.target.files[0].name}`
+            `Selected file - ${files[0].name}`
           );
     }
 
@@ -26,10 +25,7 @@ class CourseFiles extends React.Component {
         var SyllabusDiv =(<div>
             <h4>Course Syllabus</h4>
             {this.props.userObj.accountType != "ABET Evaluator" ?
-                <form onSubmit={e => this.onSubmit(e, "courseSyllabus")}>
-                    <input className="form-control-file"  type="file"  name="file" ></input>
-                    <button  className="btn btn-color-theme" name="courseSyllabus" type="submit">Upload</button> 
-                </form>
+                <DragAndDrop UploadFile={(e) => this.onSubmit(e, "courseSyllabus")} />
             : null }
             
         </div>)  
