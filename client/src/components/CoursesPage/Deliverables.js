@@ -88,10 +88,13 @@ class Deliverables extends React.Component {
                         editDeliverableIndex={this.setEditDeliverableIndex}
                         changeMode={this.props.changeMode}
                     />
+                    {this.props.userObj.accountType == "College Admin" ?
                     <FloatingButton
                         id="add-deliverable-button"
                         handleClick={() => this.props.changeMode(AppMode.DELIVERABLES_LOGDELIVERABLE)}
                     />
+                    :
+                    <div></div>}
                 </>
             )
         }
