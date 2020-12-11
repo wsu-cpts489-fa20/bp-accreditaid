@@ -21,8 +21,7 @@ test("CoursesTableTest", async t => {
     await LoginAndGoToCourses();
     await t
         .expect(Selector('#courses-table').visible).eql(true)
-        .expect(Selector('#courses-table').find('td').withText('Course2').visible).eql(true)
-        
+        .expect(Selector('#courses-table').find('td').withText('Course2').visible).eql(true)     
 });
 
 // Tests if course info can be updated

@@ -9,19 +9,19 @@ class CoursesForm extends React.Component {
         this.deleteId = "";
         if (this.props.mode === AppMode.COURSES_LOGCOURSE) {
             this.state = {
-                        courseName: "",
-                        courseNumber: "",
-                        coursePrefix: "",
-                        courseCredits: "",
-                        coursePrerequisites: "",
-                        courseInstructor: "",
-                        courseEmail: "",
-                        courseProgram: this.props.currentProgram,
-                        faIcon: "fa fa-save",
-                        btnLabel: "Save Course"
-                        };
+                courseName: "",
+                courseNumber: "",
+                coursePrefix: "",
+                courseCredits: "",
+                coursePrerequisites: "",
+                courseInstructor: "",
+                courseEmail: "",
+                courseProgram: this.props.currentProgram,
+                faIcon: "fa fa-save",
+                btnLabel: "Save Course"
+            };
         } else {
-            let existingCourse = {...this.props.startData};
+            let existingCourse = { ...this.props.startData };
             existingCourse.faIcon = "fa fa-edit";
             existingCourse.btnLabel = "Update Course";
             this.state = existingCourse;
@@ -29,27 +29,31 @@ class CoursesForm extends React.Component {
     }
 
     handleSubmit = (event) => {
-        this.setState({faIcon: "fa fa-spin fa-spinner",
-                btnLabel: (this.props.mode === AppMode.COURSES_LOGCOURSE ? 
-                    "Saving..." : "Updating...")});
+        this.setState({
+            faIcon: "fa fa-spin fa-spinner",
+            btnLabel: (this.props.mode === AppMode.COURSES_LOGCOURSE ?
+                "Saving..." : "Updating...")
+        });
         let courseData = this.state;
         delete courseData.faIcon;
         delete courseData.btnLabel;
         console.log(courseData);
-        setTimeout(this.props.saveCourse, 1000, courseData); 
+        setTimeout(this.props.saveCourse, 1000, courseData);
         event.preventDefault();
 
-        setTimeout(()=>{
-            this.setState({faIcon: "fa fa-edit",
-        btnLabel: "Update Course"});
+        setTimeout(() => {
+            this.setState({
+                faIcon: "fa fa-edit",
+                btnLabel: "Update Course"
+            });
 
-        }, 1000); 
+        }, 1000);
     }
 
     handleNewCourseChange = (event) => {
         const name = event.target.name;
-        this.setState({[name]: event.target.value}); 
-    } 
+        this.setState({ [name]: event.target.value });
+    }
 
     //deleteProgram -- Triggered when the user clicks on the "Yes, Delete"
     //button in the Confirm Delete dialog box. It executes the deletion and
@@ -87,7 +91,7 @@ class CoursesForm extends React.Component {
                                 type="text"
                                 placeholder="Name"
                                 required={true}
-                                size="50" 
+                                size="50"
                                 maxLength="50"
                                 onChange={this.handleNewCourseChange}
                             />
@@ -105,7 +109,7 @@ class CoursesForm extends React.Component {
                                 placeholder="Number"
                                 required={true}
                                 onChange={this.handleNewCourseChange}
-                                min="0" 
+                                min="0"
                                 max="999"
                             />
                         </label>
@@ -138,7 +142,7 @@ class CoursesForm extends React.Component {
                                 type="number"
                                 placeholder="Credits"
                                 required={true}
-                                min="1" 
+                                min="1"
                                 max="9"
                                 onChange={this.handleNewCourseChange}
                             />
@@ -155,7 +159,7 @@ class CoursesForm extends React.Component {
                                 type="text"
                                 placeholder="Prerequisites"
                                 required={true}
-                                size="100" 
+                                size="100"
                                 maxLength="100"
                                 onChange={this.handleNewCourseChange}
                             />
@@ -172,7 +176,7 @@ class CoursesForm extends React.Component {
                                 type="text"
                                 placeholder="Instructor"
                                 required={true}
-                                size="50" 
+                                size="50"
                                 maxLength="50"
                                 onChange={this.handleNewCourseChange}
                             />
@@ -210,7 +214,7 @@ class CoursesForm extends React.Component {
                                 <option value="Winter">Winter</option>
                             </select>
                         </label>
-                        
+
                         <p></p>
                         <label>
                             Year:
@@ -261,8 +265,8 @@ class CoursesForm extends React.Component {
                     </center>
                 </form>
                 {this.state.showConfirmDelete ?
-                    <ConfirmDeleteCourse 
-                        close={() => this.setState({showConfirmCourse: false})} 
+                    <ConfirmDeleteCourse
+                        close={() => this.setState({ showConfirmCourse: false })}
                         deleteCourse={this.deleteCourse} /> : null}
             </div>
         );

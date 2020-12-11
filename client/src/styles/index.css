@@ -511,6 +511,38 @@ body {
   margin-top: 8px;
 }
 
+/* appear - on page load */
+.fade-appear {
+  opacity: 0;
+  z-index: 1;
+}
+.fade-appear.fade-appear-active{
+  opacity: 1;
+  transition: opacity 1200ms linear;
+}
+
+/* enter */
+.fade-enter{
+  opacity: 0;
+  z-index: 1; 
+}
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 1200ms linear;
+}
+
+/* exit */
+.fade-exit{
+  opacity: 1; 
+}
+.fade-enter.fade-enter-active {
+  opacity: 0;
+  transition: opacity 1200ms linear;
+}
+.fade-exit-done{
+  opacity: 0;
+}
+
 .drag-and-drop-outer{
   outline: 2px dashed #92b0b3;
   outline-offset: -10px;
@@ -540,7 +572,6 @@ body {
 .drag-and-drop-outer-error > .drag-and-drop-box-input > .drag-and-drop-box-icon {
   fill: unset;
 }
-
 
 .drag-and-drop-box-icon {
   width: 20%;

@@ -22,6 +22,31 @@ class CourseDeliverablesTab extends React.Component {
         this.setState({ViewDeliverable : false});
     }
 
+    getDeliverablePercentage = (deliverableToCalculate) => {
+        //combination of work samples that have been completed and the prompt if it is completed
+        let completeMaterial = 0;
+        //our total to divide by. we start at one for the prompt.
+        let totalMaterial = 1;
+        //first check if the prompt is complete
+        if(deliverableToCalculate.prompt != null)
+        {
+            completeMaterial += 1;
+        }
+        console.log(deliverableToCalculate.studentWorkSamples);
+        //check to see work sample complition
+        for(let i = 0; i < deliverableToCalculate.studentWorkSamples.length; i++)
+        {
+            if(deliverableToCalculate.studentWorkSamples[i].file != null)
+            {
+                completeMaterial += 1;
+            }
+            totalMaterial += 1;
+        }
+        console.log("total items = " + totalMaterial);
+        console.log("complete items = " + completeMaterial);
+        return (completeMaterial / totalMaterial) * 100;
+    }
+
     renderTable = () => {
         let table = [];
         for (let p = 0; p < this.props.course.courseDeliverables.length; ++p) {
@@ -32,7 +57,7 @@ class CourseDeliverablesTab extends React.Component {
                     <button onClick={()=>this.openDeliverable(this.props.course.courseDeliverables[p], p)} className="btn btn-color-theme" > View </button>
                     </td>
                     <td>  
-                    0%
+                    {this.getDeliverablePercentage(this.props.course.courseDeliverables[p])}%
                     </td>                
                 </tr> 
             );
