@@ -6,6 +6,7 @@ class CoursesForm extends React.Component {
 
     constructor(props) {
         super(props);
+        this.deleteId = "";
         if (this.props.mode === AppMode.COURSES_LOGCOURSE) {
             this.state = {
                         courseName: "",
@@ -54,7 +55,7 @@ class CoursesForm extends React.Component {
     //button in the Confirm Delete dialog box. It executes the deletion and
     //closes the dialog box.
     deleteCourse = () => {
-        this.props.deleteCourse();
+        this.props.deleteCourse(this.deleteId);
         this.setState({showConfirmDelete: false});
     }
 
@@ -65,12 +66,12 @@ class CoursesForm extends React.Component {
     //of the program to be deleted and then present a dialog box asking
     //the user to confirm the deletion.
     confirmDelete = (id) => {
-        this.props.setDeleteId(id);
+        this.deleteId = id;
         this.setState({showConfirmDelete: true});
     }  
 
     render() {
-        console.log(this.state)
+        console.log(this.props);
         return (
             <div id="course-form">
                 <form onSubmit={this.handleSubmit}>
@@ -120,7 +121,7 @@ class CoursesForm extends React.Component {
                                 type="text"
                                 placeholder="Prefix"
                                 required={true}
-                                size="10" 
+                                size="11" 
                                 maxLength="10"
                                 onChange={this.handleNewCourseChange}
                             />
@@ -186,7 +187,7 @@ class CoursesForm extends React.Component {
                                 name="courseEmail"
                                 value={this.state.courseEmail}
                                 type="text"
-                                size="35"
+                                size="50"
                                 placeholder="Enter Email Address"
                                 pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
                                 required={true}
@@ -221,6 +222,7 @@ class CoursesForm extends React.Component {
                                 value={this.state.courseYear}
                                 type="number"
                                 required={false}
+                                placeholder="Enter year"
                                 onChange={this.handleNewCourseChange}
                             />
                         </label>
@@ -243,17 +245,18 @@ class CoursesForm extends React.Component {
                         {this.props.userObj.accountType != "ABET Evaluator" ?
                             <button role="submit"
                                 id="course-submit"
-                                className="btn btn-color-theme modal-submit-btn"
-                                style={{ marginTop: "15px", marginBottom: "70px" }}>
+                                className="btn btn-primary btn-color-theme modal-submit-btn"
+                                style={{ marginTop: "20px", marginBottom:"10px",width: "40%",fontSize: "36px" }}>
                                 <span className={this.state.faIcon}></span>&nbsp;{this.state.btnLabel}
                             </button>
                         : null}
-                        {this.props.mode === AppMode.COURSES_EDITCOURSE ?
-                            <button id="delete-course" type="button" style={{width: "40%",fontSize: "36px"}} 
+                        <br/>
+                        {this.state.btnLabel === "Update Course" ?
+                            <button id="delete-course" type="button" style={{width: "40%",fontSize: "36px",marginBottom:"20px"}} 
                                 className="btn btn-color-theme"
                                 onClick={this.props.menuOpen ? null : () => 
                                 this.confirmDelete(this.state._id)}>
-                                    <span className="fa fa-times">Delete Course</span></button>
+                                    <span className="fa fa-times"></span>&nbsp;Delete Course</button>
                             : null}
                     </center>
                 </form>

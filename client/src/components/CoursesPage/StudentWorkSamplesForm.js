@@ -49,7 +49,7 @@ class StudentWorkSamplesForm extends React.Component {
                     width: "30%"}} id={"sample-" + i}>
                     <sample>
                         <input
-                            id="performance-samples"
+                            id={"performance-samples-"+i}
                             className="form-control form-text form-center"
                             name={sampleName}
                             value={this.state.studentWorkSamples[i].importance}

@@ -8,7 +8,7 @@ render() {
         <div className="modal-dialog modal-lg">
             <div className="modal-content">
             <div className="modal-header">
-                <h3>About AcreditAid app</h3>
+                <h3>About AccreditAid app</h3>
                 <button className="modal-close" onClick={this.props.close}>
                     &times;
                 </button>

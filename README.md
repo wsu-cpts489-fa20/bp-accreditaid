@@ -5,6 +5,20 @@ AcreditAid is a webapp designed to assist university program administrators, ins
 ## Tech stack
 AcreditAid is built on the MERN stack. Deliverables are stored in S3.
 
+
+### Milestone 4
+#### Summary of work done
+  - Created EvaluatorView table to display the PI's from each SO and how they were fullfilled by the instructor
+  - Removed write permissions from the accountype "ABET Evaluator"
+  
+  
+### Example of work done
+  - https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/b886dec0889ce5ab85bf29b0ef7ff6b9ec530c3a/client/src/components/CoursesPage/EvaluatorView.jsx
+  - https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/b886dec0889ce5ab85bf29b0ef7ff6b9ec530c3a/client/src/components/CourseInfo/ViewDeliverable.jsx
+  
+### Gif of tests running
+  - https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/EvaluatorTests.gif
+
 ### Milestone 3
 #### Summary of work done
   - Created Instructor page to display dashboard of assigned courses for instructor 

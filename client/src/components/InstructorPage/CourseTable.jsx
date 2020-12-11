@@ -30,7 +30,7 @@ class CourseTable extends React.Component {
   //courses Logged" message in case the table is empty.
   render() {
     return(
-    <div id="courses-table" className="padded-page">
+    <div id="courses-table">
       <h1></h1>
       <table className="table table-hover">
         <thead className="thead-dark">

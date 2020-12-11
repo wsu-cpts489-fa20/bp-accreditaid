@@ -95,7 +95,7 @@ router.put('/:name',  async (req, res, next) => {
         let status = await Program.updateOne({_id: (req.body.courseId)}
         ,{"$set" : req.body});
         if (status.nModified != 1) { //program could not be found
-          res.status(404).send("Program with the name " + req.params.name + " Was not modified. Either it does not exist or there were no new changes submitted.");
+          res.status(404).send("Program with the name " + req.params.name + " was not modified. Either it does not exist or there were no new changes submitted.");
         } else {
           res.status(200).send("Program " + req.params.name + " successfully updated.")
         }

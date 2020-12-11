@@ -269,18 +269,17 @@ class ViewDeliverable extends React.Component {
                 </div>
                 <div className="modal-body">
                   <form id="deliverablesView" onSubmit={this.handleDeliverableSubmit}>
-                    <div className="deliverable-section">
-                      <h4>Name</h4>
-                      <p style={{fontSize:"x-large"}}>{this.state.deliverable.deliverableName}</p>
-                    </div>
-                    <div className="deliverable-section">
-                      <h4>Description</h4>
-                      <p>{this.state.deliverable.description}</p>
-                    </div>
-                    <div className="deliverable-section"> {PromptDiv} </div>
-
-                    <div className="deliverable-section">
-                      <h4>Student Outcomes and Preformace Indicators</h4>
+                  <div className="deliverable-section">
+                    <h4>Name</h4>
+                    <p>{this.state.deliverable.deliverableName}</p>
+                  </div>
+                  <div className="deliverable-section">
+                    <h4>Description</h4>
+                    <p>{this.state.deliverable.description}</p>
+                  </div>
+                  <div className="deliverable-section"> {PromptDiv} </div>
+                  <div className="deliverable-section">
+                      <h4>Student Outcomes and Performance Indicators</h4>
                       <div>
                         <table id="courses-table" className="table table-hover">
                           {this.state.deliverableSOs == null || this.state.deliverableSOs.length == 0 ?
@@ -290,7 +289,7 @@ class ViewDeliverable extends React.Component {
                           }
                         </table>
                       </div>
-                    </div>
+                  </div>
                     <div className="deliverable-section">
                       <h4>Upload student work samples</h4>
                       <table id="courses-table" className="table table-hover">

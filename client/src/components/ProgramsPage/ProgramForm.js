@@ -113,8 +113,8 @@ class ProgramForm extends React.Component {
   
   render() {
     return (
-      <div id="program-div" className="padded-page">
-        <form onSubmit={this.handleSubmit}>
+      <div id="program-div">
+        <form onSubmit={this.handleSubmit} style={{paddingBottom: "20px"}}>
           <center>
             <label>
               Name:
@@ -153,6 +153,21 @@ class ProgramForm extends React.Component {
             <p></p>
             <StudentOutcomesList studentOutcomes={this.state.studentOutcomes} userObj={this.props.userObj} outcomesChanged={this.outcomesChanged}/>
             <p></p>
+            <div style={{display: "flex", justifyContent: "center", paddingBottom: "20px"}}>
+              <button id="submit-changes" type="submit" style={{width: "40%",fontSize: "36px"}} 
+                className="btn btn-primary btn-color-theme">
+                  <span className={this.state.faIcon}></span>&nbsp;{this.state.btnLabel}
+              </button>
+              <p style={{width: "5%"}}></p>
+              {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM ?
+                <button id="delete-program" type="button" style={{width: "40%",fontSize: "36px"}} 
+                  className="btn btn-primary btn-color-theme"
+                  onClick={this.props.menuOpen ? null : () => 
+                  this.confirmDelete(this.state._id)}>
+                    <span className="fa fa-times"></span>&nbsp;Delete Program
+                </button>
+                : null}
+            </div>
             {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM ? 
               <button id="edit-courses" type="button" style={{width: "40%",fontSize: "36px"}} 
                 className="btn btn-color-theme"
@@ -160,19 +175,6 @@ class ProgramForm extends React.Component {
                   <span className="fa fa-door-open">View Courses</span></button>
               : null}
             <p></p>
-            {this.props.userObj.accountType == "College Admin"?
-              <button id="submit-changes" type="submit" style={{width: "40%",fontSize: "36px"}} 
-                className="btn btn-color-theme">
-                  <span className={this.state.faIcon}/>&nbsp;{this.state.btnLabel}
-              </button>
-             : null}
-            {this.props.mode === AppMode.PROGRAMS_EDITPROGRAM && this.props.userObj.accountType == "College Admin"?
-              <button id="delete-program" type="button" style={{width: "40%",fontSize: "36px"}} 
-                className="btn btn-color-theme"
-                onClick={this.props.menuOpen ? null : () => 
-                this.confirmDelete(this.state._id)}>
-                  <span className="fa fa-times">Delete Program</span></button>
-              : null}
           </center>
         </form>
         {this.state.showConfirmDelete ?
