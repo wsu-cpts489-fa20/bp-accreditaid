@@ -38,12 +38,6 @@ class Programs extends React.Component {
             const msg = await res.json();
             let programs = JSON.parse(msg);
             this.setState({errorMsg: ""});
-            for(var i = 0; i < programs.length; i++)
-            {
-                programs[i].courses = 0;
-                programs[i].instructors = 0;
-                programs[i].completion = 0;
-            }
             this.setState({programs: programs})
         }
     }
