@@ -1,17 +1,20 @@
-# AcreditAid
+# AccreditAid
 
-AcreditAid is a webapp designed to assist university program administrators, instructors, and ABET course evaluators with tracking the fullfillment of ABET course requirements.
+AccreditAid is a webapp designed to assist university program administrators, instructors, and ABET course evaluators with tracking the fullfillment of ABET course requirements.
 
 ## Tech stack
-AcreditAid is built on the MERN stack. Deliverables are stored in S3.
+AccreditAid is built on the MERN stack. Deliverables are stored in S3.
 
 
 ### Milestone 4
 #### Summary of work done
   - Created EvaluatorView table to display the PI's from each SO and how they were fullfilled by the instructor
   - Removed write permissions from the accountype "ABET Evaluator"
-  
-  
+  - Added modal for instructors to invite Evaluators to accreditaid
+  - Fixed any minor errors errors present in the app (account updation, typos, etc.)
+  - Stylized all pages of the app to have a common UI 
+  - Standardized the variables for all tests to match valid credentials in the version hosted on AWS
+ 
 ### Example of work done
   - https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/b886dec0889ce5ab85bf29b0ef7ff6b9ec530c3a/client/src/components/CoursesPage/EvaluatorView.jsx
   - https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/b886dec0889ce5ab85bf29b0ef7ff6b9ec530c3a/client/src/components/CourseInfo/ViewDeliverable.jsx
