@@ -14,6 +14,7 @@ AccreditAid is built on the MERN stack. Deliverables are stored in S3.
   - Fixed any minor errors errors present in the app (account updation, typos, etc.)
   - Stylized all pages of the app to have a common UI 
   - Standardized the variables for all tests to match valid credentials in the version hosted on AWS
+  - Finished calculations of precentages for the instructors deliverables, admin courses, and programs complition
  
 ### Example of work done
   - https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/b886dec0889ce5ab85bf29b0ef7ff6b9ec530c3a/client/src/components/CoursesPage/EvaluatorView.jsx
