@@ -114,7 +114,8 @@ getNewPassword = () => {
 //password. pw contains the new password. Call on the Update (PUT) server
 //route to update the user's password in the database.
 resetPassword = async(pw) => {
-    const url = "/users/" + this.resetUserId;
+    console.log(this.resetUserId);
+    const url = '/api/users/' + this.resetUserId;
     const res = await fetch(url, {
         headers: {
             'Accept': 'application/json',
@@ -168,7 +169,9 @@ cancelCreateAccount = () => {
                                             getNewPassword={this.getNewPassword}/> : null}
                     {this.state.showResetPaswordDialog ? 
                     <ResetPasswordDialog cancelResetPassword={this.cancelResetPassword}
-                                        resetPassword={this.resetPassword} /> : null}
+                                        resetPassword={this.resetPassword}
+                                        resetUserId={this.resetUserId}
+                                         /> : null}
                     <form id="loginInterface" onSubmit={this.handleLoginSubmit}>
                         <label htmlFor="emailInput" style={{ padding: 0, fontSize: 24 }}>
                             Email:
@@ -211,11 +214,6 @@ cancelCreateAccount = () => {
                                     onClick={() => {this.setState({showLookUpAccountDialog: true});}}>
                             Reset your password</button>
                         </p>  
-                        <button type="button" className="btn btn-github"
-                        onClick={() => this.handleOAuthLoginClick("github")}>
-                        <span className={this.state.githubIcon}></span>&nbsp;
-                            {this.state.githubLabel}
-                        </button>
                         <p>
                             <i>Version CptS 489</i>
                         </p>

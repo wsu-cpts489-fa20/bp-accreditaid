@@ -14,7 +14,7 @@ import InstructorPage from "./InstructorPage/InstructorPage.jsx"
 import CourseInfoPage from "./CourseInfo/CourseInfo.jsx"
 
 const modeTitle = {};
-modeTitle[AppMode.LOGIN] = "Welcome to AcreditAid";
+modeTitle[AppMode.LOGIN] = "Welcome to AccreditAid";
 modeTitle[AppMode.ROUNDS] = "My Rounds";
 modeTitle[AppMode.ROUNDS_LOGROUND] = "Log New Round";
 modeTitle[AppMode.ROUNDS_EDITROUND] = "Edit Round";
