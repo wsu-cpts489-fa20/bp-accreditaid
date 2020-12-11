@@ -22,6 +22,7 @@ AccreditAid is built on the MERN stack. Deliverables are stored in S3.
   
 ### Gif of tests running
   - https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/EvaluatorTests.gif
+  - https://github.com/wsu-cpts489-fa20/bp-accreditaid/blob/master/client/tests/completionPercentages.gif
 
 ### Milestone 3
 #### Summary of work done
