@@ -113,7 +113,6 @@ getNewPassword = () => {
 //password. pw contains the new password. Call on the Update (PUT) server
 //route to update the user's password in the database.
 resetPassword = async(pw) => {
-    console.log(this.resetUserId);
     const url = '/api/users/' + this.resetUserId;
     const res = await fetch(url, {
         headers: {
@@ -201,7 +200,7 @@ cancelCreateAccount = () => {
                         <button
                             id="login"
                             type="submit"
-                            className="btn-color-theme btn btn-primary btn-block login-btn">
+                            className="btn-color-theme btn btn-block login-btn">
                             <span id="login-btn-icon" className={this.state.loginBtnIcon}/>
                             &nbsp;{this.state.loginBtnLabel}
                         </button>

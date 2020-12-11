@@ -44,7 +44,6 @@ class DeliverablesForm extends React.Component {
     }
 
     updateStudentWorkSamples = (newSamples) => {
-        console.log(newSamples);
         this.setState({studentWorkSamples: newSamples});
     }
 

@@ -26,7 +26,6 @@ class Courses extends React.Component {
     componentDidMount() {
         this.fetchData();
         this.userObj = this.props.userObj;
-        console.log(this.userObj);
     }
 
     async fetchData() {
@@ -45,7 +44,6 @@ class Courses extends React.Component {
             const msg = await res.json();
             console.log(msg);
             let courses = JSON.parse(msg);
-            console.log(courses)
             this.setState({errorMsg: ""});
             for(var i = 0; i < courses.length; i++)
             {
@@ -54,11 +52,7 @@ class Courses extends React.Component {
                 courses[i].completion = 0;
                 courses[i].selectedForEmail = false;
             }
-            console.log(courses)
-            // console.log(programs)
             this.setState({courses: courses})
-            //console.log(res.json())
-            console.log("End fetch data");
         }
     }
 
@@ -150,22 +144,17 @@ class Courses extends React.Component {
 
     toggleEmailSelection = (index) =>{
         let localcourses = this.state.courses
-        console.log("toggleEmailSelection " + index);
 
         localcourses[index].selectedForEmail = !localcourses[index].selectedForEmail
         this.setState({courses:localcourses })
-        console.log("index" + index + "has been  toggled");
     }   
 
     getEmails = () => {
         let emailList = "";
-        console.log("in get emails");
-        console.log(this.state.courses);
         for(var i = 0 ; i < this.state.courses.length; i++){
             if(this.state.courses[i].selectedForEmail){
                 emailList += this.state.courses[i].courseEmail + ", "
             }
-            console.log(emailList)
         }
 
         return emailList.substring(0, emailList.length - 2);
@@ -185,9 +174,6 @@ class Courses extends React.Component {
     }
 
     render() {
-        console.log("Start render");
-        console.log(JSON.stringify(this.state.courses));
-        console.log("End render");
         let toList = this.getEmails(); 
         var CurrentTab = this.state.activeTab
         switch(this.props.mode) {
@@ -203,7 +189,7 @@ class Courses extends React.Component {
                                 alert("You must select a non-zero amount of instructors first!");
                                 return;
                             }
-                            this.toggleEmailModal();}} className="btn btn-primary">Email Instructors</button>
+                            this.toggleEmailModal();}} className="btn btn-color-theme">Email Instructors</button>
 
                         </div> :<div></div>}
 

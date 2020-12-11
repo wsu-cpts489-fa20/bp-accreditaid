@@ -14,13 +14,13 @@ class CourseMaterialsTab extends React.Component {
                 <tr key={p}>
                     <td>{this.props.course.courseMaterials[p].name}</td>
                     <td>
-                    <a href={"/api/s3?id=" + this.props.course.courseMaterials[p].id + "&name=" + this.props.course.courseMaterials[p].name} className="btn btn-primary" > 
+                    <a href={"/api/s3?id=" + this.props.course.courseMaterials[p].id + "&name=" + this.props.course.courseMaterials[p].name} className="btn btn-alt-color-theme" > 
                         <i className="fa fa-download"></i> Download</a>
                     </td>
                     {this.props.userObj.accountType != "ABET Evaluator" ?
                         <td>
                         <button onClick={()=>{this.props.deleteFile(this.props.course.courseMaterials[p].id, this.props.course.courseMaterials[p].name, 
-                            this.props.deleteInDatabase_array, "courseMaterials", p)}} className="btn btn-color-theme" ><i className="fa fa-trash"/> Delete </button>
+                            this.props.deleteInDatabase_array, "courseMaterials", p)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
                         </td>
                     : null }
                 </tr> 
@@ -30,11 +30,7 @@ class CourseMaterialsTab extends React.Component {
     }
 
     onSubmit = (event,type) =>{
-        console.log("on sumbit!")
         event.preventDefault()
-        console.log("file");
-        console.log("files array" + event.target.files);
-        console.log(type);
         this.props.uploadFile(event.target['file'].files[0], this.props.upload_array, type)
     }
 

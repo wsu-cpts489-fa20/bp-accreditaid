@@ -14,7 +14,6 @@ class CourseInfo extends React.Component {
             tabClasses: ["nav-link active", "nav-link", "nav-link", "nav-link", "nav-link"],
             course: this.props.modeParams.course
         };
-        console.log(this.props);
     }
 
     updateCourseState = (field, value) =>{
@@ -28,9 +27,7 @@ class CourseInfo extends React.Component {
     deleteInDatabase_single = (type) =>{
         let body = {};
         body[type] = null;
-        console.log("body = " + body)
         
-        console.log(body);
         fetch("/api/courses/" + this.state.course._id, {
             headers: {
                 'Accept': 'application/json',
@@ -52,11 +49,8 @@ class CourseInfo extends React.Component {
     deleteInDatabase_array = (type, index) =>{
         let body = {};
         body[type] = this.state.course[type];
-        console.log("body = " + body)
         body[type].splice(index, 1);
-        console.log("body = " + body)
         
-        console.log(body);
         fetch("/api/courses/" + this.state.course._id, {
             headers: {
                 'Accept': 'application/json',
@@ -76,14 +70,10 @@ class CourseInfo extends React.Component {
     }
 
     deleteInDatabase_prompt = (deliverableIndex) => {
-        console.log("upload_prompt has been called");
         let body = {};
         body["courseDeliverables"] = this.state.course["courseDeliverables"];
-        console.log(body);
-        console.log("index = " + deliverableIndex)
         body["courseDeliverables"][deliverableIndex]["prompt"] = null;
         
-        console.log(body);
         fetch("/api/courses/" + this.state.course._id, {
             headers: {
                 'Accept': 'application/json',
@@ -105,14 +95,10 @@ class CourseInfo extends React.Component {
     }
 
     deleteInDatabase_workSample = (deliverableIndex, workSampleIndex) => {
-        console.log("upload_prompt has been called");
         let body = {};
         body["courseDeliverables"] = this.state.course["courseDeliverables"];
-        console.log(body);
-        console.log("index = " + deliverableIndex)
         body["courseDeliverables"][deliverableIndex]["studentWorkSamples"][workSampleIndex]["file"] = null;
         
-        console.log(body);
         fetch("/api/courses/" + this.state.course._id, {
             headers: {
                 'Accept': 'application/json',
@@ -145,7 +131,6 @@ class CourseInfo extends React.Component {
     }
 
     uploadFile = (file, db_update, type, index) => {
-        console.log("TYPE: "+ type);
         // add file to FormData object
         const fd = new FormData();
         fd.append('file', file);
@@ -167,11 +152,9 @@ class CourseInfo extends React.Component {
     }
 
     upload_single = (file, id, type) => {
-        console.log("upload_single has been called");
         let body = {};
         body[type] = {id: id, name: file.name};
         
-        console.log(body);
         fetch("/api/courses/" + this.state.course._id, {
             headers: {
                 'Accept': 'application/json',
@@ -193,14 +176,12 @@ class CourseInfo extends React.Component {
     }
 
     upload_array = (file, id, type) => {
-        console.log("upload_array has been called");
         let body = {};
         body[type] = this.state.course[type];
         if(!body[type])
             body[type] = [];
         body[type].push({id: id, name: file.name});
         
-        console.log(body);
         fetch("/api/courses/" + this.state.course._id, {
             headers: {
                 'Accept': 'application/json',
@@ -222,14 +203,10 @@ class CourseInfo extends React.Component {
     }
 
     upload_prompt = (file, id, deliverableIndex) => {
-        console.log("upload_prompt has been called");
         let body = {};
         body["courseDeliverables"] = this.state.course["courseDeliverables"];
-        console.log(body);
-        console.log("index = " + deliverableIndex)
         body["courseDeliverables"][deliverableIndex]["prompt"] = {id: id, name: file.name};
         
-        console.log(body);
         fetch("/api/courses/" + this.state.course._id, {
             headers: {
                 'Accept': 'application/json',
@@ -251,14 +228,10 @@ class CourseInfo extends React.Component {
     }
 
     upload_workSample = (file, id, deliverableIndex, workSampleIndex) => {
-        console.log("upload_prompt has been called");
         let body = {};
         body["courseDeliverables"] = this.state.course["courseDeliverables"];
-        console.log(body);
-        console.log("index = " + deliverableIndex)
         body["courseDeliverables"][deliverableIndex]["studentWorkSamples"][workSampleIndex]["file"] = {id: id, name: file.name};
         
-        console.log(body);
         fetch("/api/courses/" + this.state.course._id, {
             headers: {
                 'Accept': 'application/json',
@@ -334,11 +307,9 @@ class CourseInfo extends React.Component {
     }
 
     deleteCourse = async (id) => {
-        console.log(id);
         const url = '/api/courses/' + id;
         const res = await fetch(url, {method: 'DELETE'}); 
         const msg = await res.text();
-        console.log(msg);
         if (res.status != 200) {
             this.setState({errorMsg: "An error occurred when attempting to delete course from database: " 
             + msg});

@@ -37,15 +37,10 @@ class ProgramTable extends React.Component {
     } else {
       const msg = await res.json();
       let localProgramInfo = this.state.programInfo;
-      console.log(msg);
       let courses = JSON.parse(msg);
-      console.log(courses);
       let totalCourses = courses.length;
       let totalInstructors = this.getTotalInstructors(courses);
       let programCompletion = this.caclualteProgramCompletion(courses);
-      console.log(totalCourses);
-      console.log(totalInstructors);
-      console.log(programCompletion);
       let courseInfo = [];
       courseInfo.push(totalCourses);
       courseInfo.push(totalInstructors);
@@ -189,7 +184,7 @@ class ProgramTable extends React.Component {
   render() {
     console.log(this.props)
     return (
-      <div id="programs-table" className="padded-page">
+      <div id="programs-table">
         <h1></h1>
         <table className="table table-hover">
           <thead className="thead-dark">

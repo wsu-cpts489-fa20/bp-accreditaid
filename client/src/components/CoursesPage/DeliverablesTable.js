@@ -32,7 +32,6 @@ class DeliverablesTable extends React.Component {
     renderTable = () => {
         let table = [];
         let deliverables = [...this.props.deliverables];
-        console.log(deliverables);
         for (let p = 0; p < deliverables.length; ++p) {
             table.push(
                 <tr key={p}>

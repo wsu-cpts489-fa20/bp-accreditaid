@@ -41,7 +41,7 @@ class CourseFiles extends React.Component {
         if(courseSyllabus != null){
             SyllabusDiv = (<div>
                 <h4> Course Syllabus</h4>
-                    <a href={"/api/s3?id=" + courseSyllabus.id + "&name=" + courseSyllabus.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
+                    <a href={"/api/s3?id=" + courseSyllabus.id + "&name=" + courseSyllabus.name} className="btn btn-alt-color-theme" > <i className="fa fa-download"></i> Download</a>
                     {this.props.userObj.accountType != "ABET Evaluator" ?
                         <button onClick={()=>{this.props.deleteFile(courseSyllabus.id, courseSyllabus.name, this.props.deleteInDatabase_single, "courseSyllabus")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
                     : null }
@@ -51,7 +51,7 @@ class CourseFiles extends React.Component {
         if(courseSchedule != null){
             ScheduleDiv =  (<div>
                 <h4> Course Schedule</h4>
-                    <a href={"/api/s3?id=" + courseSchedule.id + "&name=" + courseSchedule.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
+                    <a href={"/api/s3?id=" + courseSchedule.id + "&name=" + courseSchedule.name} className="btn btn-alt-color-theme" > <i className="fa fa-download"></i> Download</a>
                     {this.props.userObj.accountType != "ABET Evaluator" ?
                         <button onClick={()=>{this.props.deleteFile(courseSchedule.id, courseSchedule.name, this.props.deleteInDatabase_single, "courseSchedule")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
                     : null }
@@ -61,7 +61,7 @@ class CourseFiles extends React.Component {
         if(courseRoster != null){
             RosterDiv = (<div>
                 <h4> Course Roster</h4>
-                    <a href={"/api/s3?id=" + courseRoster.id + "&name=" + courseRoster.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
+                    <a href={"/api/s3?id=" + courseRoster.id + "&name=" + courseRoster.name} className="btn btn-alt-color-theme" > <i className="fa fa-download"></i> Download</a>
                     {this.props.userObj.accountType != "ABET Evaluator" ?
                         <button onClick={()=>{this.props.deleteFile(courseRoster.id, courseRoster.name, this.props.deleteInDatabase_single, "courseRoster")}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
                     : null }

@@ -37,7 +37,6 @@ class CoursesForm extends React.Component {
         let courseData = this.state;
         delete courseData.faIcon;
         delete courseData.btnLabel;
-        console.log(courseData);
         setTimeout(this.props.saveCourse, 1000, courseData);
         event.preventDefault();
 
@@ -75,7 +74,6 @@ class CoursesForm extends React.Component {
     }  
 
     render() {
-        console.log(this.props);
         return (
             <div id="course-form">
                 <form onSubmit={this.handleSubmit}>
@@ -249,7 +247,7 @@ class CoursesForm extends React.Component {
                         {this.props.userObj.accountType != "ABET Evaluator" ?
                             <button role="submit"
                                 id="course-submit"
-                                className="btn btn-primary btn-color-theme modal-submit-btn"
+                                className="btn btn-color-theme modal-submit-btn"
                                 style={{ marginTop: "20px", marginBottom:"10px",width: "40%",fontSize: "36px" }}>
                                 <span className={this.state.faIcon}></span>&nbsp;{this.state.btnLabel}
                             </button>
@@ -257,10 +255,10 @@ class CoursesForm extends React.Component {
                         <br/>
                         {this.state.btnLabel === "Update Course" ?
                             <button id="delete-course" type="button" style={{width: "40%",fontSize: "36px",marginBottom:"20px"}} 
-                                className="btn btn-color-theme"
+                                className="btn btn-alt-color-theme"
                                 onClick={this.props.menuOpen ? null : () => 
                                 this.confirmDelete(this.state._id)}>
-                                    <span className="fa fa-times"></span>&nbsp;Delete Course</button>
+                                    <span className="fa fa-trash"></span>&nbsp;Delete Course</button>
                             : null}
                     </center>
                 </form>

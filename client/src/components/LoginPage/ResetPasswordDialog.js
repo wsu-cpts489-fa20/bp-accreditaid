@@ -13,7 +13,6 @@ class ResetPasswordDialog extends React.Component {
     //Otherwise, display an error message prompting the user to try again.
     handleSubmit = async(event) => {
         event.preventDefault();
-        console.log(this.props.resetUserId);
         const url = "/api/users/" + this.props.resetUserId;
         const response = await fetch(url, {
             headers: {
