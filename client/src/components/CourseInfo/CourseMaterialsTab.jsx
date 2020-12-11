@@ -1,4 +1,5 @@
 import React from 'react';
+import DragAndDrop from '../common/DragAndDrop';
 
 class CourseMaterialsTab extends React.Component {
 
@@ -13,7 +14,7 @@ class CourseMaterialsTab extends React.Component {
                 <tr key={p}>
                     <td>{this.props.course.courseMaterials[p].name}</td>
                     <td>
-                    <a href={"/api/s3?id=" + this.props.course.courseMaterials[p].id + "&name=" + this.props.course.courseMaterials[p].name} className="btn btn-primary" > 
+                    <a href={"/api/s3?id=" + this.props.course.courseMaterials[p].id + "&name=" + this.props.course.courseMaterials[p].name} className="btn btn-alt-color-theme" > 
                         <i className="fa fa-download"></i> Download</a>
                     </td>
                     {this.props.userObj.accountType != "ABET Evaluator" ?
@@ -29,11 +30,7 @@ class CourseMaterialsTab extends React.Component {
     }
 
     onSubmit = (event,type) =>{
-        console.log("on sumbit!")
         event.preventDefault()
-        console.log("file");
-        console.log("files array" + event.target.files);
-        console.log(type);
         this.props.uploadFile(event.target['file'].files[0], this.props.upload_array, type)
     }
 
@@ -41,10 +38,7 @@ class CourseMaterialsTab extends React.Component {
         return (
         <div>
             {this.props.userObj.accountType != "ABET Evaluator" ?
-                <form onSubmit={e => this.onSubmit(e, "courseMaterials")}>
-                    <input className="form-control-file" type="file"  name="file" ></input>
-                    <button className="btn btn-success" name="courseMaterials" type="submit">Upload</button> 
-                </form>
+                <DragAndDrop className="material-files" UploadFile={(e) => this.onSubmit(e, "courseMaterials")} />
             : null }
             <table id="courses-table" className="table table-hover">
                 <thead className="thead-dark">

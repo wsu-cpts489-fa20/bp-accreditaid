@@ -141,14 +141,21 @@ class Programs extends React.Component {
             case AppMode.PROGRAMS:
                 return (
                     <>
-                    {this.state.errorMsg != "" ? <div className="status-msg"><span>{this.state.errorMsg}</span>
-                       <button className="modal-close" onClick={this.closeErrorMsg}>
+                    <div style={{padding: "56px 8px 0"}}>
+                    {this.state.errorMsg != "" ? 
+                    <div className="status-msg">
+                        <span>{this.state.errorMsg}</span>
+                        <button className="modal-close" onClick={this.closeErrorMsg}>
                           <span className="fa fa-times"></span>
-                        </button></div>: null}
-                        {this.props.userObj.accountType == "College Admin" ? <div>
-                        <button className="btn-primary" onClick={this.toggleEmailModal} >Invite Evaluators</button>
+                        </button>
+                    </div>: null}
+                    {this.props.userObj.accountType == "College Admin" ? 
+                    <div>
+                        <button className="btn btn-color-theme" onClick={this.toggleEmailModal} >Invite Evaluators</button>
                         {this.state.isEmailModalDisplayed ? <EmailModal close={this.toggleEmailModal}></EmailModal> : <div/>}
-                </div> : <div/> }
+                        </div> :
+                    <div/> }
+                    </div>
                     
                     <ProgramTable 
                         programs={this.state.programs}

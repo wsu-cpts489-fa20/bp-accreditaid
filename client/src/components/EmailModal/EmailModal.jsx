@@ -14,8 +14,6 @@ class EmailModal extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        
-        console.log("Opened email modal");
     }
 
     handleChange(event) {
@@ -87,7 +85,7 @@ class EmailModal extends React.Component {
                                     <textarea rows="8" className="form-control" name="emailBody" value={this.state.emailBody} onChange={this.handleChange} required={true} />
                                     <p />
                                     <div className="input-group" style={{justifyContent: "center"}}>
-                                        <button className="btn btn-primary btn-color-theme"  style={{width: "40%",fontSize: "32px"}} type="submit" onClick={this.handleSubmit} disabled={this.state.disableSend} >
+                                        <button className="btn btn-color-theme"  style={{width: "40%",fontSize: "32px"}} type="submit" onClick={this.handleSubmit} disabled={this.state.disableSend} >
 
                                             {this.state.sendText}
                                             

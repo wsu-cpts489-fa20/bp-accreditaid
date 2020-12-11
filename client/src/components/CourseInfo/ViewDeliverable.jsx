@@ -1,5 +1,6 @@
 import { PI } from 'aws-sdk';
 import React from 'react';
+import DragAndDrop from '../common/DragAndDrop';
 
 class ViewDeliverable extends React.Component {
   constructor(props) {
@@ -65,11 +66,6 @@ class ViewDeliverable extends React.Component {
       return;
     }
 
-    console.log(SO)
-    console.log(PI)
-    console.log("Type = " + type)
-    console.log("SOName = " + SOName)
-    console.log("PIName = " + PIName)
     let localDeliverable = this.state.deliverable;
     if(!SO)
     {
@@ -88,7 +84,6 @@ class ViewDeliverable extends React.Component {
     deliverables[this.props.index] = localDeliverable
     body["courseDeliverables"] = deliverables;
     
-    console.log(body);
     fetch("/api/courses/" + this.props.course._id, {
         headers: {
             'Accept': 'application/json',
@@ -111,7 +106,6 @@ class ViewDeliverable extends React.Component {
   }
 
   displaySOPIs = () => {
-    console.log(this.state.deliverableSOs)
     let SOPIs = [];
     let keys = Object.keys(this.state.deliverableSOs);
     for (let i = 0; i < keys.length; i++) {
@@ -129,7 +123,6 @@ class ViewDeliverable extends React.Component {
       let SO = this.state.deliverable.SOs.find(obj => {
         return obj.SOName === keys[i]
       })
-      console.log(SO)
 
       //gets each PI from a given SO
       let PIs = [];
@@ -141,7 +134,6 @@ class ViewDeliverable extends React.Component {
             return obj.PIName === this.state.deliverableSOs[keys[i]][j]
           })
         }
-        console.log(PI)
         let PIPrior = null;
         let PITaught = null;
         let PIAssessed = null;
@@ -152,7 +144,6 @@ class ViewDeliverable extends React.Component {
           PIAssessed = PI.PIAssessed;
         }
 
-        console.log(PI)
         PIs.push(
           <tr>
             <td>{this.state.deliverableSOs[keys[i]][j]}</td>
@@ -167,11 +158,6 @@ class ViewDeliverable extends React.Component {
     return SOPIs;
   }
 
-  getFileFromRefArray = (index) => {
-    console.log(index);
-    // return this.refArray[index].current.files[0];
-  }
-
   displayNeededWorkSamples = () => {
     let workSamples = [];
     for (let i = 0; i < this.state.deliverable.studentWorkSamples.length; i++) {
@@ -179,9 +165,9 @@ class ViewDeliverable extends React.Component {
       if(this.state.deliverable.studentWorkSamples[i].file)
         workSamples.push(
           <tr>
-            <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
+            <td className={this.getLabelClassName(this.state.deliverable.studentWorkSamples[i].importance)}>{this.state.deliverable.studentWorkSamples[i].importance}</td>
             <td>{this.state.deliverable.studentWorkSamples[i].file.name}</td>
-            <td><a href={"/api/s3?id=" + this.state.deliverable.studentWorkSamples[i].file.id + "&name=" + this.state.deliverable.studentWorkSamples[i].file.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a></td>
+            <td><a href={"/api/s3?id=" + this.state.deliverable.studentWorkSamples[i].file.id + "&name=" + this.state.deliverable.studentWorkSamples[i].file.name} className="btn btn-color-theme" > <i className="fa fa-download"></i> Download</a></td>
             {this.props.userObj.accountType != "ABET Evaluator" ?
               <button onClick={()=>{this.props.deleteFile(this.state.deliverable.studentWorkSamples[i].file.id, this.state.deliverable.studentWorkSamples[i].file.name, this.props.deleteInDatabase_workSample, this.props.index, i)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
             : null }
@@ -192,16 +178,15 @@ class ViewDeliverable extends React.Component {
           if(this.props.userObj.accountType != "ABET Evaluator")
             workSamples.push(
               <tr>
-                <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
-                <td><input ref={this.refArray[i]} id={"workSampleFile-" + i} className="form-control-file" type="file"  name="file"></input></td>
-                <td><button className="btn btn-success" name="studentWorkSamples" type="button" 
-                  onClick={() => this.props.uploadFile(this.refArray[i].current.files[0], this.props.upload_workSample, this.props.index, i)}>Upload</button></td>
+                <td className={this.getLabelClassName(this.state.deliverable.studentWorkSamples[i].importance)}>{this.state.deliverable.studentWorkSamples[i].importance}</td>
+                <td></td>
+                <td><DragAndDrop className="samples-files" UploadFile={(e) => this.onSubmit(e, this.props.upload_workSample, this.props.index, i)} /></td>
               </tr>
             );
           else
             workSamples.push(
               <tr>
-                <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
+                <td className={this.getLabelClassName(this.state.deliverable.studentWorkSamples[i].importance)}>{this.state.deliverable.studentWorkSamples[i].importance}</td>
                 <td>No file chosen</td>
                 <td></td>
               </tr>
@@ -213,23 +198,21 @@ class ViewDeliverable extends React.Component {
   }
 
   getLabelClassName(label) {
+    console.log(label);
     switch(label) {
       case "High":
-        return "btn btn-danger"
+        return "btn btn-danger samples-label"
       case "Medium":
-        return "btn btn-warning"
+        return "btn btn-warning samples-label"
       case "Low":
-        return "btn btn-primary"
+        return "btn btn-primary samples-label"
       default: 
         return ""
     }
   }
 
   onSubmit = (event,type) =>{
-    console.log("on sumbit!")
-    event.preventDefault()
-    console.log("file");
-    console.log("files array" + event.target.files);
+    event.preventDefault();
     this.props.uploadFile(event.target['file'].files[0], this.props.upload_prompt, type)
     alert(
         `Selected file - ${event.target.files[0].name}`
@@ -237,16 +220,11 @@ class ViewDeliverable extends React.Component {
   }
 
   render() {
-    console.log(this.refArray);
-    console.log(this.props.index)
     let prompt = this.state.deliverable.prompt
     let PromptDiv =(<div>
       <h4>Prompt</h4>
       {this.props.userObj.accountType != "ABET Evaluator" ?
-        <form onSubmit={e => this.onSubmit(e, this.props.index)}>
-            <center><input className="form-control-file"  type="file"  name="file" ></input></center>
-            <button  className="btn btn-success" name="prompt" type="submit">Upload</button> 
-        </form>
+        <DragAndDrop className="prompt-file" UploadFile={(e) => this.onSubmit(e, this.props.index)} />
       : null }
       
     </div>)  
@@ -254,7 +232,7 @@ class ViewDeliverable extends React.Component {
   if(prompt != null){
     PromptDiv = (<div>
         <h4>Prompt</h4>
-            <a href={"/api/s3?id=" + prompt.id + "&name=" + prompt.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
+            <a href={"/api/s3?id=" + prompt.id + "&name=" + prompt.name} className="btn btn-alt-color-theme" > <i className="fa fa-download"></i> Download</a>
             {this.props.userObj.accountType != "ABET Evaluator" ?
               <button onClick={()=>{this.props.deleteFile(prompt.id, prompt.name, this.props.deleteInDatabase_prompt, this.props.index)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
             : null }
@@ -272,22 +250,28 @@ class ViewDeliverable extends React.Component {
                 </div>
                 <div className="modal-body">
                   <form id="deliverablesView" onSubmit={this.handleDeliverableSubmit}>
+                  <div className="deliverable-section">
                     <h4>Name</h4>
-                    <p>{this.state.deliverable.deliverableName}</p>
+                    <p style={{fontSize: "x-large"}}>{this.state.deliverable.deliverableName}</p>
+                  </div>
+                  <div className="deliverable-section">
                     <h4>Description</h4>
                     <p>{this.state.deliverable.description}</p>
-                    {PromptDiv}
-                    <h4>Student Outcomes and Performance Indicators</h4>
-                    <div>
-                      <table id="courses-table" className="table table-hover">
-                        {this.state.deliverableSOs == null || this.state.deliverableSOs.length == 0 ?
-                          <tr>
-                            <td colSpan="12" style={{ fontStyle: "italic" }}>No Student Outcomes Defined</td>
-                          </tr> : this.displaySOPIs()
-                        }
-                      </table>
-                    </div>
-                    <div>
+                  </div>
+                  <div className="deliverable-section"> {PromptDiv} </div>
+                  <div className="deliverable-section">
+                      <h4>Student Outcomes and Performance Indicators</h4>
+                      <div>
+                        <table id="courses-table" className="table table-hover">
+                          {this.state.deliverableSOs == null || this.state.deliverableSOs.length == 0 ?
+                            <tr>
+                              <td colSpan="12" style={{ fontStyle: "italic" }}>No Student Outcomes Defined</td>
+                            </tr> : this.displaySOPIs()
+                          }
+                        </table>
+                      </div>
+                  </div>
+                    <div className="deliverable-section">
                       <h4>Upload student work samples</h4>
                       <table id="courses-table" className="table table-hover">
                         <thead className="thead-dark">
