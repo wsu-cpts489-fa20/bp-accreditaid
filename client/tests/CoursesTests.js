@@ -9,8 +9,8 @@ const getLocalStorageItem = ClientFunction(prop => {
 
 export async function LoginAndGoToCourses() {
     await t
-        .typeText('#emailInput', 'mykhailo.bykhovtsev@wsu.edu')
-        .typeText('#password', 'Qwerty512_32')
+        .typeText('#emailInput', 'test.admin@wsu.edu')
+        .typeText('#password', 'Password1234')
         .click('#login')
         .click("#program-edit-0")
         .click("#edit-courses")
@@ -58,7 +58,7 @@ test('TestDeletingCourse', async t => {
         .setNativeDialogHandler(() => true);
     await LoginAndGoToCourses();
     await t
-        .click(Selector('#courses-table').find('td').withText('Web Development').sibling('td').find('button').nth(0))
+        .click(Selector('#courses-table').find('td').withText('Web Development').sibling('td').find('button').nth(1))
         .wait(500)
         .expect(Selector('#course-form').visible).eql(true)
         .click("#delete-course")

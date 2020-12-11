@@ -80,14 +80,14 @@ class EmailModal extends React.Component {
                                     <p />
                                     <label for="subjectinput">
                                         Subject
-                                        <input id="subjectinput" className="form-control" type="text" name="subject" value={this.state.subject} onChange={this.handleChange} required={true}/>
+                                        <input id="subjectinput" className="form-control" type="text" size="40" name="subject" value={this.state.subject} onChange={this.handleChange} required={true}/>
                                     </label>
                                     <p />
-                                    <label>Email body</label>
+                                    <label>Email Body:</label>
                                     <textarea rows="8" className="form-control" name="emailBody" value={this.state.emailBody} onChange={this.handleChange} required={true} />
                                     <p />
-                                    <div className="input-group">
-                                        <button className="btn btn-primary btn-color-theme" type="submit" onClick={this.handleSubmit} disabled={this.state.disableSend} >
+                                    <div className="input-group" style={{justifyContent: "center"}}>
+                                        <button className="btn btn-primary btn-color-theme"  style={{width: "40%",fontSize: "32px"}} type="submit" onClick={this.handleSubmit} disabled={this.state.disableSend} >
 
                                             {this.state.sendText}
                                             

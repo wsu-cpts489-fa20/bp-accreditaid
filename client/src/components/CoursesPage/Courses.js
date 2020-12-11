@@ -11,6 +11,7 @@ class Courses extends React.Component {
 
     constructor(props) {
         super(props);
+        this.userObj = "";
         this.state = {
                       deleteId: "",
                       editId: "",
@@ -24,6 +25,8 @@ class Courses extends React.Component {
 
     componentDidMount() {
         this.fetchData();
+        this.userObj = this.props.userObj;
+        console.log(this.userObj);
     }
 
     async fetchData() {
@@ -165,7 +168,7 @@ class Courses extends React.Component {
             console.log(emailList)
         }
 
-        return emailList;
+        return emailList.substring(0, emailList.length - 2);
     }
 
     toggleEmailModal = () =>{
@@ -244,6 +247,7 @@ class Courses extends React.Component {
                     <>
                         <CoursesForm
                             mode={this.props.mode}
+                            userObj={this.userObj}
                             startData={""} 
                             saveCourse={this.addCourse}
                             setDeleteId={this.setDeleteId}

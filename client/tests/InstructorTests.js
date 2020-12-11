@@ -10,7 +10,7 @@ const getLocalStorageItem = ClientFunction(prop => {
 export async function LoginAndGoToCourses() {
     await t
         .typeText('#emailInput', 'test.instructor@wsu.edu')
-        .typeText('#password', 'Qwerty512_32')
+        .typeText('#password', 'Password1234')
         .click('#login')
 }
 

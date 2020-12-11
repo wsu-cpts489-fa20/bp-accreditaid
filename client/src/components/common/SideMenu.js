@@ -41,7 +41,7 @@ renderModeMenuItems = () => {
           <a id="aboutBtn" className="sidemenu-item" onClick={this.props.showAbout}>
             <span className="fa fa-info-circle"></span>&nbsp;About</a>
           <a id="logOutBtn" className="sidemenu-item" onClick={this.props.logOut}>
-            <span className="fa fa-sign-out-alt"></span>&nbsp;Log Out</a>
+            <span className="fa fa-sign-out"></span>&nbsp;Log Out</a>
         </div>
        );
     }

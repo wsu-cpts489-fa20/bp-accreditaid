@@ -1,4 +1,5 @@
 import React from 'react';
+import AppMode from '../../AppMode.js';
 import CourseReadingsTab from "./CourseReadingsTab.jsx";
 import CourseMaterialsTab from "./CourseMaterialsTab.jsx";
 import CourseDeliverablesTab from "./CourseDeliverablesTab.jsx";
@@ -332,13 +333,27 @@ class CourseInfo extends React.Component {
         })
     }
 
+    deleteCourse = async (id) => {
+        console.log(id);
+        const url = '/api/courses/' + id;
+        const res = await fetch(url, {method: 'DELETE'}); 
+        const msg = await res.text();
+        console.log(msg);
+        if (res.status != 200) {
+            this.setState({errorMsg: "An error occurred when attempting to delete course from database: " 
+            + msg});
+            this.props.changeMode(AppMode.COURSES);
+        } else {
+            await this.fetchData();
+            this.props.changeMode(AppMode.COURSES);
+        }  
+    }
+
     render() {
         const ActiveTab = this.state.activeTab;
         return(
         <div>
-            <div id="navigation-div">
-                <button className="btn btn-link" onClick={()=>{this.props.changeMode(this.props.modeParams.prevMode)}} ><span className="fa fa-arrow-left"></span> Back </button>
-                
+            <div id="navigation-div"> 
                 <h2>{this.props.modeParams.course.courseName}</h2>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
@@ -377,6 +392,7 @@ class CourseInfo extends React.Component {
                             deleteInDatabase_prompt={this.deleteInDatabase_prompt}
                             upload_workSample={this.upload_workSample}
                             deleteInDatabase_workSample={this.deleteInDatabase_workSample}
+                            deleteCourse={this.deleteCourse}
 
                         />
             </div>    

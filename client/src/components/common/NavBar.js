@@ -12,7 +12,8 @@ class NavBar extends React.Component {
           this.props.mode === AppMode.DELIVERABLES ||
           this.props.mode === AppMode.DELIVERABLES_EDITDELIVERABLE ||
           this.props.mode === AppMode.DELIVERABLES_LOGDELIVERABLE ||
-          this.props.mode === AppMode.COURSES)
+          this.props.mode === AppMode.COURSES ||
+          this.props.mode === AppMode.COURSE_INFO)
           return "fa fa-arrow-left";
       if (this.props.menuOpen)
         return "fa fa-times";
@@ -40,6 +41,9 @@ class NavBar extends React.Component {
     else if (this.props.mode === AppMode.DELIVERABLES_EDITDELIVERABLE || 
         this.props.mode === AppMode.DELIVERABLES_LOGDELIVERABLE) {
       this.props.changeMode(AppMode.DELIVERABLES);
+    }
+    else if (this.props.mode === AppMode.COURSE_INFO) {
+      this.props.changeMode(AppMode.INSTRUCTOR_DASHBOARD);
     }
     else if (this.props.mode != AppMode.LOGIN) 
     {
