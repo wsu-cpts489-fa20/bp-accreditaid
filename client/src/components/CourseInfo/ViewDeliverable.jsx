@@ -211,12 +211,8 @@ class ViewDeliverable extends React.Component {
     }
   }
 
-  onSubmit = (event,type) =>{
-    event.preventDefault();
-    this.props.uploadFile(event.target['file'].files[0], this.props.upload_prompt, type)
-    alert(
-        `Selected file - ${event.target.files[0].name}`
-      );
+  onSubmit = (files, type) =>{
+    this.props.uploadFile(files[0], this.props.upload_prompt, type);
   }
 
   render() {
