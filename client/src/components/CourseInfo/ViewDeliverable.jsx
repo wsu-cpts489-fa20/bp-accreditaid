@@ -60,7 +60,8 @@ class ViewDeliverable extends React.Component {
   }
 
   togglePI = (SO, PI, type, SOName, PIName) => {
-    if (this.props.userObj.accountType == "ABET Evaluator") {
+    if(this.props.userObj.accountType == "ABET Evaluator")
+    {
       return;
     }
 
@@ -70,12 +71,14 @@ class ViewDeliverable extends React.Component {
     console.log("SOName = " + SOName)
     console.log("PIName = " + PIName)
     let localDeliverable = this.state.deliverable;
-    if (!SO) {
-      SO = { SOName: SOName, PIs: [] }
+    if(!SO)
+    {
+      SO = {SOName: SOName, PIs: []}
       localDeliverable.SOs.push(SO);
     }
-    if (!PI) {
-      PI = { PIName: PIName, PIPrior: false, PITaught: false, PIAssessed: false }
+    if(!PI)
+    {
+      PI = {PIName: PIName, PIPrior: false, PITaught: false, PIAssessed: false}
       SO["PIs"].push(PI);
     }
     PI[type] = !PI[type];
@@ -84,26 +87,26 @@ class ViewDeliverable extends React.Component {
     let deliverables = this.props.course.courseDeliverables;
     deliverables[this.props.index] = localDeliverable
     body["courseDeliverables"] = deliverables;
-
+    
     console.log(body);
     fetch("/api/courses/" + this.props.course._id, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'PUT',
-      body: JSON.stringify(body)
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+        method: 'PUT',
+        body: JSON.stringify(body)
     })
-      .then(function (res) {
-        if (res.status == 200) {
-          return res.text();
+    .then(function(res) {
+        if(res.status == 200){
+            return res.text();
         }
         throw res;
-      })
-      .then(json => console.log(json))
-      .catch(err => console.error(err));
+    })
+    .then(json => console.log(json))
+    .catch(err => console.error(err));
 
-    this.setState({ deliverable: localDeliverable })
+    this.setState({deliverable: localDeliverable})
 
   }
 
@@ -132,7 +135,8 @@ class ViewDeliverable extends React.Component {
       let PIs = [];
       for (let j = 0; j < this.state.deliverableSOs[keys[i]].length; j++) {
         let PI = null
-        if (SO) {
+        if(SO)
+        {
           PI = SO.PIs.find(obj => {
             return obj.PIName === this.state.deliverableSOs[keys[i]][j]
           })
@@ -141,7 +145,8 @@ class ViewDeliverable extends React.Component {
         let PIPrior = null;
         let PITaught = null;
         let PIAssessed = null;
-        if (PI) {
+        if(PI)
+        {
           PIPrior = PI.PIPrior;
           PITaught = PI.PITaught;
           PIAssessed = PI.PIAssessed;
@@ -151,9 +156,9 @@ class ViewDeliverable extends React.Component {
         PIs.push(
           <tr>
             <td>{this.state.deliverableSOs[keys[i]][j]}</td>
-            <td><input style={{ marginRight: 20 }} type="checkbox" checked={!!PIPrior} onClick={() => this.togglePI(SO, PI, "PIPrior", keys[i], this.state.deliverableSOs[keys[i]][j])} /></td>
-            <td><input style={{ marginRight: 20 }} type="checkbox" checked={!!PITaught} onClick={() => this.togglePI(SO, PI, "PITaught", keys[i], this.state.deliverableSOs[keys[i]][j])} /></td>
-            <td><input style={{ marginRight: 20 }} type="checkbox" checked={!!PIAssessed} onClick={() => this.togglePI(SO, PI, "PIAssessed", keys[i], this.state.deliverableSOs[keys[i]][j])} /></td>
+            <td><input style={{marginRight: 20}} type="checkbox" checked={!!PIPrior} onClick={() => this.togglePI(SO, PI, "PIPrior", keys[i], this.state.deliverableSOs[keys[i]][j])}/></td>
+            <td><input style={{marginRight: 20}} type="checkbox" checked={!!PITaught} onClick={() => this.togglePI(SO, PI, "PITaught", keys[i], this.state.deliverableSOs[keys[i]][j])}/></td>
+            <td><input style={{marginRight: 20}} type="checkbox" checked={!!PIAssessed} onClick={() => this.togglePI(SO, PI, "PIAssessed", keys[i], this.state.deliverableSOs[keys[i]][j])}/></td>
           </tr>
         );
       }
@@ -171,7 +176,7 @@ class ViewDeliverable extends React.Component {
     let workSamples = [];
     for (let i = 0; i < this.state.deliverable.studentWorkSamples.length; i++) {
       this.refArray.push(React.createRef())
-      if (this.state.deliverable.studentWorkSamples[i].file)
+      if(this.state.deliverable.studentWorkSamples[i].file)
         workSamples.push(
           <tr>
             <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
@@ -189,7 +194,7 @@ class ViewDeliverable extends React.Component {
               <tr>
                 <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
                 <td><input ref={this.refArray[i]} id={"workSampleFile-" + i} className="form-control-file" type="file"  name="file"></input></td>
-                <td><button className="btn btn-success" name="studentWorkSamples" type="button"
+                <td><button className="btn btn-success" name="studentWorkSamples" type="button" 
                   onClick={() => this.props.uploadFile(this.refArray[i].current.files[0], this.props.upload_workSample, this.props.index, i)}>Upload</button></td>
               </tr>
             );
@@ -203,33 +208,32 @@ class ViewDeliverable extends React.Component {
             );
         }
       }
-    }
 
     return workSamples;
   }
 
   getLabelClassName(label) {
-    switch (label) {
+    switch(label) {
       case "High":
         return "btn btn-danger"
       case "Medium":
         return "btn btn-warning"
       case "Low":
         return "btn btn-primary"
-      default:
+      default: 
         return ""
     }
   }
 
-  onSubmit = (event, type) => {
+  onSubmit = (event,type) =>{
     console.log("on sumbit!")
     event.preventDefault()
     console.log("file");
     console.log("files array" + event.target.files);
     this.props.uploadFile(event.target['file'].files[0], this.props.upload_prompt, type)
     alert(
-      `Selected file - ${event.target.files[0].name}`
-    );
+        `Selected file - ${event.target.files[0].name}`
+      );
   }
 
   render() {
@@ -237,33 +241,25 @@ class ViewDeliverable extends React.Component {
     console.log(this.props.index)
     let prompt = this.state.deliverable.prompt
     let PromptDiv =(<div>
-        <h4>Prompt</h4>
-        {this.props.userObj.accountType != "ABET Evaluator" ?
-          <form onSubmit={e => this.onSubmit(e, this.props.index)}>
-            <center><input className="form-control-file" type="file" name="file" ></input></center>
-            <button className="btn btn-success" name="prompt" type="submit">Upload</button>
-          </form>
-          : null}
-
-      </div>)
+      <h4>Prompt</h4>
+      {this.props.userObj.accountType != "ABET Evaluator" ?
+        <form onSubmit={e => this.onSubmit(e, this.props.index)}>
+            <center><input className="form-control-file"  type="file"  name="file" ></input></center>
+            <button  className="btn btn-success" name="prompt" type="submit">Upload</button> 
+        </form>
+      : null }
+      
+    </div>)  
 
   if(prompt != null){
-        PromptDiv = (<div>
-          <h4>Prompt</h4>
-          <a href={"/api/s3?id=" + prompt.id + "&name=" + prompt.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
-          {this.props.userObj.accountType != "ABET Evaluator" ?
-            <button onClick={() => { this.props.deleteFile(prompt.id, prompt.name, this.props.deleteInDatabase_prompt, this.props.index) }} className="btn btn-danger" ><i className="fa fa-trash" /> Delete </button>
-            : null}
-        </div>)
-
-    if (prompt != null) {
-        PromptDiv = (<div>
-          <h4>Prompt</h4>
-          <a href={"/api/s3?id=" + prompt.id + "&name=" + prompt.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
-          <button onClick={() => { this.props.deleteFile(prompt.id, prompt.name, this.props.deleteInDatabase_prompt, this.props.index) }} className="btn btn-danger" ><i className="fa fa-trash" /> Delete </button>
-
-        </div>)
-      }
+    PromptDiv = (<div>
+        <h4>Prompt</h4>
+            <a href={"/api/s3?id=" + prompt.id + "&name=" + prompt.name} className="btn btn-primary" > <i className="fa fa-download"></i> Download</a>
+            {this.props.userObj.accountType != "ABET Evaluator" ?
+              <button onClick={()=>{this.props.deleteFile(prompt.id, prompt.name, this.props.deleteInDatabase_prompt, this.props.index)}} className="btn btn-danger" ><i className="fa fa-trash"/> Delete </button>
+            : null }
+    </div>)
+    }
     return (
       <div className="modal" role="dialog">
               <div className="modal-dialog modal-lg"></div>
@@ -276,38 +272,10 @@ class ViewDeliverable extends React.Component {
                 </div>
                 <div className="modal-body">
                   <form id="deliverablesView" onSubmit={this.handleDeliverableSubmit}>
-                  <label>
-              <h4>Name:</h4>
-              <input
-                disabled={true}
-                id="deliverables-name"
-                className="form-control form-text form-center"
-                name="deliverableName"
-                value={this.state.deliverable.deliverableName}
-                type="text"
-                placeholder="Name"
-                required={true}
-                size="25"
-                maxLength="25"
-              />
-            </label>
-            <p></p>
-            <label>
-              <h4>Description:</h4>
-              <input
-                disabled={true}
-                id="deliverables-description"
-                className="form-control form-text form-center"
-                name="deliverableDescription"
-                value={this.state.deliverable.description}
-                type="text"
-                placeholder="Name"
-                required={true}
-                size="50"
-                maxLength="50"
-              />
-            </label>
-            <p></p>
+                    <h4>Name</h4>
+                    <p>{this.state.deliverable.deliverableName}</p>
+                    <h4>Description</h4>
+                    <p>{this.state.deliverable.description}</p>
                     {PromptDiv}
                     <h4>Student Outcomes and Preformace Indicators</h4>
                     <div>
@@ -338,16 +306,7 @@ class ViewDeliverable extends React.Component {
                   </form>
                 </div>
               </div>
-              <button role="submit"
-                id="Deliverable-submit"
-                className="btn btn-primary btn-color-theme modal-submit-btn"
-                style={{ marginTop: "15px", marginBottom: "70px" }}>
-                <span className="fa fa-user-plus"></span>&nbsp;Update Deliverable
-                        </button>
-            </form>
-          </div>
-        </div>
-      </div>
+            </div>
     );
   }
 }
