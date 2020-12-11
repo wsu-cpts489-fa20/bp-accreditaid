@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     id: String, //unique identifier for user
     password: String,
     displayName: String, //Name to be displayed within app
+    profilePicURL: String,
     authStrategy: String, //strategy used to authenticate, e.g., github, local
     securityQuestion: String,
     accountType: {type: String, required: true, enum: ['ABET Evaluator','College Admin', 'Instructor']},

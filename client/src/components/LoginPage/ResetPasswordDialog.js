@@ -11,9 +11,22 @@ class ResetPasswordDialog extends React.Component {
     //handleSubmit -- When the user submits the form, ensure that the passwords match.
     //If so, call on resetPassword in parent component to actually reset the password.
     //Otherwise, display an error message prompting the user to try again.
-    handleSubmit= (event) => {
+    handleSubmit = async(event) => {
         event.preventDefault();
-        if (this.resetPasswordRef.current.value === this.resetPasswordRepeatRef.current.value) {
+        console.log(this.props.resetUserId);
+        const url = "/api/users/" + this.props.resetUserId;
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            method: 'GET'});
+        const json = await response.json();
+        const obj = JSON.parse(json);
+        if (this.resetPasswordRef.current.value === obj.password) {
+            this.resetPasswordRepeatRef.current.focus();
+            this.setState({errorMsg: "The password you entered is an old password. Please enter a new password."})
+        } else if (this.resetPasswordRef.current.value === this.resetPasswordRepeatRef.current.value) {
             this.props.resetPassword(this.resetPasswordRef.current.value);
         } else {
             this.resetPasswordRepeatRef.current.focus();
@@ -54,6 +67,7 @@ class ResetPasswordDialog extends React.Component {
                         ref={this.resetPasswordRef}
                         />
                     </label>
+                    <br/>
                     <label>
                         Repeat New Password: 
                         <input
@@ -64,6 +78,7 @@ class ResetPasswordDialog extends React.Component {
                         ref={this.resetPasswordRepeatRef}
                         />
                     </label>
+                    <br/>
                     <button role="submit" 
                      className="btn btn-primary btn-color-theme form-submit-btn">
                         <span className="fa fa-key"></span>&nbsp;Reset Password

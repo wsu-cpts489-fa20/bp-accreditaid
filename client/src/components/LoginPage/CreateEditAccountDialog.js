@@ -1,6 +1,5 @@
 import React from 'react';
 import ConfirmDeleteAccount from './ConfirmDeleteAccount.js';
-import confirmDeleteAccount from './ConfirmDeleteAccount.js';
 
 class CreateEditAccountDialog extends React.Component {
 
@@ -14,6 +13,8 @@ class CreateEditAccountDialog extends React.Component {
         this.state = {accountName: "",
                       displayName: "",
                       password: "",
+                      profilePicURL: 
+                        "https://icon-library.net//images/default-profile-icon/default-profile-icon-24.jpg",
                       accountType: "Instructor",
                       passwordRepeat: "",
                       securityQuestion: "",
@@ -138,10 +139,14 @@ class CreateEditAccountDialog extends React.Component {
         let userData = {
             displayName: this.state.displayName,
             password: this.state.password,
+            profilePicURL: this.state.profilePicURL,
             accountType: this.state.accountType,
             securityQuestion: this.state.securityQuestion,
             securityAnswer: this.state.securityAnswer
         };
+        if (!this.props.create) {
+            delete userData.accountType;
+        }
         const url = '/api/users/' + this.state.accountName;
         let res;
         if (this.props.create) { //use POST route to create new user account
@@ -207,7 +212,7 @@ class CreateEditAccountDialog extends React.Component {
     return (  
     <div className="modal" role="dialog">
     <div className="modal-dialog modal-lg"></div>
-        <div className="modal-content form-center">
+        <div className="modal-content form-center" style={{width: "50%"}}>
             <div className="modal-header">
               <h3><b>{this.props.create ? "Create New Account" : "Edit Account"}</b></h3>
               <button className="modal-close" 
@@ -280,7 +285,10 @@ class CreateEditAccountDialog extends React.Component {
                 onChange={this.handleChange}
                 />
             </label>
-            <select name="accountType" value={this.state.accountType} className="form-control form-center" onChange={this.handleChange}>
+            <br/>
+            Account Type: 
+            <select name="accountType" value={this.state.accountType} style={{width: "30%", marginLeft: "35%"}}
+                className="form-control form-center" onChange={this.handleChange}>
                 <option value="Instructor">Instructor</option>
                 <option value="ABET Evaluator">ABET Evaluator</option>
                 <option value="College Admin">College Admin</option>

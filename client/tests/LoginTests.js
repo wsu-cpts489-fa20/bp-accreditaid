@@ -10,8 +10,9 @@ const getLocalStorageItem = ClientFunction(prop => {
 // Test that checks if login works.
 test('Login', async t => {
     await t
-        .typeText('#emailInput', 'mykhailo.bykhovtsev@wsu.edu')
-        .typeText('#password', 'Qwerty512_32')
+        .typeText('#emailInput', 'test.admin@wsu.edu')
+        .typeText('#password', 'Password1234')
+        .typeText('#password', 'Aaaaaaa8')
         .click('#login')
         .wait(500)
         .expect(Selector('#programs-table').visible).eql(true)
@@ -21,8 +22,8 @@ test('Login', async t => {
 // Test that checks if login works.
 test('LoginFailed', async t => {
     await t
-        .typeText('#emailInput', 'mykhailo@gmail.com')
-        .typeText('#password', 'Qdsgsdg')
+        .typeText('#emailInput', 'test.admin@wsu.edu')
+        .typeText('#password', 'NotTheRightPassword')
         .click('#login')
         .wait(500)
         .expect(Selector('#programs-table').visible).eql(false)

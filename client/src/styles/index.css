@@ -1,4 +1,4 @@
-/* INDEX.CSS -- The style definitions for the AcreditAid App. These are imported
+/* INDEX.CSS -- The style definitions for the AccreditAid App. These are imported
   in index.css for the entire app. */
 
 /* Styling of the fixed top bar in the app */
@@ -252,6 +252,18 @@
   height: 60px;
   bottom: 60px;
   right: 40px;
+  background-color:#981e32;
+  color:white;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+}
+
+#select-instructors {
+  position: fixed;
+  cursor: pointer;
+  bottom: 60px;
+  left: 20px;
   background-color:#981e32;
   color:white;
   border-radius: 50px;
