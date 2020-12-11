@@ -6,6 +6,7 @@ class CoursesForm extends React.Component {
 
     constructor(props) {
         super(props);
+        this.deleteId = "";
         if (this.props.mode === AppMode.COURSES_LOGCOURSE) {
             this.state = {
                         courseName: "",
@@ -54,7 +55,7 @@ class CoursesForm extends React.Component {
     //button in the Confirm Delete dialog box. It executes the deletion and
     //closes the dialog box.
     deleteCourse = () => {
-        this.props.deleteCourse();
+        this.props.deleteCourse(this.deleteId);
         this.setState({showConfirmDelete: false});
     }
 
@@ -65,12 +66,12 @@ class CoursesForm extends React.Component {
     //of the program to be deleted and then present a dialog box asking
     //the user to confirm the deletion.
     confirmDelete = (id) => {
-        this.props.setDeleteId(id);
+        this.deleteId = id;
         this.setState({showConfirmDelete: true});
     }  
 
     render() {
-        console.log(this.state)
+        console.log(this.props);
         return (
             <div id="course-form">
                 <form onSubmit={this.handleSubmit}>
@@ -249,7 +250,8 @@ class CoursesForm extends React.Component {
                                 <span className={this.state.faIcon}></span>&nbsp;{this.state.btnLabel}
                             </button>
                         : null}
-                        {this.props.mode === AppMode.COURSES_EDITCOURSE ?
+                        <br/>
+                        {this.state.btnLabel === "Update Course" ?
                             <button id="delete-course" type="button" style={{width: "40%",fontSize: "36px",marginBottom:"20px"}} 
                                 className="btn btn-primary btn-color-theme"
                                 onClick={this.props.menuOpen ? null : () => 

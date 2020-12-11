@@ -277,11 +277,7 @@ class ViewDeliverable extends React.Component {
                     <h4>Description</h4>
                     <p>{this.state.deliverable.description}</p>
                     {PromptDiv}
-<<<<<<< HEAD
                     <h4>Student Outcomes and Performance Indicators</h4>
-                    <p>{this.displaySOPIs()}</p>
-=======
-                    <h4>Student Outcomes and Preformace Indicators</h4>
                     <div>
                       <table id="courses-table" className="table table-hover">
                         {this.state.deliverableSOs == null || this.state.deliverableSOs.length == 0 ?
@@ -291,7 +287,6 @@ class ViewDeliverable extends React.Component {
                         }
                       </table>
                     </div>
->>>>>>> 8f62d448f8684c4769f48b237e81eab3871ec47c
                     <div>
                       <h4>Upload student work samples</h4>
                       <table id="courses-table" className="table table-hover">
