@@ -1,5 +1,6 @@
 import { PI } from 'aws-sdk';
 import React from 'react';
+import DragAndDrop from '../common/DragAndDrop';
 
 class ViewDeliverable extends React.Component {
   constructor(props) {
@@ -193,9 +194,8 @@ class ViewDeliverable extends React.Component {
             workSamples.push(
               <tr>
                 <td>{this.state.deliverable.studentWorkSamples[i].importance}</td>
-                <td><input ref={this.refArray[i]} id={"workSampleFile-" + i} className="form-control-file" type="file"  name="file"></input></td>
-                <td><button className="btn btn-color-theme" name="studentWorkSamples" type="button" 
-                  onClick={() => this.props.uploadFile(this.refArray[i].current.files[0], this.props.upload_workSample, this.props.index, i)}>Upload</button></td>
+                <td></td>
+                <td><DragAndDrop className="samples-files" UploadFile={(e) => this.onSubmit(e, this.props.upload_workSample, this.props.index, i)} /></td>
               </tr>
             );
           else
@@ -243,10 +243,7 @@ class ViewDeliverable extends React.Component {
     let PromptDiv =(<div>
       <h4>Prompt</h4>
       {this.props.userObj.accountType != "ABET Evaluator" ?
-        <form onSubmit={e => this.onSubmit(e, this.props.index)}>
-            <center><input className="form-control-file"  type="file"  name="file" ></input></center>
-            <button  className="btn btn-color-theme" name="prompt" type="submit">Upload</button> 
-        </form>
+        <DragAndDrop className="prompt-file" UploadFile={(e) => this.onSubmit(e, this.props.index)} />
       : null }
       
     </div>)  
@@ -272,22 +269,29 @@ class ViewDeliverable extends React.Component {
                 </div>
                 <div className="modal-body">
                   <form id="deliverablesView" onSubmit={this.handleDeliverableSubmit}>
-                    <h4>Name</h4>
-                    <p>{this.state.deliverable.deliverableName}</p>
-                    <h4>Description</h4>
-                    <p>{this.state.deliverable.description}</p>
-                    {PromptDiv}
-                    <h4>Student Outcomes and Preformace Indicators</h4>
-                    <div>
-                      <table id="courses-table" className="table table-hover">
-                        {this.state.deliverableSOs == null || this.state.deliverableSOs.length == 0 ?
-                          <tr>
-                            <td colSpan="12" style={{ fontStyle: "italic" }}>No Student Outcomes Defined</td>
-                          </tr> : this.displaySOPIs()
-                        }
-                      </table>
+                    <div className="deliverable-section">
+                      <h4>Name</h4>
+                      <p style={{fontSize:"x-large"}}>{this.state.deliverable.deliverableName}</p>
                     </div>
-                    <div>
+                    <div className="deliverable-section">
+                      <h4>Description</h4>
+                      <p>{this.state.deliverable.description}</p>
+                    </div>
+                    <div className="deliverable-section"> {PromptDiv} </div>
+
+                    <div className="deliverable-section">
+                      <h4>Student Outcomes and Preformace Indicators</h4>
+                      <div>
+                        <table id="courses-table" className="table table-hover">
+                          {this.state.deliverableSOs == null || this.state.deliverableSOs.length == 0 ?
+                            <tr>
+                              <td colSpan="12" style={{ fontStyle: "italic" }}>No Student Outcomes Defined</td>
+                            </tr> : this.displaySOPIs()
+                          }
+                        </table>
+                      </div>
+                    </div>
+                    <div className="deliverable-section">
                       <h4>Upload student work samples</h4>
                       <table id="courses-table" className="table table-hover">
                         <thead className="thead-dark">

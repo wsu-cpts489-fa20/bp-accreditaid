@@ -1,4 +1,5 @@
 import React from 'react';
+import DragAndDrop from '../common/DragAndDrop';
 
 class CourseMaterialsTab extends React.Component {
 
@@ -41,10 +42,7 @@ class CourseMaterialsTab extends React.Component {
         return (
         <div>
             {this.props.userObj.accountType != "ABET Evaluator" ?
-                <form onSubmit={e => this.onSubmit(e, "courseMaterials")}>
-                    <input className="form-control-file" type="file"  name="file" ></input>
-                    <button className="btn btn-color-theme" name="courseMaterials" type="submit">Upload</button> 
-                </form>
+                <DragAndDrop className="material-files" UploadFile={(e) => this.onSubmit(e, "courseMaterials")} />
             : null }
             <table id="courses-table" className="table table-hover">
                 <thead className="thead-dark">

@@ -8,12 +8,7 @@ class CourseFiles extends React.Component {
     }
 
     onSubmit = (files, type) =>{
-        console.log("on sumbit!")
-        console.log("files array" + files);
         this.props.uploadFile(files[0], this.props.upload_single, type)
-        alert(
-            `Selected file - ${files[0].name}`
-          );
     }
 
     render() {
@@ -25,32 +20,23 @@ class CourseFiles extends React.Component {
         var SyllabusDiv =(<div>
             <h4>Course Syllabus</h4>
             {this.props.userObj.accountType != "ABET Evaluator" ?
-                <DragAndDrop UploadFile={(e) => this.onSubmit(e, "courseSyllabus")} />
+                <DragAndDrop className="course-files" UploadFile={(e) => this.onSubmit(e, "courseSyllabus")} />
             : null }
-            
-        </div>)  
+        </div>)
 
         var ScheduleDiv =(<div>
             <h4>Course Schedule</h4>
             {this.props.userObj.accountType != "ABET Evaluator" ?
-                <form onSubmit={e => this.onSubmit(e, "courseSchedule")}>
-                    <input className="form-control-file"  type="file"  name="file" ></input>
-                    <button className="btn btn-color-theme" name="courseSchedule" type="submit">Upload</button> 
-                </form>
+                <DragAndDrop className="course-files" UploadFile={(e) => this.onSubmit(e, "courseSchedule")} />
             : null }
-            
-        </div>) 
+        </div>)
 
         var RosterDiv =(<div>
             <h4>Course Roster</h4>
             {this.props.userObj.accountType != "ABET Evaluator" ?
-                <form onSubmit={e => this.onSubmit(e, "courseRoster")}>
-                    <input className="form-control-file" type="file"  name="file" ></input>
-                    <button className="btn btn-color-theme" name="courseRoster" type="submit">Upload</button> 
-                </form>
+                <DragAndDrop className="course-files" UploadFile={(e) => this.onSubmit(e, "courseRoster")} />
             : null }
-            
-        </div>)       
+        </div>)
 
         if(courseSyllabus != null){
             SyllabusDiv = (<div>
