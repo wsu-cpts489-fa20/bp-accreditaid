@@ -10,6 +10,7 @@ AcreditAid is built on the MERN stack. Deliverables are stored in S3.
 #### Summary of work done
   - Created EvaluatorView table to display the PI's from each SO and how they were fullfilled by the instructor
   - Removed write permissions from the accountype "ABET Evaluator"
+  - Added modal for instructors to invite Evaluators to acreditaid
   
   
 ### Example of work done
