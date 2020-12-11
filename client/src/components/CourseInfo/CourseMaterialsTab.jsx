@@ -29,9 +29,8 @@ class CourseMaterialsTab extends React.Component {
         return table;
     }
 
-    onSubmit = (event,type) =>{
-        event.preventDefault()
-        this.props.uploadFile(event.target['file'].files[0], this.props.upload_array, type)
+    onSubmit = (files, type) =>{
+        this.props.uploadFile(files[0], this.props.upload_array, type)
     }
 
     render() {
