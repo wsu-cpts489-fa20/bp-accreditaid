@@ -47,7 +47,6 @@ class Deliverables extends React.Component {
             body["courseDeliverables"].push(newData);
         }
 
-        console.log(body);
         this.setState({deliverables: body.courseDeliverables});
         await fetch("/api/courses/" + this.state.course._id, {
             headers: {

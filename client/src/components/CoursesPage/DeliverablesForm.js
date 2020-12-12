@@ -44,7 +44,6 @@ class DeliverablesForm extends React.Component {
     }
 
     updateStudentWorkSamples = (newSamples) => {
-        console.log(newSamples);
         this.setState({studentWorkSamples: newSamples});
     }
 
@@ -92,7 +91,7 @@ class DeliverablesForm extends React.Component {
                         <br/>
                         <button role="submit"
                             id="deliverables-submit"
-                            className="btn btn-primary btn-color-theme modal-submit-btn"
+                            className="btn btn-color-theme modal-submit-btn"
                             style={{marginBottom: "20px", height: "70px", width: "40%"}}>
                             <span className={this.state.faIcon}></span>&nbsp;{this.state.ButtonText}
                         </button>

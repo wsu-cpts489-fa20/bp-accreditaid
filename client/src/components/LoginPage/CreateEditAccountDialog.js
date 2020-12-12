@@ -351,7 +351,7 @@ class CreateEditAccountDialog extends React.Component {
             <br/><br/>
             <button role="submit" 
                 disabled={!this.state.formUpdated}
-                className="btn btn-primary btn-color-theme modal-submit-btn">
+                className="btn btn-color-theme modal-submit-btn">
                 <span className={this.props.create ? "fa fa-user-plus" : "fa fa-user"}></span>
                 &nbsp;{this.props.create ? "Create Account" : "Update Account"}
             </button>

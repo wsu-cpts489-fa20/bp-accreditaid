@@ -83,7 +83,7 @@ class StudentOutcomesList extends React.Component {
                                     {this.props.userObj.accountType == "College Admin" ?
                                         <div className="d-flex">
                                             <input id="outcomes-input" value={this.state.outcome} name="outcome" onChange={this.handleChange} type="text" className="form-control todo-list-input" placeholder="Add a student outcome"/>
-                                            <button id="add-outcome" type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.addOutcome}>Add</button>
+                                            <button id="add-outcome" type="button" className="btn btn-alt-color-theme" onClick={this.addOutcome}>Add</button>
                                         </div>
                                      : null}    
                                     <div>
@@ -109,7 +109,7 @@ class StudentOutcomesList extends React.Component {
                                                 onFileLoaded={this.prepareFile}
                                                 inputId="upload-csv"
                                             />
-                                            <button id="upload-csv" type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.importData}>Import data</button>
+                                            <button id="upload-csv" type="button" className="btn btn-alt-color-theme" onClick={this.importData}>Import data</button>
                                         </div>
                                     : null}
                                 </div>

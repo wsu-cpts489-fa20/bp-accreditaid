@@ -15,7 +15,6 @@ class CourseDeliverablesTab extends React.Component {
         this.setState({deliverableInformation: deliverableToView});
         this.setState({openDeliverableIndex: index});
         this.setState({ViewDeliverable : true});
-        console.log("Opening Deliverable");
     }
 
     closeDeliverable = () => {
@@ -32,7 +31,6 @@ class CourseDeliverablesTab extends React.Component {
         {
             completeMaterial += 1;
         }
-        console.log(deliverableToCalculate.studentWorkSamples);
         //check to see work sample complition
         for(let i = 0; i < deliverableToCalculate.studentWorkSamples.length; i++)
         {
@@ -42,8 +40,6 @@ class CourseDeliverablesTab extends React.Component {
             }
             totalMaterial += 1;
         }
-        console.log("total items = " + totalMaterial);
-        console.log("complete items = " + completeMaterial);
         return (completeMaterial / totalMaterial) * 100;
     }
 
@@ -54,7 +50,7 @@ class CourseDeliverablesTab extends React.Component {
                 <tr key={p}>
                     <td>{this.props.course.courseDeliverables[p].deliverableName}</td>
                     <td>                   
-                    <button onClick={()=>this.openDeliverable(this.props.course.courseDeliverables[p], p)} className="btn btn-danger" > View </button>
+                    <button onClick={()=>this.openDeliverable(this.props.course.courseDeliverables[p], p)} className="btn btn-color-theme" > View </button>
                     </td>
                     <td>  
                     {this.getDeliverablePercentage(this.props.course.courseDeliverables[p])}%
@@ -66,7 +62,6 @@ class CourseDeliverablesTab extends React.Component {
     }
 
     render() {
-        console.log(this.state.ViewDeliverable);
         return (
         <div>
             <table id="courses-table" className="table table-hover">

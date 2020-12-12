@@ -84,7 +84,7 @@ class LabelsForm extends React.Component {
                             </p>
                             <br/>
                             <button id="add-label" onClick={this.addLabel}
-                                className="btn btn-primary btn-color-theme modal-submit-btn"
+                                className="btn btn-color-theme modal-submit-btn"
                                 style={{height: "30px", width: "150px", 
                                     borderRadius: "15px", fontSize: "13px",
                                     marginTop: "10px", marginBottom: "15px"}}>

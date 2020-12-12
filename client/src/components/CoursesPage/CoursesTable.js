@@ -107,7 +107,7 @@ class CoursesTable extends React.Component {
         let rowColor = "";
         if(completion == 0)
         {
-            rowColor = "red";
+            rowColor = "#981e32";
         }
         else if(completion == 100)
         {

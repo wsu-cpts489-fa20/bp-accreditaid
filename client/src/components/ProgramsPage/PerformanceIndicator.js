@@ -43,7 +43,7 @@ class PerformanceIndicator extends React.Component {
                                     {this.props.userObj.accountType == "College Admin" ?
                                         <div className="d-flex">
                                             <input id={"outcome-" + this.props.id + "-indicator-input"} value={this.state.indicator} name="indicator" onChange={this.handleChange} type="text" className="form-control todo-list-input" placeholder="Add a performance indicator"/>
-                                            <button id={"add-" + this.props.id + "-indicator"} type="button" className="btn btn-primary btn-alt-color-theme" onClick={this.addIndicator}>Add</button>
+                                            <button id={"add-" + this.props.id + "-indicator"} type="button" className="btn btn-alt-color-theme" onClick={this.addIndicator}>Add</button>
                                         </div>
                                     : null}
                                     <div>
