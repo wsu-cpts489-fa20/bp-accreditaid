@@ -43,8 +43,16 @@ class NavBar extends React.Component {
       this.props.changeMode(AppMode.DELIVERABLES);
     }
     else if (this.props.mode === AppMode.COURSE_INFO) {
-      this.props.changeMode(AppMode.INSTRUCTOR_DASHBOARD);
+      if(this.props.accountType === "Instructor"){
+
+        this.props.changeMode(AppMode.INSTRUCTOR_DASHBOARD);
+
+      }
+      else{
+        this.props.changeMode(AppMode.COURSES)
+      }
     }
+
     else if (this.props.mode != AppMode.LOGIN) 
     {
       this.props.toggleMenuOpen();

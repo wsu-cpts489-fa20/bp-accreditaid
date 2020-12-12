@@ -191,6 +191,7 @@ class App extends React.Component {
             mode={this.state.mode}
             changeMode={this.handleChangeMode}
             menuOpen={this.state.menuOpen}
+            userType={this.state.userObj.accountType}
             toggleMenuOpen={this.toggleMenuOpen} />
           <SideMenu
             menuOpen={this.state.menuOpen}
