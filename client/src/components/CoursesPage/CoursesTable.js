@@ -65,7 +65,7 @@ class CoursesTable extends React.Component {
         //finally we can calculate how complete all our deliverables are for the course
         //protect from divide by 0 error
         if(totalDeliverables == 0){
-            deliverablesComplition = 100;
+            deliverablesComplition = 0;
         }
         else{
             deliverablesComplition = totalDeliverablePercentage / totalDeliverables;

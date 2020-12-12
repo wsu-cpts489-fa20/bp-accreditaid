@@ -12,7 +12,6 @@ test('Login', async t => {
     await t
         .typeText('#emailInput', 'test.admin@wsu.edu')
         .typeText('#password', 'Password1234')
-        .typeText('#password', 'Aaaaaaa8')
         .click('#login')
         .wait(500)
         .expect(Selector('#programs-table').visible).eql(true)
