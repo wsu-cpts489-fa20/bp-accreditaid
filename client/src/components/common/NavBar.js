@@ -43,7 +43,7 @@ class NavBar extends React.Component {
       this.props.changeMode(AppMode.DELIVERABLES);
     }
     else if (this.props.mode === AppMode.COURSE_INFO) {
-      if(this.props.accountType === "Instructor"){
+      if(this.props.userType === "Instructor"){
 
         this.props.changeMode(AppMode.INSTRUCTOR_DASHBOARD);
 
